@@ -1,0 +1,4 @@
+defaults:
+  - model_backends: qwen2.5-72b
+  - _self_
+ 
