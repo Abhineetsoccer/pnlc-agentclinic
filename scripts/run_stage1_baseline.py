@@ -5,20 +5,24 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     AGENTCLINIC_PATH,
     save_results_log,
     get_results_log,
+    save_trajectory_log,
+    get_trajectory_log,
 )
 
 if not os.environ.get("QWEN_API_KEY"):
     raise RuntimeError("Set QWEN_API_KEY in your environment before running this.")
 
-NUM_SCENARIOS = 10
+NUM_SCENARIOS = 30
 
-REPO_ROOT = AGENTCLINIC_PATH.parent.parent  # external/AgentClinic -> external -> repo root
+REPO_ROOT = AGENTCLINIC_PATH.parent.parent
 LOGS_DIR = REPO_ROOT / "logs"
 LOGS_DIR.mkdir(exist_ok=True)
-output_path = LOGS_DIR / f"stage1_baseline_{int(time.time())}.json"  # absolute, computed before chdir
+run_id = int(time.time())
+results_path = LOGS_DIR / f"stage1_baseline_{run_id}.json"
+trajectories_path = LOGS_DIR / f"stage1_trajectories_{run_id}.json"
 
 agentclinic = install_patch()
-os.chdir(AGENTCLINIC_PATH)  # required: ScenarioLoaderMedQA opens a bare relative path
+os.chdir(AGENTCLINIC_PATH)
 
 agentclinic.main(
     api_key=None,
@@ -38,11 +42,15 @@ agentclinic.main(
 )
 
 results = get_results_log()
-save_results_log(str(output_path))  # absolute path, works regardless of current cwd
+save_results_log(str(results_path))
+
+trajectories = get_trajectory_log()
+save_trajectory_log(str(trajectories_path))
 
 num_correct = sum(r["correct"] for r in results)
 if results:
     print(f"\n{num_correct}/{len(results)} correct ({100 * num_correct / len(results):.1f}%)")
 else:
     print("\nNo scenarios reached a diagnosis -- check the transcript above for what went wrong.")
-print(f"Saved {len(results)} structured results to {output_path}")
+print(f"Saved {len(results)} structured results to {results_path}")
+print(f"Saved {len(trajectories)} trajectory turns to {trajectories_path}")
