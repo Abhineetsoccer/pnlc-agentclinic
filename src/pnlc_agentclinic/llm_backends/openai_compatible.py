@@ -10,10 +10,14 @@ class OpenAICompatibleBackend:
         self.temperature = kwargs.get("temperature", 0.7)
         self.client = OpenAI(api_key=self.api_key, base_url=self.base_url)
 
-    def generate(self, prompt):
+    def generate(self, prompt, system_prompt=""):
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
         response = self.client.chat.completions.create(
             model=self.model_name,
-            messages=[{"role": "user", "content": prompt}],
+            messages=messages,
             max_tokens=self.max_tokens,
             temperature=self.temperature
         )
