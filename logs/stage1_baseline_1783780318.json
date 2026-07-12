@@ -1,0 +1,212 @@
+[
+  {
+    "scenario_index": 0,
+    "doctor_diagnosis_text": "Thank you for the test results. The presence of elevated acetylcholine receptor antibodies strongly supports a diagnosis of myasthenia gravis.\n\nDIAGNOSIS READY: Myasthenia Gravis",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 1,
+    "doctor_diagnosis_text": "Thank you for that information. Natalizumab can increase the risk of developing PML, especially with prolonged use. Given the MRI findings and your current medication, it seems likely that you have Progressive Multifocal Leukoencephalopathy (PML).\n\nDIAGNOSIS READY: Progressive Multifocal Leukoencephalopathy (PML)",
+    "correct_diagnosis": "Progressive multifocal encephalopathy (PML)",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 2,
+    "doctor_diagnosis_text": "Thank you for that information. It\u2019s helpful to know there isn\u2019t a family history of similar conditions. The barium enema results are strongly suggestive of Hirschsprung\u2019s disease, and we are awaiting the rectal biopsy results to confirm this diagnosis.\n\nDIAGNOSIS READY: Hirschsprung\u2019s Disease",
+    "correct_diagnosis": "Hirschsprung disease",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 3,
+    "doctor_diagnosis_text": "Thank you for the biopsy results. The findings suggest a high proliferative index and positivity for CD20, which is indicative of a B-cell lymphoma. \n\nDIAGNOSIS READY: Non-Hodgkin Lymphoma\n\nWe will need to proceed with further staging and treatment planning. Let's discuss the next steps in your care.",
+    "correct_diagnosis": "Diffuse large B-cell lymphoma",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 4,
+    "doctor_diagnosis_text": "Thank you for letting me know. The resolution of the rash is good to hear. Given your symptoms, the leukocyturia, and your recent antibiotic use, I suspect that you may have developed drug-induced interstitial nephritis. \n\nDIAGNOSIS READY: Drug-Induced Interstitial Nephritis.",
+    "correct_diagnosis": "Acute interstitial nephritis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 5,
+    "doctor_diagnosis_text": "Thank you for the MRI results. Since the MRI shows normal readings and no significant abnormalities, it supports the idea that you are likely dealing with patellar tendinitis. This condition involves inflammation of the tendon connecting your kneecap to your shinbone, which can cause the symptoms you've described.\n\nDIAGNOSIS READY: Patellar Tendinitis\n\nWe can start with conservative treatments to manage your pain and improve your knee function. Let's discuss some options.",
+    "correct_diagnosis": "Pes anserine bursitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 6,
+    "doctor_diagnosis_text": "Thank you for that information. Given everything we\u2019ve discussed and the normal findings from your blood pressure and heart rate, it sounds like you may have experienced a simple fainting episode, possibly related to a brief drop in blood flow to the brain. \n\nDIAGNOSIS READY: Vasovagal Syncope (Simple Fainting Episode)",
+    "correct_diagnosis": "Situational syncope",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 7,
+    "doctor_diagnosis_text": "Thank you for the renal ultrasound results. Given that the renal ultrasound is normal and considering all the information we have, including the patent ductus arteriosus, congenital cataracts, and bilateral sensorineural hearing loss, I believe the most likely diagnosis is a variant of a multisystem disorder.\n\nDIAGNOSIS READY: Kabuki Syndrome. This syndrome can present with a combination of cardiac defects, eye abnormalities, and hearing loss, among other features. Further genetic testing may be needed to confirm this diagnosis.",
+    "correct_diagnosis": "Congenital Rubella Infection",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 8,
+    "doctor_diagnosis_text": "Thank you for the biopsy results. The presence of leaf-like structures with stromal cellular overgrowth suggests a specific type of lesion. I will need to consider this in making a diagnosis. \n\nDIAGNOSIS READY: Phyllodes Tumor.",
+    "correct_diagnosis": "Phyllodes tumor",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 9,
+    "doctor_diagnosis_text": "Thank you for that. Based on your symptoms and the test results, I believe we need to consider a specific postpartum condition. DIAGNOSIS READY: Postpartum Endometritis. We will start you on antibiotics to treat the infection and monitor your symptoms closely.",
+    "correct_diagnosis": "Endometritis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 10,
+    "doctor_diagnosis_text": "Thank you for the endorectal ultrasound results. Since they were normal, it further supports the idea that the mass is likely benign. \n\nGiven the firm and fixed nature of the mass and the absence of other concerning symptoms, I believe the most likely diagnosis is a benign lesion such as a hemangioma or a vascular malformation.\n\nDIAGNOSIS READY: Benign Rectal Lesion (likely Hemangioma or Vascular Malformation)",
+    "correct_diagnosis": "Hemorrhoids",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 11,
+    "doctor_diagnosis_text": "Thank you for the MRI results. Since there are no structural abnormalities, and the EEG shows interictal spikes in the temporal lobes, it strongly suggests that these episodes are likely focal seizures.\n\nDIAGNOSIS READY: Focal Seizures (Temporal Lobe Epilepsy)",
+    "correct_diagnosis": "Complex partial seizure",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 12,
+    "doctor_diagnosis_text": "Thank you for the X-ray results. It looks like you have a posterior dislocation of your right hip. This explains the pain and difficulty moving your leg. We need to address this promptly. DIAGNOSIS READY: Posterior Dislocation of the Right Hip.",
+    "correct_diagnosis": "Posterior hip dislocation",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 13,
+    "doctor_diagnosis_text": "Thank you for the barium enema results. They show normal readings, which is a bit unexpected given the other findings. However, the combination of bilious vomiting, inability to pass meconium, and abdominal distension strongly suggests a specific condition. DIAGNOSIS READY: Hirschsprung's Disease.",
+    "correct_diagnosis": "Hirschsprung\u2019s disease",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 14,
+    "doctor_diagnosis_text": "You\u2019re welcome. I\u2019ll be in touch as soon as we have the detailed MRI results. In the meantime, if you have any questions or if your condition changes, don\u2019t hesitate to reach out. Take care and stay positive!\n\nSince we have the preliminary MRI results indicating soft tissue swelling and no fractures, and given your symptoms of significant pain, stiffness, and difficulty gripping, it seems likely that you have a tendon injury, such as a sprain or strain.\n\nDIAGNOSIS READY: Tendon Sprain/Strain of the Right Ring Finger\n\nWe\u2019ll review the detailed MRI results to confirm and develop a specific treatment plan. Continue to follow the steps we discussed, and I\u2019ll be in touch soon.",
+    "correct_diagnosis": "Rupture of the flexor digitorum profundus tendon at its point of insertion",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 15,
+    "doctor_diagnosis_text": "Thank you for the biopsy results. The readings are normal, which supports the likelihood of a benign cystic lesion. Given the information we have, I believe the swelling is most likely a benign cyst. \n\nDIAGNOSIS READY: Benign Cystic Lesion of the Neck\n\nWe can monitor this over time, but if you notice any significant changes in size, pain, or other symptoms, please let me know.",
+    "correct_diagnosis": "Epidermoid cyst",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 16,
+    "doctor_diagnosis_text": "Thank you for keeping me updated. Based on your symptoms, the recent use of levofloxacin, and the absence of other significant factors such as travel or dietary changes, it is highly likely that you are experiencing antibiotic-associated diarrhea. \n\nDIAGNOSIS READY: Antibiotic-Associated Diarrhea\n\nWe will proceed with supportive care, including continued hydration and rest. If the C. diff toxin assay comes back positive, we will need to adjust the treatment accordingly. Please continue to monitor your symptoms and stay in touch if anything changes.",
+    "correct_diagnosis": "C. difficile colitis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 17,
+    "doctor_diagnosis_text": "DRESSING CHANGE: Clean the lesion with sterile saline and apply a topical antibiotic ointment. Prescribe oral antibiotics such as clindamycin or cephalexin.\n\nDIAGNOSIS READY: Infected diabetic foot ulcer, likely secondary to a bacterial infection, exacerbated by underlying Crohn's disease and hypertension. Continue with the current treatment plan and monitor closely for improvement. If there is no significant improvement in the next few days, we will reassess and adjust the treatment accordingly.",
+    "correct_diagnosis": "Pyoderma gangrenosum",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 18,
+    "doctor_diagnosis_text": "I appreciate your trust and cooperation. We\u2019ll move quickly to ensure everything goes smoothly. The surgical team is ready, and we\u2019ll be monitoring both you and your baby closely throughout the procedure. Please try to stay calm, and we\u2019ll take care of you. Let\u2019s head to the operating room now.\n\nDIAGNOSIS READY: Uterine Rupture with Hemoperitoneum. Emergency C-Section Recommended.",
+    "correct_diagnosis": "Uterine rupture",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 19,
+    "doctor_diagnosis_text": "Thank you for the normal nerve conduction study and EMG results. This suggests that the nerve function is intact, despite the herniated disc. Given the MRI findings and your symptoms, it seems likely that the herniated disc at L5-S1 is the cause of your pain and weakness.\n\nDIAGNOSIS READY: Herniated Disc at L5-S1",
+    "correct_diagnosis": "Disc herniation",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 20,
+    "doctor_diagnosis_text": "Thank you for the fluorescein angiography results. Since all the tests have been normal, it\u2019s less likely that there is a serious underlying condition affecting your retina. However, given your low CD4 count and the presence of floaters and black spots, we should still monitor your condition closely. \n\nI would recommend a follow-up ophthalmologic exam in a week to ensure there are no new developments. In the meantime, if you notice any new symptoms or worsening of your current symptoms, please contact us immediately. \n\nDISH: I will schedule a follow-up appointment for you and keep a close watch on your condition. If there are any concerns, we can re-evaluate at that time. \n\nDISH: Please continue to take your medications as prescribed and maintain good hygiene to prevent any infections. \n\nDISH: If you have any questions or concerns, feel free to reach out to us. \n\nDISH: Thank you for your cooperation today. \n\nDIAGNOSIS READY",
+    "correct_diagnosis": "Cytomegalovirus retinitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 21,
+    "doctor_diagnosis_text": "Thank you for your cooperation. I can see that your gait is affected, and there is noticeable stiffness and pain when you move your knee. I will also examine your knee for tenderness and swelling.\n\n[Examining the knee] I can feel significant swelling and tenderness around your right knee. The joint appears to be warm to the touch, which is consistent with inflammation.\n\nGiven your symptoms, history, and the physical exam findings, I believe you may have reactive arthritis. This condition can cause joint pain and swelling, as well as symptoms like pain with urination.\n\nDIAGNOSIS READY: Reactive Arthritis",
+    "correct_diagnosis": "Reactive Arthritis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 22,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Malignant Melanoma\n\nI\u2019ve made the necessary arrangements for your full-body MRI and sentinel lymph node biopsy. I\u2019ll also coordinate with the dermatologic surgeon for the excision of the melanoma. I\u2019ll send you the details of your appointments as soon as they are confirmed. If you have any questions or concerns in the meantime, please don\u2019t hesitate to reach out. Take care, and I\u2019ll see you soon.",
+    "correct_diagnosis": "Malignant melanoma",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 23,
+    "doctor_diagnosis_text": "Thank you for that information. Given the chronic nature of your symptoms, the absence of significant inflammation, and the lack of response to dietary changes, it sounds like we may be dealing with a functional gastrointestinal disorder. \n\nDIAGNOSIS READY: Irritable Bowel Syndrome (IBS)",
+    "correct_diagnosis": "Irritable Bowel Syndrome",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 24,
+    "doctor_diagnosis_text": "Thank you for your patience and cooperation. Based on the information and test results we have, including the large ovarian mass and significant ascites, along with the normal CA-125 levels, the most likely diagnosis is a benign ovarian cyst or a functional ovarian mass. However, to confirm this and rule out any other conditions, it is crucial to proceed with the referral to a gynecologist for a detailed evaluation and possible biopsy.\n\nDIAGNOSIS READY: Benign Ovarian Cyst or Functional Ovarian Mass. \n\nI will ensure the referral is expedited, and I'll be in touch with you as soon as I have an update. If you have any new symptoms or concerns before your appointment, please don't hesitate to reach out. Take care, and I look forward to hearing how your appointment goes.",
+    "correct_diagnosis": "Meigs syndrome",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 25,
+    "doctor_diagnosis_text": "Thank you for confirming that. Given the persistent elevated liver enzymes, bile duct changes, and your history of ulcerative colitis, it seems likely that we are dealing with a form of cholangitis, possibly secondary to your inflammatory bowel disease.\n\nI will need to refer you to a hepatologist for further evaluation and management. In the meantime, we can monitor your liver function and manage your symptoms. \n\nDIAGNOSIS READY: Secondary Sclerosing Cholangitis associated with Ulcerative Colitis.",
+    "correct_diagnosis": "Primary sclerosing cholangitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 26,
+    "doctor_diagnosis_text": "Thank you for letting me know. Given the chronic nature of your symptoms and the lack of specific triggers, along with the normal test results, it's possible that you may have interstitial cystitis or a similar condition. I would recommend a referral to a urologist for further evaluation and specialized treatment options. DIAGNOSIS READY: Suspected Interstitial Cystitis",
+    "correct_diagnosis": "Interstitial cystitis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 27,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Rotator Cuff Tendinitis with Associated Stiffness and Limited Range of Motion.",
+    "correct_diagnosis": "Adhesive capsulitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 28,
+    "doctor_diagnosis_text": "Thank you for the results. Your kidney function tests are within normal limits, which is good to know. Given the low sodium levels and the absence of other contributing factors, it seems likely that your blood pressure medication might be causing your hyponatremia.\n\nI would like to discuss adjusting your medication with your primary care provider. In the meantime, it\u2019s important to stay well-hydrated but avoid overhydration.\n\nDIAGNOSIS READY: Hyponatremia likely secondary to blood pressure medication.",
+    "correct_diagnosis": "Lung cancer",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 29,
+    "doctor_diagnosis_text": "Thank you for letting me know. The fatigue, aches, and worsening wrist pain are concerning. Given the redness and warmth around the lesions, the elevated white blood cell count, and your recent insect bites, I am highly suspicious of a bacterial infection, possibly cellulitis or a more systemic infection. We\u2019ll need to wait for the repeat blood culture results to confirm, but we should start treatment to prevent the infection from worsening. \n\nDIAGNOSIS READY: Suspected Bacterial Infection (Cellulitis)",
+    "correct_diagnosis": "Disseminated Gonococcal Infection",
+    "moderator_raw_answer": "no",
+    "correct": false
+  }
+]

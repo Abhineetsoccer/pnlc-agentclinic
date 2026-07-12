@@ -1,0 +1,65 @@
+[
+  {
+    "scenario_index": 0,
+    "doctor_diagnosis_text": "Thank you for the additional test results. The decreased muscle response with repetitive stimulation, along with the ptosis that worsens with sustained activity and the pattern of weakness you've described, strongly suggest a specific condition. DIAGNOSIS READY: Myasthenia Gravis.",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 1,
+    "doctor_diagnosis_text": "Thank you for that information. Given the MRI findings and your history of being on natalizumab, it\u2019s highly likely that your symptoms are related to Progressive Multifocal Leukoencephalopathy (PML). \n\nDIAGNOSIS READY: Progressive Multifocal Leukoencephalopathy (PML) secondary to natalizumab use. \n\nWe will need to discuss stopping natalizumab and other treatment options to manage your condition. Let\u2019s schedule a follow-up appointment to go over the next steps.",
+    "correct_diagnosis": "Progressive multifocal encephalopathy (PML)",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 2,
+    "doctor_diagnosis_text": "Thank you for the test results. The barium enema shows a transition zone in the distal colon, which is consistent with Hirschsprung disease. This could explain his feeding difficulties and abdominal distension.\n\nDIAGNOSIS READY: Hirschsprung Disease",
+    "correct_diagnosis": "Hirschsprung disease",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 3,
+    "doctor_diagnosis_text": "Thank you for the additional test results. The CT scan showing massively enlarged lymph nodes in multiple areas and the biopsy results indicating lymphocytes with a high proliferative index that stain positive for CD20 strongly suggest a diagnosis of non-Hodgkin lymphoma.\n\nDIAGNOSIS READY: Non-Hodgkin lymphoma. We will need to discuss the next steps, including a referral to an oncologist for further evaluation and treatment.",
+    "correct_diagnosis": "Diffuse large B-cell lymphoma",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 4,
+    "doctor_diagnosis_text": "Thank you for the MRI results. I can see that there is some inflammation and mild strain in the medial collateral ligament (MCL). There are no signs of a significant tear or other major damage. \n\nGiven this information, I believe you may be experiencing an MCL strain. This is likely due to the increased physical activity and the pivoting and twisting movements in volleyball.\n\nDIAGNOSIS READY: Medial Collateral Ligament (MCL) Strain",
+    "correct_diagnosis": "Pes anserine bursitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 5,
+    "doctor_diagnosis_text": "Thank you for that. Given the information and the normal test results, it seems like this episode might have been a transient issue, possibly a brief drop in blood pressure or a vasovagal episode. \n\nDIAGNOSIS READY: Vasovagal Syncope",
+    "correct_diagnosis": "Situational syncope",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 6,
+    "doctor_diagnosis_text": "Thank you for the results. The positive Rubella IgM suggests a congenital Rubella infection. This can explain the heart murmur, congenital cataracts, and the hearing loss. \n\nDIAGNOSIS READY: Congenital Rubella Syndrome",
+    "correct_diagnosis": "Congenital Rubella Infection",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 7,
+    "doctor_diagnosis_text": "Thank you for your patience. Based on the physical exam, imaging results, and the biopsy showing leaf-like structures with stromal cellular overgrowth, the most likely diagnosis is a fibroadenoma, which is a benign breast tumor.\n\nDIAGNOSIS READY: Fibroadenoma\n\nWe will await the final pathology report for confirmation, but based on the current findings, it appears to be a benign condition. If the pathology report confirms this, we will discuss the next steps, which may include monitoring the mass or considering surgical removal. How does that sound to you?",
+    "correct_diagnosis": "Phyllodes tumor",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 8,
+    "doctor_diagnosis_text": "Thank you for your patience. Based on your symptoms, the location of the tenderness, and the low-grade fever, I believe you may be experiencing postpartum endometritis. This is an infection of the lining of the uterus that can occur after delivery. \n\nDIAGNOSIS READY: Postpartum Endometritis. We will start you on appropriate antibiotics and monitor your condition closely.",
+    "correct_diagnosis": "Endometritis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  }
+]
