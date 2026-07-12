@@ -7,6 +7,7 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     get_results_log,
     save_trajectory_log,
     get_trajectory_log,
+    get_thought_action_compliance_rate,
 )
 
 if not os.environ.get("QWEN_API_KEY"):
@@ -54,3 +55,7 @@ else:
     print("\nNo scenarios reached a diagnosis -- check the transcript above for what went wrong.")
 print(f"Saved {len(results)} structured results to {results_path}")
 print(f"Saved {len(trajectories)} trajectory turns to {trajectories_path}")
+
+compliance = get_thought_action_compliance_rate()
+if compliance is not None:
+    print(f"THOUGHT/ACTION format compliance: {100 * compliance:.1f}% of turns")
