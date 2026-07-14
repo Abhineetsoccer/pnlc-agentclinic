@@ -1,7 +1,12 @@
 import os
 import time
+
+import hydra
+from omegaconf import DictConfig
+
 from pnlc_agentclinic.env.agentclinic_adapter import (
     install_patch,
+    register_backend,
     AGENTCLINIC_PATH,
     save_results_log,
     get_results_log,
@@ -10,52 +15,68 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     get_thought_action_compliance_rate,
 )
 
-if not os.environ.get("QWEN_API_KEY"):
-    raise RuntimeError("Set QWEN_API_KEY in your environment before running this.")
-
 NUM_SCENARIOS = 30
 
-REPO_ROOT = AGENTCLINIC_PATH.parent.parent
-LOGS_DIR = REPO_ROOT / "logs"
-LOGS_DIR.mkdir(exist_ok=True)
-run_id = int(time.time())
-results_path = LOGS_DIR / f"stage1_baseline_{run_id}.json"
-trajectories_path = LOGS_DIR / f"stage1_trajectories_{run_id}.json"
 
-agentclinic = install_patch()
-os.chdir(AGENTCLINIC_PATH)
+@hydra.main(config_path="../configs", config_name="config", version_base=None)
+def main(cfg: DictConfig):
+    model_name = cfg.model_backends.name
+    api_key = os.environ.get(cfg.model_backends.api_key_env)
+    if not api_key:
+        raise RuntimeError(f"Set {cfg.model_backends.api_key_env} in your environment before running this.")
 
-agentclinic.main(
-    api_key=None,
-    replicate_api_key=None,
-    inf_type="llm",
-    doctor_bias="None",
-    patient_bias="None",
-    doctor_llm="qwen2.5-72b",
-    patient_llm="qwen2.5-72b",
-    measurement_llm="qwen2.5-72b",
-    moderator_llm="qwen2.5-72b",
-    num_scenarios=NUM_SCENARIOS,
-    dataset="MedQA",
-    img_request=False,
-    total_inferences=20,
-    anthropic_api_key=None,
-)
+    register_backend(
+        model_name,
+        base_url=cfg.model_backends.base_url,
+        api_key=api_key,
+        model_name=cfg.model_backends.model_name,
+    )
 
-results = get_results_log()
-save_results_log(str(results_path))
+    REPO_ROOT = AGENTCLINIC_PATH.parent.parent
+    LOGS_DIR = REPO_ROOT / "logs"
+    LOGS_DIR.mkdir(exist_ok=True)
+    run_id = int(time.time())
+    results_path = LOGS_DIR / f"stage1_baseline_{run_id}.json"
+    trajectories_path = LOGS_DIR / f"stage1_trajectories_{run_id}.json"
 
-trajectories = get_trajectory_log()
-save_trajectory_log(str(trajectories_path))
+    agentclinic = install_patch()
+    os.chdir(AGENTCLINIC_PATH)
 
-num_correct = sum(r["correct"] for r in results)
-if results:
-    print(f"\n{num_correct}/{len(results)} correct ({100 * num_correct / len(results):.1f}%)")
-else:
-    print("\nNo scenarios reached a diagnosis -- check the transcript above for what went wrong.")
-print(f"Saved {len(results)} structured results to {results_path}")
-print(f"Saved {len(trajectories)} trajectory turns to {trajectories_path}")
+    agentclinic.main(
+        api_key=None,
+        replicate_api_key=None,
+        inf_type="llm",
+        doctor_bias="None",
+        patient_bias="None",
+        doctor_llm=model_name,
+        patient_llm=model_name,
+        measurement_llm=model_name,
+        moderator_llm=model_name,
+        num_scenarios=NUM_SCENARIOS,
+        dataset="MedQA",
+        img_request=False,
+        total_inferences=20,
+        anthropic_api_key=None,
+    )
 
-compliance = get_thought_action_compliance_rate()
-if compliance is not None:
-    print(f"THOUGHT/ACTION format compliance: {100 * compliance:.1f}% of turns")
+    results = get_results_log()
+    save_results_log(str(results_path))
+
+    trajectories = get_trajectory_log()
+    save_trajectory_log(str(trajectories_path))
+
+    num_correct = sum(r["correct"] for r in results)
+    if results:
+        print(f"\n{num_correct}/{len(results)} correct ({100 * num_correct / len(results):.1f}%)")
+    else:
+        print("\nNo scenarios reached a diagnosis -- check the transcript above for what went wrong.")
+    print(f"Saved {len(results)} structured results to {results_path}")
+    print(f"Saved {len(trajectories)} trajectory turns to {trajectories_path}")
+
+    compliance = get_thought_action_compliance_rate()
+    if compliance is not None:
+        print(f"THOUGHT/ACTION format compliance: {100 * compliance:.1f}% of turns")
+
+
+if __name__ == "__main__":
+    main()

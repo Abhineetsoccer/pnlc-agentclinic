@@ -1,0 +1,4 @@
+name: "qwen3-embed"
+base_url: "???"
+api_key_env: "QWEN_API_KEY"
+model_name: "qwen3-embed"

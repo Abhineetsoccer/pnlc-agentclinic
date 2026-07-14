@@ -1,4 +1,3 @@
-import os
 import re
 import sys
 import json
@@ -11,28 +10,26 @@ AGENTCLINIC_PATH = Path(__file__).resolve().parents[3] / "external" / "AgentClin
 _backend_cache = {}
 
 
-def get_backend_for_model(model_str: str) -> OpenAICompatibleBackend:
-    if model_str in _backend_cache:
-        return _backend_cache[model_str]
+def register_backend(model_str: str, base_url: str, api_key: str, model_name: str, **kwargs) -> OpenAICompatibleBackend:
+    """Register a backend for `model_str`, built from hydra-resolved config values.
 
-    known_models = {
-        "qwen2.5-72b": dict(
-            base_url="",
-            model_name="qwen2.5-72b-instruct",
-            api_key=os.environ.get("QWEN_API_KEY"),
-            max_tokens=400,
-        ),
-    }
-
-    if model_str not in known_models:
-        raise ValueError(
-            f"No backend config for model '{model_str}'. "
-            f"Known models: {list(known_models.keys())}"
-        )
-
-    backend = OpenAICompatibleBackend(**known_models[model_str])
+    Callers (hydra entrypoint scripts) resolve base_url/api_key/model_name from
+    `cfg.model_backends` -- keeping the actual endpoint and secret out of this module
+    and out of any committed config file.
+    """
+    backend = OpenAICompatibleBackend(base_url=base_url, api_key=api_key, model_name=model_name, **kwargs)
     _backend_cache[model_str] = backend
     return backend
+
+
+def get_backend_for_model(model_str: str) -> OpenAICompatibleBackend:
+    if model_str not in _backend_cache:
+        raise ValueError(
+            f"No backend registered for model '{model_str}'. "
+            f"Call register_backend(...) with hydra-resolved config before running the simulation. "
+            f"Registered models: {list(_backend_cache.keys())}"
+        )
+    return _backend_cache[model_str]
 
 
 def patched_query_model(

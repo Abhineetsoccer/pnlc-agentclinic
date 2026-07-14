@@ -1,5 +1,5 @@
 name: "qwen2.5-72b"
-base_url: ""
-api_key_env: "QWEN_API_KEY"      
+base_url: "???"
+api_key_env: "QWEN_API_KEY"
 model_name: "qwen2.5-72b-instruct"
 default_max_tokens: 200
