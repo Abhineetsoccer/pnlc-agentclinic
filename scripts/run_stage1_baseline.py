@@ -14,6 +14,7 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     get_trajectory_log,
     get_thought_action_compliance_rate,
 )
+from pnlc_agentclinic.llm_backends.factory import build_generation_backend
 
 NUM_SCENARIOS = 30
 
@@ -21,16 +22,7 @@ NUM_SCENARIOS = 30
 @hydra.main(config_path="../configs", config_name="config", version_base=None)
 def main(cfg: DictConfig):
     model_name = cfg.model_backends.name
-    api_key = os.environ.get(cfg.model_backends.api_key_env)
-    if not api_key:
-        raise RuntimeError(f"Set {cfg.model_backends.api_key_env} in your environment before running this.")
-
-    register_backend(
-        model_name,
-        base_url=cfg.model_backends.base_url,
-        api_key=api_key,
-        model_name=cfg.model_backends.model_name,
-    )
+    register_backend(model_name, build_generation_backend(cfg.model_backends))
 
     REPO_ROOT = AGENTCLINIC_PATH.parent.parent
     LOGS_DIR = REPO_ROOT / "logs"

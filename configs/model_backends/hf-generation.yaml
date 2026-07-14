@@ -1,0 +1,6 @@
+name: "hf-generation"
+backend_type: "huggingface"
+model_name: "???"
+device: "cpu"
+max_tokens: 200
+temperature: 0.7

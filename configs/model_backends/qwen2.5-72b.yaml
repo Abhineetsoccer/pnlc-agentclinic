@@ -1,4 +1,5 @@
 name: "qwen2.5-72b"
+backend_type: "openai_compatible"
 base_url: "???"
 api_key_env: "QWEN_API_KEY"
 model_name: "qwen2.5-72b-instruct"

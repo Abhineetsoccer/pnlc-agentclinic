@@ -15,6 +15,8 @@ dependencies = [
     "hydra-core>=1.3",      # CLI + config composition
     "omegaconf>=2.3",       # underlying config objects used by Hydra
     "torch>=2.0",           # IQL value-function training (value_learning/)
+    "transformers>=4.40",   # local HF generation backend
+    "sentence-transformers>=2.6",  # local HF embedding backend
 ]
 
 [project.optional-dependencies]

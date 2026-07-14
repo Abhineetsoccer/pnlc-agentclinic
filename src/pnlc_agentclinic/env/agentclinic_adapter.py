@@ -3,26 +3,22 @@ import sys
 import json
 from pathlib import Path
 
-from pnlc_agentclinic.llm_backends.openai_compatible import OpenAICompatibleBackend
-
 AGENTCLINIC_PATH = Path(__file__).resolve().parents[3] / "external" / "AgentClinic"
 
 _backend_cache = {}
 
 
-def register_backend(model_str: str, base_url: str, api_key: str, model_name: str, **kwargs) -> OpenAICompatibleBackend:
-    """Register a backend for `model_str`, built from hydra-resolved config values.
-
-    Callers (hydra entrypoint scripts) resolve base_url/api_key/model_name from
-    `cfg.model_backends` -- keeping the actual endpoint and secret out of this module
-    and out of any committed config file.
+def register_backend(model_str: str, backend):
+    """Register an already-built backend (OpenAICompatibleBackend or HuggingFaceBackend)
+    under `model_str`. Callers (hydra entrypoint scripts) build the backend via
+    `pnlc_agentclinic.llm_backends.factory.build_generation_backend(cfg.model_backends)`,
+    keeping any endpoint/secret/model choice out of this module.
     """
-    backend = OpenAICompatibleBackend(base_url=base_url, api_key=api_key, model_name=model_name, **kwargs)
     _backend_cache[model_str] = backend
     return backend
 
 
-def get_backend_for_model(model_str: str) -> OpenAICompatibleBackend:
+def get_backend_for_model(model_str: str):
     if model_str not in _backend_cache:
         raise ValueError(
             f"No backend registered for model '{model_str}'. "

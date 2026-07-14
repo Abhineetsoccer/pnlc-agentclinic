@@ -1,0 +1,4 @@
+name: "hf-embed"
+backend_type: "huggingface"
+model_name: "???"
+device: "cpu"
