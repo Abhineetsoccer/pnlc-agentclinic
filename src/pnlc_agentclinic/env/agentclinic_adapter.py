@@ -17,7 +17,7 @@ def get_backend_for_model(model_str: str) -> OpenAICompatibleBackend:
 
     known_models = {
         "qwen2.5-72b": dict(
-            base_url="http://api.openai.ukrc.huawei.com:4000/v1",
+            base_url="",
             model_name="qwen2.5-72b-instruct",
             api_key=os.environ.get("QWEN_API_KEY"),
             max_tokens=400,
