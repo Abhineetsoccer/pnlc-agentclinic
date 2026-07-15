@@ -6,7 +6,7 @@ from pnlc_agentclinic.embedding.factory import build_embedder
 
 @hydra.main(config_path="../configs", config_name="config", version_base=None)
 def main(cfg: DictConfig):
-    embedder = build_embedder(cfg.model_backends)
+    embedder = build_embedder(cfg.embedding)
 
     vec = embedder.embed("The patient reports a persistent cough and mild fever.")
     print(f"Single embedding: type={type(vec)}, length={len(vec)}")

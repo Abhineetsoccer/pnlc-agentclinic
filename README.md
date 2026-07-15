@@ -40,8 +40,10 @@ this README tracks *what's built*.
 
 | Stage | What it needs | Status |
 |---|---|---|
-| PNLC reimplementation on AgentClinic (Stage 1 / RQ1) | Faithful port, doctor/patient/critic loop, plausibility rubric | Harness built (`scripts/run_stage1_*.py`, `env/agentclinic_adapter.py`); not yet validated against original-domain numbers |
+| PNLC reimplementation on AgentClinic (Stage 1 / RQ1) | Faithful port, doctor/patient/critic loop, plausibility rubric | Baseline (CoT-floor) harness built (`scripts/run_stage1_*.py`, `env/agentclinic_adapter.py`); not yet validated against original-domain numbers. The actual PNLC mechanism (imagine futures → score with IQL critic → select) is not yet implemented |
 | Multi-backend model plumbing | Swap generation/embedding models without code changes | Done — see [Backend architecture](#backend-architecture) |
+| State summarization | Summarize dialogue state for the critic loop | `StateSummarizer` implemented (`summarization/summarizer.py`), used to build embeddable state summaries in `scripts/run_embed_dataset.py` |
+| Trajectory embedding pipeline | Turn logged trajectories into (state, thought) embeddings for later retrieval/critic work | `scripts/run_embed_dataset.py` built on top of `data/schema.py`'s `TrajectoryField` schema; embedding backend validated locally via HF |
 | Six-way failure taxonomy (Stage 2 / RQ2) | Static-probe instrument, H-K/H-E split | Not started |
 | Retrieval grounding + placement control (Stage 3 / RQ3) | Grounded PNLC arm, frozen/retrained critic | Not started |
 | Decision-rule fit (Stage 4 / RQ4) | Specificity analysis, held-out validation | Not started |
@@ -52,50 +54,63 @@ smoke-testing, not validated experimental results.
 
 ## Backend architecture
 
-Every model (generation or embedding) is selected and configured entirely through
-[Hydra](https://hydra.cc) — no endpoint, key, or model name is hardcoded in Python. A config
-picks a `backend_type`, and a factory dispatches to the matching backend class:
+Every model is selected and configured entirely through [Hydra](https://hydra.cc) — no endpoint,
+key, or model name is hardcoded in Python. Generation and embedding models live in **two
+independent hydra config groups** (`model_backends` and `embedding`), since a script like
+`run_embed_dataset.py` needs one of each at the same time — they can't share a single group. Each
+config picks a `backend_type`, and a factory dispatches to the matching backend class:
 
 ```mermaid
 flowchart TD
-    CLI["hydra CLI override\nmodel_backends=... model_backends.base_url=..."] --> Cfg["configs/model_backends/*.yaml"]
-    Cfg --> Factory["llm_backends/factory.py\nembedding/factory.py"]
-    Factory -->|backend_type: openai_compatible| OAI["OpenAICompatibleBackend /\nOpenAICompatibleEmbedder\n(remote HTTP, base_url + api_key)"]
-    Factory -->|backend_type: huggingface| HF["HuggingFaceBackend /\nHuggingFaceEmbedder\n(local transformers /\nsentence-transformers, HF_HOME cache)"]
+    CLI["hydra CLI overrides\nmodel_backends=... embedding=..."] --> Cfg1["configs/model_backends/*.yaml\n(generation)"]
+    CLI --> Cfg2["configs/embedding/*.yaml\n(embedding)"]
+    Cfg1 --> F1["llm_backends/factory.py\nbuild_generation_backend(cfg.model_backends)"]
+    Cfg2 --> F2["embedding/factory.py\nbuild_embedder(cfg.embedding)"]
+    F1 -->|backend_type: openai_compatible| OAI["OpenAICompatibleBackend\n(remote HTTP, base_url + api_key)"]
+    F1 -->|backend_type: huggingface| HF1["HuggingFaceBackend\n(local transformers, HF_HOME cache)"]
+    F2 -->|backend_type: openai_compatible| OAIE["OpenAICompatibleEmbedder"]
+    F2 -->|backend_type: huggingface| HF2["HuggingFaceEmbedder\n(local sentence-transformers)"]
     OAI --> Adapter["env/agentclinic_adapter.py\nregister_backend(name, backend)"]
-    HF --> Adapter
+    HF1 --> Adapter
     Adapter --> Sim["AgentClinic simulation loop\n(doctor / patient / moderator)"]
+    OAIE --> Embed["scripts/run_embed_dataset.py"]
+    HF2 --> Embed
 ```
 
-| Config | backend_type | Runs where | Requires |
-|---|---|---|---|
-| `qwen2.5-72b.yaml` | `openai_compatible` | Remote endpoint | `model_backends.base_url=...` (CLI), `QWEN_API_KEY` env var |
-| `qwen3-embed.yaml` | `openai_compatible` | Remote endpoint | `model_backends.base_url=...` (CLI), `QWEN_API_KEY` env var |
-| `hf-generation.yaml` | `huggingface` | Local (CPU/GPU) | `model_backends.model_name=...` (CLI, HF repo id) |
-| `hf-embed.yaml` | `huggingface` | Local (CPU/GPU) | `model_backends.model_name=...` (CLI, HF repo id) |
+| Config | Group | backend_type | Runs where | Requires |
+|---|---|---|---|---|
+| `qwen2.5-72b.yaml` | `model_backends` | `openai_compatible` | Remote endpoint | `model_backends.base_url=...` (CLI), `QWEN_API_KEY` env var |
+| `hf-generation.yaml` | `model_backends` | `huggingface` | Local (CPU/GPU) | `model_backends.model_name=...` (CLI, HF repo id) |
+| `qwen3-embed.yaml` | `embedding` | `openai_compatible` | Remote endpoint | `embedding.base_url=...` (CLI), `QWEN_API_KEY` env var |
+| `hf-embed.yaml` | `embedding` | `huggingface` | Local (CPU/GPU) | `embedding.model_name=...` (CLI, HF repo id) |
 
 Both `base_url` (OpenAI-compatible configs) and `model_name` (HF configs) are marked `"???"` in
 their yaml files — Hydra's mandatory-value marker. Omitting the CLI override raises
-`MissingMandatoryValue` instead of silently running with an empty/wrong value.
+`MissingMandatoryValue` instead of silently running with an empty/wrong value — but only for
+whichever group a script actually reads, so e.g. `test_embedder.py` never touches the (mandatory
+but irrelevant) `model_backends.base_url`.
 
 ## Repo layout
 
 ```
 configs/
-  config.yaml                    # top-level hydra config (defaults: model_backends)
-  model_backends/                # one yaml per backend: qwen2.5-72b, qwen3-embed, hf-generation, hf-embed
+  config.yaml                    # top-level hydra config (defaults: model_backends + embedding)
+  model_backends/                # generation configs: qwen2.5-72b, hf-generation
+  embedding/                     # embedding configs: qwen3-embed, hf-embed
 src/pnlc_agentclinic/
   llm_backends/                  # OpenAICompatibleBackend, HuggingFaceBackend, factory.py
   embedding/                     # OpenAICompatibleEmbedder, HuggingFaceEmbedder, factory.py
   env/agentclinic_adapter.py     # patches AgentClinic's query_model / doctor loop, logs trajectories
-  summarization/                 # state-summarization for the PNLC critic loop (stub)
+  summarization/summarizer.py    # StateSummarizer: summarizes dialogue state for the critic loop
+  data/schema.py                 # TrajectoryField: canonical field names for logged trajectory turns
 scripts/
   run_stage1_baseline.py         # full Stage 1 run (30 scenarios), hydra entrypoint
   run_stage1_smoketest.py        # 2-scenario smoke test, hydra entrypoint
   test_hydra_backend.py          # sanity-check a generation backend in isolation
   test_embedder.py               # sanity-check an embedding backend in isolation
+  run_embed_dataset.py           # summarize + embed logged trajectory turns -> jsonl
 external/AgentClinic/             # vendored AgentClinic simulation (not tracked in git listing above)
-logs/                             # run artifacts (results + full trajectories), per run_id
+logs/                             # run artifacts (results, trajectories, embedded turns), per run_id
 notebook/data_diagnostic.ipynb   # exploratory analysis
 ```
 
@@ -109,29 +124,35 @@ export HF_HOME=/path/to/cache  # only needed for huggingface backends, controls 
 
 ## Usage
 
-Every script is a Hydra entrypoint — pick a backend with `model_backends=<name>` and fill in
-whatever that config marks mandatory:
+Every script is a Hydra entrypoint. Generation backends are picked via `model_backends=<name>`;
+embedding backends via the separate `embedding=<name>` group. Fill in whatever each config marks
+mandatory:
 
 ```bash
 # remote Qwen backend (default group), generation smoke test
 python scripts/test_hydra_backend.py model_backends.base_url=https://your-qwen-endpoint/v1
 
 # remote Qwen embedding backend
-python scripts/test_embedder.py model_backends=qwen3-embed \
-  model_backends.base_url=https://your-qwen-endpoint/v1
+python scripts/test_embedder.py embedding=qwen3-embed \
+  embedding.base_url=https://your-qwen-endpoint/v1
 
 # local HF generation backend
 python scripts/test_hydra_backend.py model_backends=hf-generation \
   model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct model_backends.device=cpu
 
 # local HF embedding backend
-python scripts/test_embedder.py model_backends=hf-embed \
-  model_backends.model_name=sentence-transformers/all-MiniLM-L6-v2
+python scripts/test_embedder.py embedding=hf-embed \
+  embedding.model_name=sentence-transformers/all-MiniLM-L6-v2
 
-# Stage 1 AgentClinic smoke test / full baseline run, any backend from above
+# Stage 1 AgentClinic smoke test / full baseline run, any generation backend from above
 python scripts/run_stage1_smoketest.py model_backends.base_url=https://your-qwen-endpoint/v1
 python scripts/run_stage1_baseline.py model_backends=hf-generation \
   model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct
+
+# summarize + embed the most recent stage1 trajectory log (needs one generation + one embedding backend)
+python scripts/run_embed_dataset.py model_backends=hf-generation \
+  model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct \
+  embedding=hf-embed embedding.model_name=sentence-transformers/all-MiniLM-L6-v2
 ```
 
 ## Roadmap (from the proposal)
