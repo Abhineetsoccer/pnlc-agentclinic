@@ -44,6 +44,7 @@ this README tracks *what's built*.
 | Multi-backend model plumbing | Swap generation/embedding models without code changes | Done — see [Backend architecture](#backend-architecture) |
 | State summarization | Summarize dialogue state for the critic loop | `StateSummarizer` implemented (`summarization/summarizer.py`), used to build embeddable state summaries in `scripts/run_embed_dataset.py` |
 | Trajectory embedding pipeline | Turn logged trajectories into (state, thought) embeddings for later retrieval/critic work | `scripts/run_embed_dataset.py` built on top of `data/schema.py`'s `TrajectoryField` schema; embedding backend validated locally via HF |
+| HER relabeling for goal-conditioned IQL | Turn embedded trajectories into `(s, thought, s', g, r)` tuples for value-function training | `value_learning/her_relabel.py` + `scripts/run_relabel_dataset.py`; goal set is `t' >= t` (inclusive of current state) per HER's actual definition, `r(s,g) = 1[goal_idx == i]`, no `done` mask needed since dialogue state (`agent_hist`) only ever grows within a trajectory |
 | Six-way failure taxonomy (Stage 2 / RQ2) | Static-probe instrument, H-K/H-E split | Not started |
 | Retrieval grounding + placement control (Stage 3 / RQ3) | Grounded PNLC arm, frozen/retrained critic | Not started |
 | Decision-rule fit (Stage 4 / RQ4) | Specificity analysis, held-out validation | Not started |
@@ -103,12 +104,14 @@ src/pnlc_agentclinic/
   env/agentclinic_adapter.py     # patches AgentClinic's query_model / doctor loop, logs trajectories
   summarization/summarizer.py    # StateSummarizer: summarizes dialogue state for the critic loop
   data/schema.py                 # TrajectoryField: canonical field names for logged trajectory turns
+  value_learning/her_relabel.py  # HER goal relabeling: embedded turns -> (s, thought, s', g, r) tuples
 scripts/
   run_stage1_baseline.py         # full Stage 1 run (30 scenarios), hydra entrypoint
   run_stage1_smoketest.py        # 2-scenario smoke test, hydra entrypoint
   test_hydra_backend.py          # sanity-check a generation backend in isolation
   test_embedder.py               # sanity-check an embedding backend in isolation
   run_embed_dataset.py           # summarize + embed logged trajectory turns -> jsonl
+  run_relabel_dataset.py         # HER-relabel embedded turns -> .npz tuples for IQL training
 external/AgentClinic/             # vendored AgentClinic simulation (not tracked in git listing above)
 logs/                             # run artifacts (results, trajectories, embedded turns), per run_id
 notebook/data_diagnostic.ipynb   # exploratory analysis
