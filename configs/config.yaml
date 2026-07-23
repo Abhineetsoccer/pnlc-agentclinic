@@ -1,5 +1,5 @@
 defaults:
   - model_backends: qwen2.5-72b
   - embedding: qwen3-embed
+  - critic: iql
   - _self_
- 

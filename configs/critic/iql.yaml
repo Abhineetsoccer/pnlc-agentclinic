@@ -1,0 +1,7 @@
+checkpoint: "???"
+device: "auto"
+positive_goals: 2
+negative_goals: 2
+refinement_rounds: 1
+num_scenarios: 30
+total_inferences: 20

@@ -12,9 +12,11 @@ it if it doesn't. Primary domain: clinical diagnosis via [AgentClinic](https://a
 
 ## Research context
 
-A generator LLM proposes candidate actions; a trained evaluator (here, an IQL value function over
-natural-language thoughts, per [PNLC](https://arxiv.org/abs/2505.18098)) scores imagined futures for
-each candidate. The evaluator only ever sees futures the generator imagines. The central question:
+A generator LLM proposes an initial thought and imagines positive and negative future outcomes; a
+trained evaluator (here, an IQL value function over natural-language thoughts, per
+[PNLC](https://arxiv.org/abs/2505.18098)) scores those futures. The scores become natural-language
+feedback that the generator uses to refine its thought before acting. The evaluator only ever sees
+futures the generator imagines. The central question:
 
 > When the generator's imagination fails in a knowledge-heavy domain, does the trained critic
 > **correct** the failure, or **inherit** it? And if it inherits it, where must external
@@ -23,13 +25,13 @@ each candidate. The evaluator only ever sees futures the generator imagines. The
 ```mermaid
 flowchart LR
     subgraph Generator["Generator LLM (doctor agent)"]
-        T["Candidate thought"] --> F["Imagined futures"]
+        T["Initial thought"] --> F["Positive + negative\nimagined futures"]
     end
-    F -->|"H-K: knowledge gap\nH-E: elicitation gap"| Q{"Futures\nplausible?"}
-    Q -->|free imagination| C1["Trained critic\n(IQL value function)"]
-    Q -.grounded (planned).-> R["Retrieval-grounded\nfuture generation"] -.-> C2["Trained critic"]
-    C1 --> O1["Outcome A: critic blindness"]
-    C2 --> O2["Outcome B: critic inheritance /\nOutcome C: clean grounding win"]
+    F -->|"H-K: knowledge gap\nH-E: elicitation gap"| C1["Trained critic\nscores each future"]
+    C1 --> V["Natural-language value"] --> A["Refined thought\nand action"]
+    F -.grounded (planned).-> R["Retrieval-grounded\nfuture generation"] -.-> C2["Trained critic"]
+    C1 --> O1["Possible critic blindness"]
+    C2 --> O2["Possible inheritance /\nor clean grounding win"]
 ```
 
 Full design (mechanism taxonomy, matched-futures diagnostic, domain-selection rationale, timeline)
@@ -40,12 +42,12 @@ this README tracks *what's built*.
 
 | Stage | What it needs | Status |
 |---|---|---|
-| PNLC reimplementation on AgentClinic (Stage 1 / RQ1) | Faithful port, doctor/patient/critic loop, plausibility rubric | Baseline (CoT-floor) harness built (`scripts/run_stage1_*.py`, `env/agentclinic_adapter.py`); not yet validated against original-domain numbers. The actual PNLC mechanism (imagine futures → score with IQL critic → select) is not yet implemented |
+| PNLC reimplementation on AgentClinic (Stage 1 / RQ1) | Faithful port, doctor/patient/critic loop, plausibility rubric | Baseline and PNLC inference harnesses built (`scripts/run_stage1_baseline.py`, `scripts/run_pnlc_agentclinic.py`). PNLC generates two positive and two negative futures, scores them with the critic, and performs one thought-refinement round before acting. Not yet experimentally validated against original-domain numbers |
 | Multi-backend model plumbing | Swap generation/embedding models without code changes | Done — see [Backend architecture](#backend-architecture) |
 | State summarization | Summarize dialogue state for the critic loop | `StateSummarizer` implemented (`summarization/summarizer.py`), used to build embeddable state summaries in `scripts/run_embed_dataset.py` |
 | Trajectory embedding pipeline | Turn logged trajectories into (state, thought) embeddings for later retrieval/critic work | `scripts/run_embed_dataset.py` built on top of `data/schema.py`'s `TrajectoryField` schema; embedding backend validated locally via HF |
 | HER relabeling for goal-conditioned IQL | Turn embedded trajectories into `(s, thought, s', g, r)` tuples for value-function training | `value_learning/her_relabel.py` + `scripts/run_relabel_dataset.py`; goal set is `t' >= t` (inclusive of current state) per HER's actual definition, `r(s,g) = 1[goal_idx == i]`, no `done` mask needed since dialogue state (`agent_hist`) only ever grows within a trajectory |
-| Goal-conditioned IQL critic training | Train `Q(state, thought, goal)` and `V(state, goal)` from relabeled tuples | Training entrypoint implemented in `scripts/train_critic.py`; checkpoint loading and candidate-thought scoring live in `value_learning/iql_critic.py`. Not yet experimentally validated or integrated into the doctor loop |
+| Goal-conditioned IQL critic training | Train `Q(state, thought, goal)` and `V(state, goal)` from relabeled tuples | Training entrypoint implemented in `scripts/train_critic.py`; checkpoint loading and thought/future scoring live in `value_learning/iql_critic.py`; integrated into the PNLC doctor loop but not yet experimentally validated |
 | Six-way failure taxonomy (Stage 2 / RQ2) | Static-probe instrument, H-K/H-E split | Not started |
 | Retrieval grounding + placement control (Stage 3 / RQ3) | Grounded PNLC arm, frozen/retrained critic | Not started |
 | Decision-rule fit (Stage 4 / RQ4) | Specificity analysis, held-out validation | Not started |
@@ -96,15 +98,17 @@ but irrelevant) `model_backends.base_url`.
 
 ```
 configs/
-  config.yaml                    # top-level hydra config (defaults: model_backends + embedding)
+  config.yaml                    # top-level hydra config
   model_backends/                # generation configs: qwen2.5-72b, hf-generation
   embedding/                     # embedding configs: qwen3-embed, hf-embed
+  critic/                        # critic checkpoint and PNLC inference settings
 src/pnlc_agentclinic/
   llm_backends/                  # OpenAICompatibleBackend, HuggingFaceBackend, factory.py
   embedding/                     # OpenAICompatibleEmbedder, HuggingFaceEmbedder, factory.py
   env/agentclinic_adapter.py     # patches AgentClinic's query_model / doctor loop, logs trajectories
   summarization/summarizer.py    # StateSummarizer: summarizes dialogue state for the critic loop
   data/schema.py                 # TrajectoryField: canonical field names for logged trajectory turns
+  planning/pnlc_planner.py       # imagine goals, score them, refine thought, produce action
   value_learning/her_relabel.py  # HER goal relabeling: embedded turns -> (s, thought, s', g, r) tuples
   value_learning/iql_critic.py   # Goal-conditioned Q/V networks and checkpoint loader
 scripts/
@@ -115,6 +119,7 @@ scripts/
   run_embed_dataset.py           # summarize + embed logged trajectory turns -> jsonl
   run_relabel_dataset.py         # HER-relabel embedded turns -> .npz tuples for IQL training
   train_critic.py                # train and validate the goal-conditioned IQL critic
+  run_pnlc_agentclinic.py        # run critic-assisted AgentClinic consultations
 external/AgentClinic/             # vendored AgentClinic simulation (not tracked in git listing above)
 logs/                             # run artifacts (results, trajectories, embedded turns), per run_id
 notebook/data_diagnostic.ipynb   # exploratory analysis
@@ -162,7 +167,22 @@ python scripts/run_embed_dataset.py model_backends=hf-generation \
 
 # train the critic from a relabeled dataset copied from this or another system
 python scripts/train_critic.py --input /path/to/stage1_relabeled_1234567890.npz
+
+# critic-assisted smoke run with local models; the embedding model must match training
+python scripts/run_pnlc_agentclinic.py \
+  critic.checkpoint=/path/to/iql_critic.pt critic.device=cpu \
+  critic.num_scenarios=2 \
+  model_backends=hf-generation \
+  model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct \
+  embedding=hf-embed \
+  embedding.model_name=sentence-transformers/all-MiniLM-L6-v2
 ```
+
+The PNLC loop usually makes seven extra LLM calls per doctor turn with the default settings: one
+state summary (except when the history is empty), four hypothetical goals, one thought refinement,
+and one action realization. It also embeds the state, thought, and goals. Planning details and
+fallback errors are stored in each PNLC trajectory turn. If planning fails, the environment safely
+executes the doctor's original action so a long evaluation run can continue.
 
 ## Roadmap (from the proposal)
 

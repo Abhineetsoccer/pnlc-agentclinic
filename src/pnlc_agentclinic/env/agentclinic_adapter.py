@@ -6,6 +6,7 @@ from pathlib import Path
 AGENTCLINIC_PATH = Path(__file__).resolve().parents[3] / "external" / "AgentClinic"
 
 _backend_cache = {}
+_doctor_planner = None
 
 
 def register_backend(model_str: str, backend):
@@ -26,6 +27,13 @@ def get_backend_for_model(model_str: str):
             f"Registered models: {list(_backend_cache.keys())}"
         )
     return _backend_cache[model_str]
+
+
+def register_doctor_planner(planner):
+    """Enable PNLC refinement for doctor turns in the patched AgentClinic loop."""
+    global _doctor_planner
+    _doctor_planner = planner
+    return planner
 
 
 def patched_query_model(
@@ -115,11 +123,36 @@ def patched_inference_doctor(self, question, image_requested=False):
         scene=self.scenario,
     )
     thought, action, parsed_ok = parse_thought_action(raw_answer)
+    critic_record = None
+    critic_error = None
+    if _doctor_planner is not None and parsed_ok:
+        try:
+            plan = _doctor_planner.plan(
+                dialogue_state=state,
+                incoming_message=question,
+                initial_thought=thought,
+                initial_action=action,
+                doctor_system_prompt=self.system_prompt(),
+                clinical_objective=str(self.presentation),
+            )
+            thought = plan.refined_thought
+            action = plan.action
+            critic_record = plan.to_dict()
+        except Exception as error:
+            critic_error = f"{type(error).__name__}: {error}"
+            print(
+                "PNLC planner failed; using the doctor's original action. "
+                f"Reason: {critic_error}"
+            )
+    elif _doctor_planner is not None:
+        critic_error = (
+            "Initial doctor response did not contain both THOUGHT and ACTION labels."
+        )
 
     self.agent_hist += question + "\n\n" + action + "\n\n"
     self.infs += 1
 
-    _trajectory_log.append({
+    trajectory_record = {
         "scenario_index": _current_scenario_index,
         "turn_index": self.infs,
         "state": state,
@@ -128,7 +161,14 @@ def patched_inference_doctor(self, question, image_requested=False):
         "doctor_action": action,
         "raw_model_output": raw_answer,
         "parsed_ok": parsed_ok,
-    })
+    }
+    if _doctor_planner is not None:
+        trajectory_record.update({
+            "critic_used": critic_record is not None,
+            "critic": critic_record,
+            "critic_error": critic_error,
+        })
+    _trajectory_log.append(trajectory_record)
     return action
 
 
