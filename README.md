@@ -45,6 +45,7 @@ this README tracks *what's built*.
 | State summarization | Summarize dialogue state for the critic loop | `StateSummarizer` implemented (`summarization/summarizer.py`), used to build embeddable state summaries in `scripts/run_embed_dataset.py` |
 | Trajectory embedding pipeline | Turn logged trajectories into (state, thought) embeddings for later retrieval/critic work | `scripts/run_embed_dataset.py` built on top of `data/schema.py`'s `TrajectoryField` schema; embedding backend validated locally via HF |
 | HER relabeling for goal-conditioned IQL | Turn embedded trajectories into `(s, thought, s', g, r)` tuples for value-function training | `value_learning/her_relabel.py` + `scripts/run_relabel_dataset.py`; goal set is `t' >= t` (inclusive of current state) per HER's actual definition, `r(s,g) = 1[goal_idx == i]`, no `done` mask needed since dialogue state (`agent_hist`) only ever grows within a trajectory |
+| Goal-conditioned IQL critic training | Train `Q(state, thought, goal)` and `V(state, goal)` from relabeled tuples | Training entrypoint implemented in `scripts/train_critic.py`; checkpoint loading and candidate-thought scoring live in `value_learning/iql_critic.py`. Not yet experimentally validated or integrated into the doctor loop |
 | Six-way failure taxonomy (Stage 2 / RQ2) | Static-probe instrument, H-K/H-E split | Not started |
 | Retrieval grounding + placement control (Stage 3 / RQ3) | Grounded PNLC arm, frozen/retrained critic | Not started |
 | Decision-rule fit (Stage 4 / RQ4) | Specificity analysis, held-out validation | Not started |
@@ -105,6 +106,7 @@ src/pnlc_agentclinic/
   summarization/summarizer.py    # StateSummarizer: summarizes dialogue state for the critic loop
   data/schema.py                 # TrajectoryField: canonical field names for logged trajectory turns
   value_learning/her_relabel.py  # HER goal relabeling: embedded turns -> (s, thought, s', g, r) tuples
+  value_learning/iql_critic.py   # Goal-conditioned Q/V networks and checkpoint loader
 scripts/
   run_stage1_baseline.py         # full Stage 1 run (30 scenarios), hydra entrypoint
   run_stage1_smoketest.py        # 2-scenario smoke test, hydra entrypoint
@@ -112,6 +114,7 @@ scripts/
   test_embedder.py               # sanity-check an embedding backend in isolation
   run_embed_dataset.py           # summarize + embed logged trajectory turns -> jsonl
   run_relabel_dataset.py         # HER-relabel embedded turns -> .npz tuples for IQL training
+  train_critic.py                # train and validate the goal-conditioned IQL critic
 external/AgentClinic/             # vendored AgentClinic simulation (not tracked in git listing above)
 logs/                             # run artifacts (results, trajectories, embedded turns), per run_id
 notebook/data_diagnostic.ipynb   # exploratory analysis
@@ -156,6 +159,9 @@ python scripts/run_stage1_baseline.py model_backends=hf-generation \
 python scripts/run_embed_dataset.py model_backends=hf-generation \
   model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct \
   embedding=hf-embed embedding.model_name=sentence-transformers/all-MiniLM-L6-v2
+
+# train the critic from a relabeled dataset copied from this or another system
+python scripts/train_critic.py --input /path/to/stage1_relabeled_1234567890.npz
 ```
 
 ## Roadmap (from the proposal)
