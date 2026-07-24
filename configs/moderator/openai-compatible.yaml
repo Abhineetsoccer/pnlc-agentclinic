@@ -1,0 +1,8 @@
+separate: true
+name: "independent-moderator"
+backend_type: "openai_compatible"
+base_url: "???"
+api_key_env: "MODERATOR_API_KEY"
+model_name: "???"
+max_tokens: 10
+temperature: 0.0

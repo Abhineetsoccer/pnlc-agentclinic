@@ -1,0 +1,7 @@
+separate: true
+name: "independent-moderator"
+backend_type: "huggingface"
+model_name: "???"
+device: "cpu"
+max_tokens: 10
+temperature: 0.0

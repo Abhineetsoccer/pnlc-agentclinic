@@ -102,6 +102,7 @@ configs/
   model_backends/                # generation configs: qwen2.5-72b, hf-generation
   embedding/                     # embedding configs: qwen3-embed, hf-embed
   critic/                        # critic checkpoint and PNLC inference settings
+  moderator/                     # same-model or independent diagnosis evaluator
 src/pnlc_agentclinic/
   llm_backends/                  # OpenAICompatibleBackend, HuggingFaceBackend, factory.py
   embedding/                     # OpenAICompatibleEmbedder, HuggingFaceEmbedder, factory.py
@@ -159,6 +160,13 @@ python scripts/test_embedder.py embedding=hf-embed \
 python scripts/run_stage1_smoketest.py model_backends.base_url=https://your-qwen-endpoint/v1
 python scripts/run_stage1_baseline.py model_backends=hf-generation \
   model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct
+
+# baseline with a separate deterministic OpenAI-compatible evaluator
+python scripts/run_stage1_baseline.py \
+  model_backends.base_url=https://your-doctor-endpoint/v1 \
+  moderator=openai-compatible \
+  moderator.base_url=https://your-evaluator-endpoint/v1 \
+  moderator.model_name=your-evaluator-model
 
 # summarize + embed the most recent stage1 trajectory log (needs one generation + one embedding backend)
 python scripts/run_embed_dataset.py model_backends=hf-generation \

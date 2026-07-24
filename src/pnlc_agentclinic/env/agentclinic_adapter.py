@@ -52,16 +52,33 @@ def patched_query_model(
 
 
 _results_log = []
-_original_compare_results = None
 
 
 def patched_compare_results(diagnosis, correct_diagnosis, moderator_llm, mod_pipe):
-    answer = _original_compare_results(diagnosis, correct_diagnosis, moderator_llm, mod_pipe)
+    raw_answer = patched_query_model(
+        moderator_llm,
+        "REFERENCE DIAGNOSIS:\n"
+        f"{correct_diagnosis}\n\n"
+        "DOCTOR DIAGNOSIS:\n"
+        f"{diagnosis}\n\n"
+        "Does the doctor give the same diagnosis as the reference?",
+        (
+            "You are an independent clinical diagnosis evaluator. Mark Yes only when "
+            "the doctor's final diagnosis is the reference diagnosis or an established "
+            "medical synonym. Mark No for a broader disease family, an unspecified "
+            "lesion, a related mechanism, an incomplete syndrome, a differential with "
+            "multiple alternatives, or a different diagnosis. Ignore treatment and "
+            "explanatory text. Respond with exactly Yes or No."
+        ),
+    )
+    match = re.search(r"\b(yes|no)\b", raw_answer, flags=re.IGNORECASE)
+    answer = match.group(1).lower() if match else "invalid"
     _results_log.append({
         "scenario_index": len(_results_log),
         "doctor_diagnosis_text": diagnosis,
         "correct_diagnosis": correct_diagnosis,
-        "moderator_raw_answer": answer,
+        "moderator_raw_answer": raw_answer,
+        "moderator_normalized_answer": answer,
         "correct": answer == "yes",
     })
     return answer
@@ -247,11 +264,10 @@ def get_thought_action_compliance_rate():
 
 
 def install_patch():
-    global _original_compare_results, _original_doctor_reset, _original_doctor_system_prompt
+    global _original_doctor_reset, _original_doctor_system_prompt
     sys.path.insert(0, str(AGENTCLINIC_PATH))
     import agentclinic
     agentclinic.query_model = patched_query_model
-    _original_compare_results = agentclinic.compare_results
     agentclinic.compare_results = patched_compare_results
     _original_doctor_reset = agentclinic.DoctorAgent.reset
     agentclinic.DoctorAgent.reset = patched_doctor_reset

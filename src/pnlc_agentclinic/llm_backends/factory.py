@@ -15,6 +15,11 @@ def build_generation_backend(model_backends_cfg):
             base_url=model_backends_cfg.base_url,
             api_key=api_key,
             model_name=model_backends_cfg.model_name,
+            max_tokens=model_backends_cfg.get(
+                "max_tokens",
+                model_backends_cfg.get("default_max_tokens", 200),
+            ),
+            temperature=model_backends_cfg.get("temperature", 0.7),
         )
 
     if backend_type == "huggingface":

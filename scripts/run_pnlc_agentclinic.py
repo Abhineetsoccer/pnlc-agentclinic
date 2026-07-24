@@ -41,6 +41,13 @@ def main(cfg: DictConfig):
     model_name = cfg.model_backends.name
     generation_backend = build_generation_backend(cfg.model_backends)
     register_backend(model_name, generation_backend)
+    moderator_name = model_name
+    if cfg.moderator.separate:
+        moderator_name = cfg.moderator.name
+        register_backend(
+            moderator_name,
+            build_generation_backend(cfg.moderator),
+        )
 
     checkpoint_value = os.path.expanduser(str(cfg.critic.checkpoint))
     checkpoint_path = Path(hydra.utils.to_absolute_path(checkpoint_value))
@@ -70,6 +77,7 @@ def main(cfg: DictConfig):
 
     print(f"Loaded critic: {checkpoint_path}")
     print(f"Critic device: {critic_device}")
+    print(f"Moderator backend: {moderator_name}")
     print(
         "PNLC loop: "
         f"{cfg.critic.positive_goals} positive + "
@@ -88,7 +96,7 @@ def main(cfg: DictConfig):
         doctor_llm=model_name,
         patient_llm=model_name,
         measurement_llm=model_name,
-        moderator_llm=model_name,
+        moderator_llm=moderator_name,
         num_scenarios=int(cfg.critic.num_scenarios),
         dataset="MedQA",
         img_request=False,

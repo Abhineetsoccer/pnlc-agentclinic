@@ -1,5 +1,7 @@
 from pnlc_agentclinic.env.agentclinic_adapter import (
     get_trajectory_log,
+    get_results_log,
+    patched_compare_results,
     patched_inference_doctor,
     register_backend,
     register_doctor_planner,
@@ -17,6 +19,12 @@ class InitialResponseBackend:
             "THOUGHT: Ask about a discriminating symptom.\n"
             "ACTION: Is the weakness worse after activity?"
         )
+
+
+class PunctuatedJudgeBackend:
+    def generate(self, prompt, system_prompt=""):
+        assert "broader disease family" in system_prompt
+        return "Yes."
 
 
 class FakePlan:
@@ -114,3 +122,20 @@ def test_adapter_forces_marker_if_planner_fails_on_final_turn():
     assert record["forced_diagnosis_used"] is True
     assert "critic unavailable" in record["critic_error"]
     register_doctor_planner(None)
+
+
+def test_moderator_normalizes_a_clear_yes_or_no_response():
+    register_backend("independent-judge", PunctuatedJudgeBackend())
+
+    answer = patched_compare_results(
+        "DIAGNOSIS READY: Myasthenia gravis",
+        "Myasthenia gravis",
+        "independent-judge",
+        None,
+    )
+    record = get_results_log()[-1]
+
+    assert answer == "yes"
+    assert record["moderator_raw_answer"] == "Yes."
+    assert record["moderator_normalized_answer"] == "yes"
+    assert record["correct"] is True

@@ -15,6 +15,13 @@ from pnlc_agentclinic.llm_backends.factory import build_generation_backend
 def main(cfg: DictConfig):
     model_name = cfg.model_backends.name
     register_backend(model_name, build_generation_backend(cfg.model_backends))
+    moderator_name = model_name
+    if cfg.moderator.separate:
+        moderator_name = cfg.moderator.name
+        register_backend(
+            moderator_name,
+            build_generation_backend(cfg.moderator),
+        )
 
     agentclinic = install_patch()
     os.chdir(AGENTCLINIC_PATH)
@@ -28,7 +35,7 @@ def main(cfg: DictConfig):
         doctor_llm=model_name,
         patient_llm=model_name,
         measurement_llm=model_name,
-        moderator_llm=model_name,
+        moderator_llm=moderator_name,
         num_scenarios=2,
         dataset="MedQA",
         img_request=False,

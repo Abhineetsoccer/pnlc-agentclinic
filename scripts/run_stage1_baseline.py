@@ -23,6 +23,13 @@ NUM_SCENARIOS = 30
 def main(cfg: DictConfig):
     model_name = cfg.model_backends.name
     register_backend(model_name, build_generation_backend(cfg.model_backends))
+    moderator_name = model_name
+    if cfg.moderator.separate:
+        moderator_name = cfg.moderator.name
+        register_backend(
+            moderator_name,
+            build_generation_backend(cfg.moderator),
+        )
 
     REPO_ROOT = AGENTCLINIC_PATH.parent.parent
     LOGS_DIR = REPO_ROOT / "logs"
@@ -43,7 +50,7 @@ def main(cfg: DictConfig):
         doctor_llm=model_name,
         patient_llm=model_name,
         measurement_llm=model_name,
-        moderator_llm=model_name,
+        moderator_llm=moderator_name,
         num_scenarios=NUM_SCENARIOS,
         dataset="MedQA",
         img_request=False,
@@ -58,6 +65,7 @@ def main(cfg: DictConfig):
     save_trajectory_log(str(trajectories_path))
 
     num_correct = sum(r["correct"] for r in results)
+    print(f"\nModerator backend: {moderator_name}")
     if results:
         print(f"\n{num_correct}/{len(results)} correct ({100 * num_correct / len(results):.1f}%)")
     else:
