@@ -1,221 +1,261 @@
-# pnlc-agentclinic
+# Do Trained Critics Correct or Inherit Generator Failures?
 
-Testbed for **"Do Trained Critics Correct or Inherit Generator Failures?"** — a study of whether
-PNLC's trained natural-language critic corrects or inherits the imagination failures of its
-generator LLM in knowledge-heavy, multi-turn domains, and where retrieval grounding must sit to fix
-it if it doesn't. Primary domain: clinical diagnosis via [AgentClinic](https://arxiv.org/abs/2405.07960)
-(MedQA). Second domain (planned): interactive legal consultation via
-[LeCoDe](https://arxiv.org/abs/2505.19667).
+### Retrieval-grounded natural-language critics for knowledge-heavy agents
 
-> This README is a living document — update it as stages complete, domains get added, or the plan
-> changes. Don't let it drift from what's actually implemented.
+This repository contains the experimental testbed for studying a structural weakness in
+critic-assisted language agents: a critic can only evaluate the futures that its generator is able
+to imagine. When those futures contain the same missing knowledge, false assumptions, or
+hallucinated evidence as the acting model, critic feedback may reinforce the error instead of
+correcting it.
 
-## Research context
+The first study uses multi-turn clinical diagnosis in
+[AgentClinic](https://arxiv.org/abs/2405.07960). The planning loop follows the natural-language
+critic formulation introduced by [PNLC](https://arxiv.org/abs/2505.18098), with a
+goal-conditioned IQL critic trained from relabelled dialogue trajectories.
 
-A generator LLM proposes an initial thought and imagines positive and negative future outcomes; a
-trained evaluator (here, an IQL value function over natural-language thoughts, per
-[PNLC](https://arxiv.org/abs/2505.18098)) scores those futures. The scores become natural-language
-feedback that the generator uses to refine its thought before acting. The evaluator only ever sees
-futures the generator imagines. The central question:
+> **Status:** preliminary Stage 1 results. The baseline and ungrounded PNLC conditions have been
+> run on 30 AgentClinic MedQA scenarios. Retrieval and oracle interventions have not yet been run,
+> so the current results identify candidate failure mechanisms rather than demonstrating that
+> retrieval fixes them.
 
-> When the generator's imagination fails in a knowledge-heavy domain, does the trained critic
-> **correct** the failure, or **inherit** it? And if it inherits it, where must external
-> (retrieval) grounding sit to restore the promise?
+## Abstract
+
+Language-model agents increasingly use generated future outcomes as an interface between planning
+and learned value functions. This works only if the generated futures preserve the facts needed to
+evaluate the action. We investigate what happens when that assumption fails in knowledge-heavy
+interactive environments.
+
+Our central hypothesis is that an ungrounded natural-language critic can inherit the generator's
+knowledge failures because its value model scores descriptions rather than independently verifying
+their factual content. We test this in clinical diagnosis by comparing an unaided doctor agent with
+an IQL-critic-assisted PNLC agent, then inspecting paired trajectories to locate the first decisive
+error. Planned interventions replay those states with retrieved or oracle evidence to determine
+whether the failure comes from imagination, retrieval, evidence use, or downstream reasoning.
+
+## Research questions
+
+| Question | Experimental target |
+|---|---|
+| **RQ1 — Does an ungrounded critic help?** | Compare diagnosis accuracy and paired scenario transitions between the baseline doctor and PNLC. |
+| **RQ2 — What does the critic inherit?** | Separate missing medical knowledge from elicitation, reasoning, interaction-loop, and evaluation failures. |
+| **RQ3 — Where should retrieval enter?** | Ground the doctor, future generator, refinement stage, or both while holding the saved decision state fixed. |
+| **RQ4 — Does the mechanism generalise?** | Repeat the causal intervention across generator models and a non-medical knowledge-heavy domain. |
+
+## Method
+
+The doctor first proposes a private reasoning step. The same generator imagines productive and
+harmful future states. A goal-conditioned IQL critic estimates how reachable each future is from the
+current state and proposed thought. Those values are translated back into natural-language feedback
+for one refinement round before the doctor acts.
 
 ```mermaid
 flowchart LR
-    subgraph Generator["Generator LLM (doctor agent)"]
-        T["Initial thought"] --> F["Positive + negative\nimagined futures"]
-    end
-    F -->|"H-K: knowledge gap\nH-E: elicitation gap"| C1["Trained critic\nscores each future"]
-    C1 --> V["Natural-language value"] --> A["Refined thought\nand action"]
-    F -.grounded (planned).-> R["Retrieval-grounded\nfuture generation"] -.-> C2["Trained critic"]
-    C1 --> O1["Possible critic blindness"]
-    C2 --> O2["Possible inheritance /\nor clean grounding win"]
+    S["Dialogue state"] --> T["Initial clinical thought"]
+    T --> G["Generate positive and negative futures"]
+    S --> C["Goal-conditioned IQL critic"]
+    T --> C
+    G --> C
+    C --> V["Natural-language value feedback"]
+    V --> R["Refined thought"]
+    R --> A["Question, test, or final diagnosis"]
+    K["Retrieved or oracle evidence\n(planned intervention)"] -.-> G
+    K -.-> R
 ```
 
-Full design (mechanism taxonomy, matched-futures diagnostic, domain-selection rationale, timeline)
-lives in the proposal doc shared with this repo — treat that as the source of truth for *why*;
-this README tracks *what's built*.
+The failure of interest is not simply an incorrect diagnosis. It is the more specific sequence:
 
-## Status
+1. A required fact is absent, contradicted, or invented in an imagined future.
+2. The critic assigns value without detecting that factual defect.
+3. Refinement preserves or amplifies the mistaken belief.
+4. Supplying the missing evidence at the same decision state changes the preferred thought or
+   action.
 
-| Stage | What it needs | Status |
-|---|---|---|
-| PNLC reimplementation on AgentClinic (Stage 1 / RQ1) | Faithful port, doctor/patient/critic loop, plausibility rubric | Baseline and PNLC inference harnesses built (`scripts/run_stage1_baseline.py`, `scripts/run_pnlc_agentclinic.py`). PNLC generates two positive and two negative futures, scores them with the critic, and performs one thought-refinement round before acting. Not yet experimentally validated against original-domain numbers |
-| Multi-backend model plumbing | Swap generation/embedding models without code changes | Done — see [Backend architecture](#backend-architecture) |
-| State summarization | Summarize dialogue state for the critic loop | `StateSummarizer` implemented (`summarization/summarizer.py`), used to build embeddable state summaries in `scripts/run_embed_dataset.py` |
-| Trajectory embedding pipeline | Turn logged trajectories into (state, thought) embeddings for later retrieval/critic work | `scripts/run_embed_dataset.py` built on top of `data/schema.py`'s `TrajectoryField` schema; embedding backend validated locally via HF |
-| HER relabeling for goal-conditioned IQL | Turn embedded trajectories into `(s, thought, s', g, r)` tuples for value-function training | `value_learning/her_relabel.py` + `scripts/run_relabel_dataset.py`; goal set is `t' >= t` (inclusive of current state) per HER's actual definition, `r(s,g) = 1[goal_idx == i]`, no `done` mask needed since dialogue state (`agent_hist`) only ever grows within a trajectory |
-| Goal-conditioned IQL critic training | Train `Q(state, thought, goal)` and `V(state, goal)` from relabeled tuples | Training entrypoint implemented in `scripts/train_critic.py`; checkpoint loading and thought/future scoring live in `value_learning/iql_critic.py`; integrated into the PNLC doctor loop but not yet experimentally validated |
-| Six-way failure taxonomy (Stage 2 / RQ2) | Static-probe instrument, H-K/H-E split | Not started |
-| Retrieval grounding + placement control (Stage 3 / RQ3) | Grounded PNLC arm, frozen/retrained critic | Not started |
-| Decision-rule fit (Stage 4 / RQ4) | Specificity analysis, held-out validation | Not started |
-| Legal domain (LeCoDe/MILE) | Second-domain replication | Not started — pending week-12 pilot gate |
+The fourth step is the causal test and remains future work.
 
-No result numbers are reported here yet — `logs/` holds raw run artifacts from harness
-smoke-testing, not validated experimental results.
+## Experimental setting
 
-## Backend architecture
+| Component | Stage 1 setting |
+|---|---|
+| Environment | AgentClinic, first 30 MedQA clinical scenarios |
+| Interaction budget | Up to 20 doctor turns per scenario |
+| Baseline | Doctor agent without critic refinement |
+| PNLC condition | Two positive and two negative futures, one refinement round |
+| Critic | Goal-conditioned IQL value model over state, thought, and future embeddings |
+| Outcome | Final-diagnosis equivalence judged by the configured model-based moderator |
+| Analysis | Paired by scenario index; full trajectories retained for mechanism review |
 
-Every model is selected and configured entirely through [Hydra](https://hydra.cc) — no endpoint,
-key, or model name is hardcoded in Python. Generation and embedding models live in **two
-independent hydra config groups** (`model_backends` and `embedding`), since a script like
-`run_embed_dataset.py` needs one of each at the same time — they can't share a single group. Each
-config picks a `backend_type`, and a factory dispatches to the matching backend class:
+The baseline and PNLC runs use the same ordered scenarios, but the conversations are stochastic.
+Consequently, a paired transition identifies a case for review; it does not alone prove that the
+critic caused the change.
 
-```mermaid
-flowchart TD
-    CLI["hydra CLI overrides\nmodel_backends=... embedding=..."] --> Cfg1["configs/model_backends/*.yaml\n(generation)"]
-    CLI --> Cfg2["configs/embedding/*.yaml\n(embedding)"]
-    Cfg1 --> F1["llm_backends/factory.py\nbuild_generation_backend(cfg.model_backends)"]
-    Cfg2 --> F2["embedding/factory.py\nbuild_embedder(cfg.embedding)"]
-    F1 -->|backend_type: openai_compatible| OAI["OpenAICompatibleBackend\n(remote HTTP, base_url + api_key)"]
-    F1 -->|backend_type: huggingface| HF1["HuggingFaceBackend\n(local transformers, HF_HOME cache)"]
-    F2 -->|backend_type: openai_compatible| OAIE["OpenAICompatibleEmbedder"]
-    F2 -->|backend_type: huggingface| HF2["HuggingFaceEmbedder\n(local sentence-transformers)"]
-    OAI --> Adapter["env/agentclinic_adapter.py\nregister_backend(name, backend)"]
-    HF1 --> Adapter
-    Adapter --> Sim["AgentClinic simulation loop\n(doctor / patient / moderator)"]
-    OAIE --> Embed["scripts/run_embed_dataset.py"]
-    HF2 --> Embed
-```
+## Preliminary results
 
-| Config | Group | backend_type | Runs where | Requires |
-|---|---|---|---|---|
-| `qwen2.5-72b.yaml` | `model_backends` | `openai_compatible` | Remote endpoint | `model_backends.base_url=...` (CLI), `QWEN_API_KEY` env var |
-| `hf-generation.yaml` | `model_backends` | `huggingface` | Local (CPU/GPU) | `model_backends.model_name=...` (CLI, HF repo id) |
-| `qwen3-embed.yaml` | `embedding` | `openai_compatible` | Remote endpoint | `embedding.base_url=...` (CLI), `QWEN_API_KEY` env var |
-| `hf-embed.yaml` | `embedding` | `huggingface` | Local (CPU/GPU) | `embedding.model_name=...` (CLI, HF repo id) |
+![Preliminary baseline and PNLC performance](docs/figures/preliminary_performance.png)
 
-Both `base_url` (OpenAI-compatible configs) and `model_name` (HF configs) are marked `"???"` in
-their yaml files — Hydra's mandatory-value marker. Omitting the CLI override raises
-`MissingMandatoryValue` instead of silently running with an empty/wrong value — but only for
-whichever group a script actually reads, so e.g. `test_embedder.py` never touches the (mandatory
-but irrelevant) `model_backends.base_url`.
+The baseline solves 16 of 30 scenarios (53.3%) and ungrounded PNLC solves 19 of 30 (63.3%). PNLC
+rescues five baseline failures and fails on two scenarios that the baseline solves, for a net change
+of three cases.
 
-## Repo layout
+| Paired outcome | Scenarios | Share |
+|---|---:|---:|
+| Both correct | 14 | 46.7% |
+| PNLC rescue | 5 | 16.7% |
+| PNLC harm | 2 | 6.7% |
+| Both wrong | 9 | 30.0% |
 
-```
-configs/
-  config.yaml                    # top-level hydra config
-  model_backends/                # generation configs: qwen2.5-72b, hf-generation
-  embedding/                     # embedding configs: qwen3-embed, hf-embed
-  critic/                        # critic checkpoint and PNLC inference settings
-  moderator/                     # same-model or independent diagnosis evaluator
-src/pnlc_agentclinic/
-  llm_backends/                  # OpenAICompatibleBackend, HuggingFaceBackend, factory.py
-  embedding/                     # OpenAICompatibleEmbedder, HuggingFaceEmbedder, factory.py
-  env/agentclinic_adapter.py     # patches AgentClinic's query_model / doctor loop, logs trajectories
-  summarization/summarizer.py    # StateSummarizer: summarizes dialogue state for the critic loop
-  data/schema.py                 # TrajectoryField: canonical field names for logged trajectory turns
-  planning/pnlc_planner.py       # imagine goals, score them, refine thought, produce action
-  value_learning/her_relabel.py  # HER goal relabeling: embedded turns -> (s, thought, s', g, r) tuples
-  value_learning/iql_critic.py   # Goal-conditioned Q/V networks and checkpoint loader
-scripts/
-  run_stage1_baseline.py         # full Stage 1 run (30 scenarios), hydra entrypoint
-  run_stage1_smoketest.py        # 2-scenario smoke test, hydra entrypoint
-  test_hydra_backend.py          # sanity-check a generation backend in isolation
-  test_embedder.py               # sanity-check an embedding backend in isolation
-  run_embed_dataset.py           # summarize + embed logged trajectory turns -> jsonl
-  run_relabel_dataset.py         # HER-relabel embedded turns -> .npz tuples for IQL training
-  train_critic.py                # train and validate the goal-conditioned IQL critic
-  run_pnlc_agentclinic.py        # run critic-assisted AgentClinic consultations
-external/AgentClinic/             # vendored AgentClinic simulation (not tracked in git listing above)
-logs/                             # run artifacts (results, trajectories, embedded turns), per run_id
-notebook/data_diagnostic.ipynb   # exploratory analysis
-```
+This difference is not statistically persuasive at the current sample size: the seven discordant
+pairs give an exact two-sided McNemar test of approximately p = 0.45. More importantly, moderator
+errors have been identified during manual review, so these numbers should be treated as descriptive
+until the evaluation labels are adjudicated.
 
-## Setup
+![Paired outcome of each scenario](docs/figures/paired_scenario_outcomes.png)
+
+## Evidence of the proposed weakness
+
+Trajectory inspection shows that the aggregate improvement hides several cases where generated
+futures contradict the observed record or introduce unsupported findings.
+
+| Scenario | Logged behaviour | Candidate mechanism |
+|---:|---|---|
+| 5 | MRI reports no meniscal tear, but an imagined harmful future warns that a tear was missed; refinement ends with a meniscal-tear diagnosis. | Counterfactual future contradicts observed evidence. |
+| 8 | The doctor initially identifies a phyllodes tumour after the characteristic biopsy result, but the loop delays commitment and later treats the same finding as fibroadenoma. | Correct hypothesis lost because futures inherit incorrect medical interpretation. |
+| 9 | The episiotomy is reported as healing without redness or discharge, while generated futures assume inflammation and culture confirmation; PNLC changes a baseline-correct endometritis case into episiotomy infection. | Unsupported future findings produce critic-associated harm. |
+| 27 | The returned MRI is normal, while imagined futures state that MRI confirmed rotator-cuff tendinitis or bursitis. | Hallucinated test interpretation reinforces the wrong diagnosis. |
+| 28 | The agent focuses on polydipsia and the intermediate hyponatraemia finding without recovering the intended underlying cause. | Failure to connect laboratory evidence, risk factors, and causal diagnosis. |
+| 29 | The loop anchors on a camping history and imagines confirmation of a tick-borne disease while neglecting the discriminative joint, skin, and sexual-history evidence. | A plausible distractor dominates future generation. |
+
+These trajectories support the limited claim that **ungrounded PNLC futures can preserve factual
+errors and can fail to correct—or occasionally worsen—the doctor's decision**. They do not yet
+support the stronger claim that retrieval grounding resolves the problem.
+
+Other failures have different explanations and are kept separate:
+
+- Scenario 10 is primarily an interaction-loop failure: PNLC repeatedly restarts the same physical
+  examination.
+- Scenario 15 ends with an underspecified cyst diagnosis rather than a clearly different disease.
+- Scenario 16 gives an essentially correct C. difficile diagnosis that the moderator marks
+  incorrect.
+- Manual review also found questionable positive moderator decisions in scenarios 3 and 14.
+
+## Planned causal evaluation
+
+The next experiment starts from saved decision states rather than rerunning an entire stochastic
+consultation.
+
+| Arm | Doctor evidence | Future/refinement evidence | Purpose |
+|---|---|---|---|
+| Baseline replay | None | No critic | Preserve the original decision point. |
+| Ungrounded PNLC | None | None | Reproduce the candidate failure. |
+| Doctor-only retrieval | Retrieved | None | Test whether correcting the actor is sufficient. |
+| Critic-loop retrieval | None | Retrieved | Test whether grounded futures can correct an ungrounded actor. |
+| Fully grounded | Retrieved | Retrieved | Measure the combined intervention. |
+| Oracle evidence | None | Curated relevant fact | Establish whether the failure is knowledge-correctable at all. |
+
+The oracle supplies the relevant medical fact, not the answer label. The primary cases for this
+replay are scenarios **5, 8, 9, 27, 28, and 29**.
+
+After the fixed-state experiment, the full evaluation will:
+
+1. adjudicate all moderator labels with blinded human review;
+2. repeat each condition across multiple stochastic runs;
+3. report paired confidence intervals and error-category agreement;
+4. evaluate at least two doctor models;
+5. replicate the mechanism in a non-medical domain.
+
+The current leading second-domain candidate is **IT incident diagnosis/SRE**, where the hidden state
+is a system fault, actions inspect logs or run tests, retrieval comes from runbooks and technical
+documentation, and success can be measured by root-cause identification and service recovery.
+
+## Reproducing the study
+
+### Environment
 
 ```bash
-pip install -e .
-export QWEN_API_KEY=...      # only needed for openai_compatible backends
-export HF_HOME=/path/to/cache  # only needed for huggingface backends, controls where weights land
+conda activate pnlc
+pip install -e ".[analysis]"
 ```
 
-## Usage
+Generation and embedding backends are independent Hydra configuration groups. OpenAI-compatible
+endpoints and local Hugging Face models can therefore be mixed without changing the experimental
+code.
 
-Every script is a Hydra entrypoint. Generation backends are picked via `model_backends=<name>`;
-embedding backends via the separate `embedding=<name>` group. Fill in whatever each config marks
-mandatory:
+### 1. Run the baseline
 
 ```bash
-# remote Qwen backend (default group), generation smoke test
-python scripts/test_hydra_backend.py model_backends.base_url=https://your-qwen-endpoint/v1
-
-# remote Qwen embedding backend
-python scripts/test_embedder.py embedding=qwen3-embed \
-  embedding.base_url=https://your-qwen-endpoint/v1
-
-# local HF generation backend
-python scripts/test_hydra_backend.py model_backends=hf-generation \
-  model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct model_backends.device=cpu
-
-# local HF embedding backend
-python scripts/test_embedder.py embedding=hf-embed \
-  embedding.model_name=sentence-transformers/all-MiniLM-L6-v2
-
-# Stage 1 AgentClinic smoke test / full baseline run, any generation backend from above
-python scripts/run_stage1_smoketest.py model_backends.base_url=https://your-qwen-endpoint/v1
-python scripts/run_stage1_baseline.py model_backends=hf-generation \
-  model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct
-
-# baseline with a separate deterministic OpenAI-compatible evaluator
 python scripts/run_stage1_baseline.py \
   model_backends.base_url=https://your-doctor-endpoint/v1 \
   moderator=openai-compatible \
   moderator.base_url=https://your-evaluator-endpoint/v1 \
   moderator.model_name=your-evaluator-model
+```
 
-# summarize + embed the most recent stage1 trajectory log (needs one generation + one embedding backend)
-python scripts/run_embed_dataset.py model_backends=hf-generation \
-  model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct \
-  embedding=hf-embed embedding.model_name=sentence-transformers/all-MiniLM-L6-v2
+### 2. Build the critic dataset and train
 
-# train the critic from a relabeled dataset copied from this or another system
-python scripts/train_critic.py --input /path/to/stage1_relabeled_1234567890.npz
-
-# critic-assisted smoke run with local models; the embedding model must match training
-python scripts/run_pnlc_agentclinic.py \
-  critic.checkpoint=/path/to/iql_critic.pt critic.device=cpu \
-  critic.num_scenarios=2 \
+```bash
+python scripts/run_embed_dataset.py \
   model_backends=hf-generation \
   model_backends.model_name=Qwen/Qwen2.5-0.5B-Instruct \
   embedding=hf-embed \
   embedding.model_name=sentence-transformers/all-MiniLM-L6-v2
+
+python scripts/run_relabel_dataset.py
+python scripts/train_critic.py --input /path/to/stage1_relabeled_RUN_ID.npz
 ```
 
-The PNLC loop usually makes seven extra LLM calls per doctor turn with the default settings: one
-state summary (except when the history is empty), four hypothetical goals, one thought refinement,
-and one action realization. It also embeds the state, thought, and goals. Planning details and
-fallback errors are stored in each PNLC trajectory turn. If planning fails, the environment safely
-executes the doctor's original action so a long evaluation run can continue. On the final available
-turn, refinement is constrained to commit to one diagnosis and the action generator must return
-`DIAGNOSIS READY: ...`; a missing marker triggers one diagnosis-only retry.
+The embedding model used at inference must match the model used to construct the critic-training
+dataset.
 
-## Roadmap (from the proposal)
+### 3. Run ungrounded PNLC
 
-```mermaid
-gantt
-    dateFormat  YYYY-MM-DD
-    axisFormat  %b %d
-    title Weeks 1-30 (from proposal v3, July 2026)
-    section Reimplementation
-    PNLC reimpl + AgentClinic trajectories     :a1, 2026-07-14, 28d
-    section Stage 1-2
-    Stage 1 complete / workshop submission     :a2, after a1, 28d
-    Stage 2 taxonomy rating                     :a3, after a2, 14d
-    section Legal pilot
-    LeCoDe vs MILE reward bake-off, go/no-go   :a4, after a3, 14d
-    section Stage 3
-    Full arms, both domains                     :a5, after a4, 42d
-    section Stage 4
-    Ablations + decision-rule fit               :a6, after a5, 28d
-    section Writeup
-    Analysis + ICML 2027 writing                 :a7, after a6, 42d
+```bash
+python scripts/run_pnlc_agentclinic.py \
+  critic.checkpoint=/path/to/iql_critic.pt \
+  critic.num_scenarios=30 \
+  model_backends.base_url=https://your-doctor-endpoint/v1 \
+  embedding=hf-embed \
+  embedding.model_name=sentence-transformers/all-MiniLM-L6-v2 \
+  moderator=openai-compatible \
+  moderator.base_url=https://your-evaluator-endpoint/v1 \
+  moderator.model_name=your-evaluator-model
 ```
 
-Dates are schedule anchors from the proposal, not commitments — re-derive from calendar as weeks
-actually pass. Full rationale for domain selection, risk mitigations, and the matched-futures
-diagnostic design lives in the proposal document, not duplicated here.
+### 4. Analyse paired trajectories
+
+Open `notebook/data_diagnostic.ipynb`, select the intended baseline and PNLC result files in the
+“Paired baseline–PNLC outcome analysis” section, and run the remaining cells. The notebook generates
+the paired tables, failure-review queue, scenario inspection helper, and the figures embedded above.
+
+## Research artifacts
+
+| Artifact | Role in the study |
+|---|---|
+| `logs/stage1_baseline_*.json` | Final baseline diagnoses and moderator decisions |
+| `logs/stage1_trajectories_*.json` | Baseline turn-level reasoning and actions |
+| `logs/stage1_pnlc_results_*.json` | Final critic-assisted diagnoses and decisions |
+| `logs/stage1_pnlc_trajectories_*.json` | Generated futures, critic scores, refinements, and actions |
+| `notebook/data_diagnostic.ipynb` | Paired quantitative analysis and qualitative review |
+| `docs/figures/` | Figures generated from the selected result logs |
+
+## Current limitations
+
+- The reported sample contains only 30 scenarios and one run per condition.
+- Scenario IDs are paired, but the underlying conversations are stochastic rather than transcript
+  controlled.
+- The moderator is not yet a reliable gold-standard evaluator.
+- Critic outputs are used as relative value signals; their probability calibration has not been
+  established.
+- The current critic and generator operate without retrieved evidence.
+- The present evidence comes from one clinical benchmark and cannot yet support a cross-domain
+  claim.
+
+## References
+
+- Schmidgall et al. [AgentClinic: a multimodal agent benchmark to evaluate AI in simulated clinical
+  environments](https://arxiv.org/abs/2405.07960), 2024.
+- Hong, Dragan, and Levine. [Planning without Search: Refining Frontier LLMs with Offline
+  Goal-Conditioned RL](https://arxiv.org/abs/2505.18098), NeurIPS 2025.
+
+## Licence
+
+The project code is released under the licence in [LICENSE](LICENSE). The vendored AgentClinic
+benchmark retains its original licence and attribution.

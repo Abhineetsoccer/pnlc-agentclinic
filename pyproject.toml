@@ -24,6 +24,11 @@ dependencies = [
 dev = [
     "pytest>=7.0",
 ]
+analysis = [
+    "jupyterlab>=4.0",
+    "matplotlib>=3.7",
+    "pandas>=2.0",
+]
 
 # src-layout: code lives in src/pnlc_agentclinic/, not at the repo root
 [tool.setuptools.packages.find]
