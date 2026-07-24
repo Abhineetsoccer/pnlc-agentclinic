@@ -1,0 +1,18 @@
+[
+  {
+    "scenario_index": 0,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Myasthenia Gravis",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 1,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Progressive Multifocal Leukoencephalopathy (PML)",
+    "correct_diagnosis": "Progressive multifocal encephalopathy (PML)",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  }
+]
