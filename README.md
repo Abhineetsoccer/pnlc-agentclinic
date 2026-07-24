@@ -182,7 +182,9 @@ The PNLC loop usually makes seven extra LLM calls per doctor turn with the defau
 state summary (except when the history is empty), four hypothetical goals, one thought refinement,
 and one action realization. It also embeds the state, thought, and goals. Planning details and
 fallback errors are stored in each PNLC trajectory turn. If planning fails, the environment safely
-executes the doctor's original action so a long evaluation run can continue.
+executes the doctor's original action so a long evaluation run can continue. On the final available
+turn, refinement is constrained to commit to one diagnosis and the action generator must return
+`DIAGNOSIS READY: ...`; a missing marker triggers one diagnosis-only retry.
 
 ## Roadmap (from the proposal)
 

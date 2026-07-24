@@ -8,6 +8,7 @@ class FakeBackend:
     def __init__(self):
         self.positive_count = 0
         self.negative_count = 0
+        self.action_count = 0
 
     def generate(self, prompt, system_prompt=""):
         if "harmful or unproductive future" in prompt:
@@ -19,6 +20,9 @@ class FakeBackend:
         if "critic trained on prior clinical trajectories" in prompt:
             return "THOUGHT: Ask a focused discriminating question before diagnosing."
         if "produce the doctor's next environment action" in prompt:
+            self.action_count += 1
+            if "previous response did not contain" in prompt:
+                return "ACTION: DIAGNOSIS READY: Myasthenia gravis"
             return "ACTION: Can you tell me when the weakness is worst?"
         raise AssertionError(f"Unexpected prompt: {prompt}")
 
@@ -79,6 +83,23 @@ def test_planner_refines_thought_and_generates_action():
         "negative",
     ]
     assert result.rounds[0].assessments[0].raw_score == pytest.approx(0.8)
+
+
+def test_final_turn_retries_until_the_diagnosis_marker_is_present():
+    planner = build_planner()
+    result = planner.plan(
+        dialogue_state="history",
+        incoming_message="This is the final question. Please provide a diagnosis.",
+        initial_thought="Commit to the most likely neuromuscular diagnosis.",
+        initial_action="DIAGNOSIS READY: Myasthenia gravis",
+        doctor_system_prompt="You are a doctor.",
+        must_diagnose=True,
+    )
+
+    assert result.action == "DIAGNOSIS READY: Myasthenia gravis"
+    assert result.must_diagnose is True
+    assert result.diagnosis_retry_used is True
+    assert planner.generation_backend.action_count == 2
 
 
 def test_planner_rejects_an_incompatible_embedder():

@@ -30,6 +30,8 @@ class RefinementRound:
 class PlanningResult:
     state_summary: str
     clinical_objective: str
+    must_diagnose: bool
+    diagnosis_retry_used: bool
     initial_thought: str
     initial_action: str
     refined_thought: str
@@ -69,6 +71,20 @@ def _parse_action(text: str) -> str:
     if re.search(r"(?:^|\n)\s*THOUGHT\s*:", text, flags=re.IGNORECASE):
         return ""
     return text.strip()
+
+
+def _normalize_diagnosis_marker(action: str) -> str:
+    match = re.search(
+        r"DIAGNOSIS\s+READY\s*:\s*(.+)",
+        action,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if not match:
+        return ""
+    diagnosis = match.group(1).strip()
+    if not diagnosis:
+        return ""
+    return f"DIAGNOSIS READY: {diagnosis}"
 
 
 class NaturalLanguageCriticPlanner:
@@ -243,7 +259,22 @@ class NaturalLanguageCriticPlanner:
         thought: str,
         assessments: list[GoalAssessment],
         clinical_objective: str,
+        must_diagnose: bool,
     ) -> str:
+        if must_diagnose:
+            decision_instruction = (
+                "This is the final doctor turn. The refined thought must commit to "
+                "one most likely diagnosis using the evidence already available. Do "
+                "not propose another question, examination, or test."
+            )
+        else:
+            decision_instruction = (
+                "Decide whether the current thought is still the best next strategy. "
+                "If not, diagnose the likely failure and replace it with a better "
+                "clinical reasoning strategy that mitigates that failure. Preserve "
+                "the current thought if the feedback does not justify a change."
+            )
+
         prompt = (
             f"{CLINICAL_CONTEXT}\n\n"
             "Doctor's clinical objective:\n"
@@ -257,10 +288,7 @@ class NaturalLanguageCriticPlanner:
             "A critic trained on prior clinical trajectories assessed possible "
             "outcomes of this thought:\n"
             f"{self._natural_language_value(assessments)}\n\n"
-            "Decide whether the current thought is still the best next strategy. If "
-            "not, diagnose the likely failure and replace it with a better clinical "
-            "reasoning strategy that mitigates that failure. Preserve the current "
-            "thought if the feedback does not justify a change.\n"
+            f"{decision_instruction}\n"
             "Return exactly one concise private reasoning step in this format:\n"
             "THOUGHT: <refined clinical reasoning>"
         )
@@ -277,8 +305,9 @@ class NaturalLanguageCriticPlanner:
         thought: str,
         doctor_system_prompt: str,
         clinical_objective: str,
-    ) -> str:
-        prompt = (
+        must_diagnose: bool,
+    ) -> tuple[str, bool]:
+        context = (
             "Use the following private clinical reasoning to produce the doctor's "
             "next environment action. Do not reveal or discuss the private reasoning.\n\n"
             "Doctor's clinical objective:\n"
@@ -289,19 +318,56 @@ class NaturalLanguageCriticPlanner:
             f"{incoming_message or 'No new information.'}\n\n"
             "Private clinical reasoning:\n"
             f"{thought}\n\n"
-            "Return exactly one of the following, prefixed with ACTION:\n"
-            "ACTION: <a 1-3 sentence question or response to the patient>\n"
-            "ACTION: REQUEST TEST: [test]\n"
-            "ACTION: DIAGNOSIS READY: [diagnosis]"
         )
+        if must_diagnose:
+            action_instruction = (
+                "FINAL TURN: You must commit to exactly one most likely diagnosis. "
+                "Do not ask another question or request another test. Return exactly:\n"
+                "ACTION: DIAGNOSIS READY: <single most likely diagnosis>"
+            )
+        else:
+            action_instruction = (
+                "Return exactly one of the following, prefixed with ACTION:\n"
+                "ACTION: <a 1-3 sentence question or response to the patient>\n"
+                "ACTION: REQUEST TEST: [test]\n"
+                "ACTION: DIAGNOSIS READY: [diagnosis]"
+            )
+
         raw_action = self.generation_backend.generate(
-            prompt,
+            context + action_instruction,
             system_prompt=doctor_system_prompt,
         )
         action = _parse_action(raw_action)
         if not action:
             raise ValueError("The generator returned an empty action.")
-        return action
+        if not must_diagnose:
+            return action, False
+
+        normalized = _normalize_diagnosis_marker(action)
+        if normalized:
+            return normalized, False
+
+        retry_prompt = (
+            context
+            + "Your previous response did not contain the required final-diagnosis "
+            "marker. Do not provide reasoning, questions, tests, alternatives, or "
+            "explanation. Return exactly:\n"
+            "ACTION: DIAGNOSIS READY: <single most likely diagnosis>"
+        )
+        retry_raw = self.generation_backend.generate(
+            retry_prompt,
+            system_prompt=doctor_system_prompt,
+        )
+        retry_action = _parse_action(retry_raw)
+        normalized = _normalize_diagnosis_marker(retry_action)
+        if normalized:
+            return normalized, True
+        if not retry_action:
+            raise ValueError("The generator returned an empty final diagnosis.")
+
+        # The retry was diagnosis-only, so preserve its content while guaranteeing
+        # the exact marker AgentClinic uses to terminate and score a scenario.
+        return f"DIAGNOSIS READY: {retry_action}", True
 
     def plan(
         self,
@@ -311,6 +377,7 @@ class NaturalLanguageCriticPlanner:
         initial_action: str,
         doctor_system_prompt: str,
         clinical_objective: str = "",
+        must_diagnose: bool = False,
     ) -> PlanningResult:
         """Refine an initial thought once or more, then realize it as an action."""
         state_summary = self.summarizer.summarize(dialogue_state)
@@ -331,6 +398,7 @@ class NaturalLanguageCriticPlanner:
                 thought,
                 assessments,
                 clinical_objective,
+                must_diagnose,
             )
             rounds.append(
                 RefinementRound(
@@ -341,16 +409,19 @@ class NaturalLanguageCriticPlanner:
             )
             thought = refined_thought
 
-        action = self._generate_action(
+        action, diagnosis_retry_used = self._generate_action(
             state_summary,
             incoming_message,
             thought,
             doctor_system_prompt,
             clinical_objective,
+            must_diagnose,
         )
         return PlanningResult(
             state_summary=state_summary,
             clinical_objective=clinical_objective,
+            must_diagnose=must_diagnose,
+            diagnosis_retry_used=diagnosis_retry_used,
             initial_thought=initial_thought,
             initial_action=initial_action,
             refined_thought=thought,

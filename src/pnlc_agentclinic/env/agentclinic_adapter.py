@@ -108,6 +108,46 @@ def parse_thought_action(raw_text):
     return "", raw_text.strip(), False
 
 
+def normalize_diagnosis_action(action):
+    match = re.search(
+        r"DIAGNOSIS\s+READY\s*:\s*(.+)",
+        action,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if not match or not match.group(1).strip():
+        return None
+    return "DIAGNOSIS READY: " + match.group(1).strip()
+
+
+def force_final_diagnosis(self, question):
+    raw_answer = patched_query_model(
+        self.backend,
+        "\nHere is a history of your dialogue: " + self.agent_hist +
+        "\nHere was the latest patient response or test result: " + question +
+        "\nFINAL DIAGNOSIS REQUIRED. Use the evidence already available and commit "
+        "to one most likely diagnosis. Do not ask a question or request a test. "
+        "Return exactly:\n"
+        "THOUGHT: <brief private diagnostic reasoning>\n"
+        "ACTION: DIAGNOSIS READY: <single most likely diagnosis>",
+        self.system_prompt(),
+        scene=self.scenario,
+    )
+    forced_thought, forced_action, forced_parsed_ok = parse_thought_action(raw_answer)
+    candidate = forced_action if forced_parsed_ok else raw_answer.strip()
+    normalized = normalize_diagnosis_action(candidate)
+    if normalized is None:
+        candidate = re.sub(
+            r"^(?:ACTION\s*:|DIAGNOSIS\s*:)\s*",
+            "",
+            candidate,
+            flags=re.IGNORECASE,
+        ).strip()
+        if not candidate:
+            raise ValueError("The model returned an empty forced final diagnosis.")
+        normalized = "DIAGNOSIS READY: " + candidate
+    return forced_thought, normalized, raw_answer
+
+
 def patched_inference_doctor(self, question, image_requested=False):
     if self.infs >= self.MAX_INFS:
         return "Maximum inferences reached"
@@ -123,8 +163,11 @@ def patched_inference_doctor(self, question, image_requested=False):
         scene=self.scenario,
     )
     thought, action, parsed_ok = parse_thought_action(raw_answer)
+    must_diagnose = self.infs == self.MAX_INFS - 1
     critic_record = None
     critic_error = None
+    forced_diagnosis_used = False
+    forced_diagnosis_raw_output = None
     if _doctor_planner is not None and parsed_ok:
         try:
             plan = _doctor_planner.plan(
@@ -134,6 +177,7 @@ def patched_inference_doctor(self, question, image_requested=False):
                 initial_action=action,
                 doctor_system_prompt=self.system_prompt(),
                 clinical_objective=str(self.presentation),
+                must_diagnose=must_diagnose,
             )
             thought = plan.refined_thought
             action = plan.action
@@ -148,6 +192,18 @@ def patched_inference_doctor(self, question, image_requested=False):
         critic_error = (
             "Initial doctor response did not contain both THOUGHT and ACTION labels."
         )
+
+    if _doctor_planner is not None and must_diagnose:
+        normalized_diagnosis = normalize_diagnosis_action(action)
+        if normalized_diagnosis is not None:
+            action = normalized_diagnosis
+        else:
+            forced_thought, action, forced_diagnosis_raw_output = (
+                force_final_diagnosis(self, question)
+            )
+            if forced_thought:
+                thought = forced_thought
+            forced_diagnosis_used = True
 
     self.agent_hist += question + "\n\n" + action + "\n\n"
     self.infs += 1
@@ -167,6 +223,8 @@ def patched_inference_doctor(self, question, image_requested=False):
             "critic_used": critic_record is not None,
             "critic": critic_record,
             "critic_error": critic_error,
+            "forced_diagnosis_used": forced_diagnosis_used,
+            "forced_diagnosis_raw_output": forced_diagnosis_raw_output,
         })
     _trajectory_log.append(trajectory_record)
     return action
