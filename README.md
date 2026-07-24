@@ -183,6 +183,7 @@ code.
 
 ```bash
 python scripts/run_stage1_baseline.py \
+  num_scenarios=107 \
   model_backends.base_url=https://your-doctor-endpoint/v1 \
   moderator=openai-compatible \
   moderator.base_url=https://your-evaluator-endpoint/v1 \
@@ -210,7 +211,7 @@ dataset.
 ```bash
 python scripts/run_pnlc_agentclinic.py \
   critic.checkpoint=/path/to/iql_critic.pt \
-  critic.num_scenarios=30 \
+  num_scenarios=107 \
   model_backends.base_url=https://your-doctor-endpoint/v1 \
   embedding=hf-embed \
   embedding.model_name=sentence-transformers/all-MiniLM-L6-v2 \

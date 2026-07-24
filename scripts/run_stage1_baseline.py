@@ -16,11 +16,13 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
 )
 from pnlc_agentclinic.llm_backends.factory import build_generation_backend
 
-NUM_SCENARIOS = 30
-
 
 @hydra.main(config_path="../configs", config_name="config", version_base=None)
 def main(cfg: DictConfig):
+    num_scenarios = int(cfg.num_scenarios)
+    if num_scenarios < 1:
+        raise ValueError("num_scenarios must be at least 1.")
+
     model_name = cfg.model_backends.name
     register_backend(model_name, build_generation_backend(cfg.model_backends))
     moderator_name = model_name
@@ -51,7 +53,7 @@ def main(cfg: DictConfig):
         patient_llm=model_name,
         measurement_llm=model_name,
         moderator_llm=moderator_name,
-        num_scenarios=NUM_SCENARIOS,
+        num_scenarios=num_scenarios,
         dataset="MedQA",
         img_request=False,
         total_inferences=20,

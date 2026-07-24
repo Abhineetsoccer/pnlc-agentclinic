@@ -38,6 +38,10 @@ def resolve_device(name):
 
 @hydra.main(config_path="../configs", config_name="config", version_base=None)
 def main(cfg: DictConfig):
+    num_scenarios = int(cfg.num_scenarios)
+    if num_scenarios < 1:
+        raise ValueError("num_scenarios must be at least 1.")
+
     model_name = cfg.model_backends.name
     generation_backend = build_generation_backend(cfg.model_backends)
     register_backend(model_name, generation_backend)
@@ -97,7 +101,7 @@ def main(cfg: DictConfig):
         patient_llm=model_name,
         measurement_llm=model_name,
         moderator_llm=moderator_name,
-        num_scenarios=int(cfg.critic.num_scenarios),
+        num_scenarios=num_scenarios,
         dataset="MedQA",
         img_request=False,
         total_inferences=int(cfg.critic.total_inferences),

@@ -4,3 +4,5 @@ defaults:
   - critic: iql
   - moderator: same
   - _self_
+
+num_scenarios: ${critic.num_scenarios}
