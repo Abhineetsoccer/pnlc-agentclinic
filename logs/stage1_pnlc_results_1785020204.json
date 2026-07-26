@@ -1,0 +1,858 @@
+[
+  {
+    "scenario_index": 0,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Myasthenia Gravis",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 1,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Natalizumab-Associated Progressive Multifocal Leukoencephalopathy (PML)",
+    "correct_diagnosis": "Progressive multifocal encephalopathy (PML)",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 2,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Hirschsprung Disease",
+    "correct_diagnosis": "Hirschsprung disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 3,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Diffuse Large B-Cell Lymphoma (DLBCL)",
+    "correct_diagnosis": "Diffuse large B-cell lymphoma",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 4,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Drug-Induced Interstitial Nephritis",
+    "correct_diagnosis": "Acute interstitial nephritis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 5,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Patellar Tendinitis",
+    "correct_diagnosis": "Pes anserine bursitis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 6,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Vasovagal Syncope",
+    "correct_diagnosis": "Situational syncope",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 7,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: CHARGE Syndrome",
+    "correct_diagnosis": "Congenital Rubella Infection",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 8,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Fibroadenoma",
+    "correct_diagnosis": "Phyllodes tumor",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 9,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Postpartum Endometritis",
+    "correct_diagnosis": "Endometritis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 10,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Rectal Polyp",
+    "correct_diagnosis": "Hemorrhoids",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 11,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Temporal Lobe Epilepsy",
+    "correct_diagnosis": "Complex partial seizure",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 12,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Posterior Dislocation of the Right Hip",
+    "correct_diagnosis": "Posterior hip dislocation",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 13,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Hirschsprung\u2019s disease",
+    "correct_diagnosis": "Hirschsprung\u2019s disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 14,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Mallet Finger",
+    "correct_diagnosis": "Rupture of the flexor digitorum profundus tendon at its point of insertion",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 15,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Cyst (likely Sebaceous or Dermoid)",
+    "correct_diagnosis": "Epidermoid cyst",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 16,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Clostridioides difficile infection",
+    "correct_diagnosis": "C. difficile colitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 17,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Pyoderma Gangrenosum",
+    "correct_diagnosis": "Pyoderma gangrenosum",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 18,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Uterine Rupture",
+    "correct_diagnosis": "Uterine rupture",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 19,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Lumbar Disc Herniation (L5-S1)",
+    "correct_diagnosis": "Disc herniation",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 20,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: CMV Retinitis",
+    "correct_diagnosis": "Cytomegalovirus retinitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 21,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Reactive Arthritis",
+    "correct_diagnosis": "Reactive Arthritis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 22,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Malignant Melanoma",
+    "correct_diagnosis": "Malignant melanoma",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 23,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Irritable Bowel Syndrome (IBS)",
+    "correct_diagnosis": "Irritable Bowel Syndrome",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 24,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Ovarian Tumor with Ascites",
+    "correct_diagnosis": "Meigs syndrome",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 25,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Primary Biliary Cholangitis (PBC)",
+    "correct_diagnosis": "Primary sclerosing cholangitis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 26,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Interstitial Cystitis (Bladder Pain Syndrome)",
+    "correct_diagnosis": "Interstitial cystitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 27,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Rotator Cuff Tendonitis",
+    "correct_diagnosis": "Adhesive capsulitis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 28,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Syndrome of Inappropriate Antidiuretic Hormone Secretion (SIADH)",
+    "correct_diagnosis": "Lung cancer",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 29,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Disseminated Gonococcal Infection",
+    "correct_diagnosis": "Disseminated Gonococcal Infection",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 30,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Neonatal Respiratory Distress Syndrome (RDS)",
+    "correct_diagnosis": "Respiratory Distress Syndrome",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 31,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Lymphocytic Leukemia (CLL)",
+    "correct_diagnosis": "Chronic lymphocytic leukemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 32,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Drug-Induced Liver Injury (DILI)",
+    "correct_diagnosis": "Fulminant hepatic failure",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 33,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Coarctation of the Aorta",
+    "correct_diagnosis": "Coarctation of the aorta",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 34,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Viral Exanthem, likely Parvovirus B19 (Erythema Infectiosum)",
+    "correct_diagnosis": "Erythema Infectiosum",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 35,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Glanzmann Thrombasthenia",
+    "correct_diagnosis": "Glanzmann\u2019s Thrombasthenia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 36,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Osteochondroma",
+    "correct_diagnosis": "Osteoclastoma",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 37,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Multiple System Atrophy (MSA)",
+    "correct_diagnosis": "Multiple system atrophy",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 38,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Duodenal Atresia",
+    "correct_diagnosis": "Duodenal atresia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 39,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Essential Thrombocythemia",
+    "correct_diagnosis": "Essential thrombocythemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 40,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Nephrolithiasis (Kidney Stone)",
+    "correct_diagnosis": "Medullary Sponge Kidney",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 41,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Pelvic Floor Dysfunction with Psychosomatic Component",
+    "correct_diagnosis": "Genitopelvic pain disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 42,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Acute Hepatitis B",
+    "correct_diagnosis": "Active chronic hepatitis B infection",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 43,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Acute Mesenteric Ischemia",
+    "correct_diagnosis": "Acute Mesenteric Ischemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 44,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Obstructive Pulmonary Disease (COPD)",
+    "correct_diagnosis": "Asthma",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 45,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Febrile Seizure with Viral Exanthem",
+    "correct_diagnosis": "Roseola infantum",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 46,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Dyshidrotic Eczema",
+    "correct_diagnosis": "Eczematous dermatitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 47,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Early-stage osteoarthritis with intermittent gout flair-ups.",
+    "correct_diagnosis": "Osteoarthritis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 48,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Von Willebrand Disease or Hemophilia",
+    "correct_diagnosis": "Hemophilia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 49,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Drug-Induced Rash",
+    "correct_diagnosis": "Steven-Johnson syndrome",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 50,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Congenital Adrenal Hyperplasia (CAH)",
+    "correct_diagnosis": "Aromatase deficiency",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 51,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Congestive Heart Failure Secondary to Atrial Septal Defect",
+    "correct_diagnosis": "Atrial Septal Defect",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 52,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Cholangiocarcinoma",
+    "correct_diagnosis": "Pancreatic adenocarcinoma",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 53,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Paroxysmal Positional Vertigo (BPPV)",
+    "correct_diagnosis": "Benign Paroxysmal Positional Vertigo (BPPV)",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 54,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Schizophrenia",
+    "correct_diagnosis": "Schizotypal personality disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 55,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Bowen's Disease",
+    "correct_diagnosis": "Bowen's Disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 56,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Oppositional Defiant Disorder (ODD) with comorbid reading disorder.",
+    "correct_diagnosis": "Oppositional Defiant Disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 57,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Alcoholic Liver Disease with Chronic Bile Duct Involvement",
+    "correct_diagnosis": "Pancreatic adenocarcinoma",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 58,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Acute Stress Disorder",
+    "correct_diagnosis": "Lisdexamfetamine intoxication",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 59,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Urinary Tract Infection (UTI)",
+    "correct_diagnosis": "Pelvic inflammatory disease",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 60,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Temporomandibular Joint Disorder with Myofascial Pain",
+    "correct_diagnosis": "Glossopharyngeal Neuralgia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 61,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Vascular Ring, specifically Double Aortic Arch",
+    "correct_diagnosis": "Double aortic arch",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 62,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Molluscum Contagiosum",
+    "correct_diagnosis": "Molluscum contagiosum",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 63,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Major Depressive Disorder with Psychotic Features",
+    "correct_diagnosis": "Schizoaffective disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 64,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Idiopathic Urticaria",
+    "correct_diagnosis": "Bed bug bite",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 65,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Paraneoplastic Syndrome Associated with Lung Malignancy",
+    "correct_diagnosis": "Membranous nephropathy",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 66,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Diamond-Blackfan Anemia",
+    "correct_diagnosis": "Impaired erythropoietin production",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 67,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Acute Lymphoblastic Leukemia (ALL)",
+    "correct_diagnosis": "Acute lymphoblastic leukemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 68,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: De Quervain's Tenosynovitis",
+    "correct_diagnosis": "De Quervain tenosynovitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 69,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Post-gastrectomy hypoglycemia",
+    "correct_diagnosis": "Dumping Syndrome",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 70,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Seborrheic Dermatitis",
+    "correct_diagnosis": "Seborrheic dermatitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 71,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Paroxysmal Positional Vertigo (BPPV)",
+    "correct_diagnosis": "Labyrinthitis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 72,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Physiological Jaundice",
+    "correct_diagnosis": "Physiological neonatal jaundice",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 73,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Major Depressive Disorder with Atypical Features",
+    "correct_diagnosis": "Frontotemporal Dementia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 74,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Endometrial Cancer with Concurrent Adnexal Mass",
+    "correct_diagnosis": "Granulosa cell tumor",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 75,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Neonatal Encephalopathy",
+    "correct_diagnosis": "Intraventricular Hemorrhage",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 76,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Syringomyelia",
+    "correct_diagnosis": "Syringomyelia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 77,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Community-Acquired Pneumonia",
+    "correct_diagnosis": "Pneumonia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 78,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Paroxysmal Positional Vertigo (BPPV)",
+    "correct_diagnosis": "Benign paroxysmal positional vertigo",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 79,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Listeriosis caused by Listeria monocytogenes",
+    "correct_diagnosis": "Listeriosis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 80,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Transient Synovitis",
+    "correct_diagnosis": "Hemophilia A",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 81,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Huntington's Disease",
+    "correct_diagnosis": "Huntington disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 82,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Gilbert's Syndrome",
+    "correct_diagnosis": "Breast milk jaundice",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 83,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Anti-NMDA Receptor Encephalitis",
+    "correct_diagnosis": "Neuroleptic malignant syndrome",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 84,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Nighttime Anxiety",
+    "correct_diagnosis": "Nightmare disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 85,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Leprosy",
+    "correct_diagnosis": "Leprosy",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 86,
+    "doctor_diagnosis_text": "Before we conclude, I would like to discuss the results of the biopsy we performed. The results indicate that the lesion on your hand is a squamous cell carcinoma. It's important to start treatment promptly and to take steps to protect your skin from further sun damage. DIAGNOSIS READY: Squamous Cell Carcinoma",
+    "correct_diagnosis": "Actinic Keratosis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 87,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Lymphocytic Leukemia (CLL)",
+    "correct_diagnosis": "Chronic lymphocytic leukemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 88,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Adjustment Disorder with Mixed Emotional and Behavioral Symptoms",
+    "correct_diagnosis": "Normal behavior",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 89,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Parkinson's Disease",
+    "correct_diagnosis": "Parkinson disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 90,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Central Retinal Vein Occlusion",
+    "correct_diagnosis": "Waldenstrom macroglobulinemia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 91,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Diabetic Peripheral Neuropathy",
+    "correct_diagnosis": "Apical lung tumor",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 92,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Idiopathic Interstitial Pneumonia (IIP)",
+    "correct_diagnosis": "Tuberculosis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 93,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Boerhaave Syndrome",
+    "correct_diagnosis": "Boerhaave syndrome",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 94,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Venous Stasis Ulcer",
+    "correct_diagnosis": "Chronic Venous Insufficiency",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 95,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Risperidone-induced akathisia",
+    "correct_diagnosis": "Akathisia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 96,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Respiratory Distress Syndrome (RDS)",
+    "correct_diagnosis": "Neonatal Respiratory Distress Syndrome (NRDS)",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 97,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Pemphigus Vulgaris",
+    "correct_diagnosis": "Pemphigus vulgaris",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 98,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Toxoplasmosis encephalitis",
+    "correct_diagnosis": "Progressive multifocal leukoencephalopathy",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 99,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Acute Myeloid Leukemia (AML)",
+    "correct_diagnosis": "Acute myelogenous leukemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 100,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Schizophrenia, Paranoid Subtype",
+    "correct_diagnosis": "Schizophreniform Disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 101,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Testicular Torsion",
+    "correct_diagnosis": "Testicular torsion",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 102,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Drug-Induced Hypersensitivity Syndrome (DIHS)",
+    "correct_diagnosis": "Serum sickness-like reaction",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 103,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Osgood-Schlatter Disease",
+    "correct_diagnosis": "Legg-Calv\u00e9-Perthes disease (LCPD)",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 104,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Bronchitis with Underlying Bronchiectasis",
+    "correct_diagnosis": "Bronchiectasis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 105,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Viral Exanthem",
+    "correct_diagnosis": "Erythema Toxicum",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 106,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Fatigue Syndrome (CFS)",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false
+  }
+]
