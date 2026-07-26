@@ -3,3 +3,10 @@ src/pnlc_agentclinic.egg-info/PKG-INFO
 src/pnlc_agentclinic.egg-info/requires.txt
 src/pnlc_agentclinic.egg-info/SOURCES.txt
 src/pnlc_agentclinic.egg-info/top_level.txt
+docs/analysis/agentclinic_107_accuracy.csv
+docs/analysis/agentclinic_107_paired_outcomes.csv
+docs/analysis/agentclinic_107_pnlc_a_failure_review.csv
+docs/analysis/agentclinic_107_pnlc_b_failure_review.csv
+docs/analysis/agentclinic_107_trajectory_summary.csv
+docs/proposals/retrieval_grounded_critic_proposal_v4_iclr.html
+docs/proposals/retrieval_grounded_critic_proposal_v4_iclr.pdf
