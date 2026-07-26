@@ -13,12 +13,11 @@ The first study uses multi-turn clinical diagnosis in
 critic formulation introduced by [PNLC](https://arxiv.org/abs/2505.18098), with a
 goal-conditioned IQL critic trained from relabelled dialogue trajectories.
 
-> **Status:** Stage 1 motivation gate passed. The full 107-scenario AgentClinic–MedQA evaluation
-> contains one baseline run and two ungrounded PNLC runs. PNLC does not improve aggregate accuracy,
-> produces nearly balanced rescues and harms, and increases interaction length. This establishes a
-> reproducible weakness worth investigating; it does **not** yet establish that ungrounded futures
-> cause the weakness or that retrieval repairs it. Trajectory adjudication and oracle replay are
-> the next causal tests.
+> **Status:** full-benchmark Stage 1 run complete; replication pending. The retained
+> 107-scenario AgentClinic–MedQA evaluation contains one baseline and one ungrounded PNLC run.
+> PNLC does not improve aggregate accuracy, produces nearly balanced rescues and harms, and
+> increases interaction length. This motivates the proposed failure analysis; it does **not** yet
+> establish repeatability, that ungrounded futures cause the weakness, or that retrieval repairs it.
 
 ## Abstract
 
@@ -27,10 +26,10 @@ and learned value functions. This works only if the generated futures preserve t
 evaluate the action. We investigate what happens when that assumption fails in knowledge-heavy
 interactive environments.
 
-Across all 107 AgentClinic–MedQA scenarios, one baseline run reaches 52.3% accuracy while two
-ungrounded PNLC runs reach 50.5% and 51.4%. PNLC also increases mean interaction length and produces
-nine repeatable harm cases across both critic-assisted runs. These findings establish the weakness
-to be explained, not its cause.
+Across all 107 AgentClinic–MedQA scenarios, the retained baseline reaches 52.3% accuracy and the
+retained ungrounded PNLC run reaches 51.4%. PNLC also increases mean interaction length and produces
+15 candidate harm cases. These findings motivate the weakness to be explained, but require
+independent replication and causal adjudication.
 
 Our central hypothesis is that an ungrounded natural-language critic can inherit the generator's
 knowledge failures because its value model scores descriptions rather than independently verifying
@@ -89,41 +88,38 @@ The fourth step is the causal test and remains future work.
 | PNLC condition | Two positive and two negative futures, one refinement round |
 | Critic | Goal-conditioned IQL value model over state, thought, and future embeddings |
 | Outcome | Final-diagnosis equivalence judged by the configured model-based moderator |
-| Runs | One baseline run and two independent PNLC runs |
+| Runs | One retained baseline run and one retained PNLC run |
 | Analysis | Paired by validated source scenario; full trajectories retained for mechanism review |
 
 The baseline and PNLC runs use the same ordered scenarios, but the conversations are stochastic.
 Consequently, a paired transition identifies a case for review; it does not alone prove that the
 critic caused the change.
 
-## Stage 1 results: the weakness is reproducible
+## Stage 1 results: full-benchmark motivation evidence
 
 ![Full 107-scenario performance](docs/figures/agentclinic_107_performance.png)
 
 | Run | Correct | Accuracy | Mean turns |
 |---|---:|---:|---:|
 | Baseline | 56 / 107 | 52.3% | 15.46 |
-| PNLC A | 54 / 107 | 50.5% | 19.35 |
-| PNLC B | 55 / 107 | 51.4% | 18.79 |
+| PNLC | 55 / 107 | 51.4% | 18.79 |
 
-PNLC does not improve aggregate diagnosis accuracy in either run. The paired transitions are also
+PNLC does not improve aggregate diagnosis accuracy in the retained run. The paired transitions are
 nearly balanced:
 
 | Comparison | Both correct | PNLC rescue | PNLC harm | Both wrong | Exact McNemar p |
 |---|---:|---:|---:|---:|---:|
-| Baseline vs PNLC A | 40 | 14 | 16 | 37 | 0.856 |
-| Baseline vs PNLC B | 41 | 14 | 15 | 37 | 1.000 |
+| Baseline vs PNLC | 41 | 14 | 15 | 37 | 1.000 |
 
-![Paired outcomes for both PNLC runs](docs/figures/agentclinic_107_paired_outcomes.png)
+![Paired outcomes for the retained PNLC run](docs/figures/agentclinic_107_paired_outcomes.png)
 
-The two PNLC runs agree on correctness for 82 of 107 scenarios (76.6%). Nine scenarios are PNLC
-harms in both runs: **10, 15, 27, 32, 47, 56, 71, 83, and 100**. A further 31 scenarios are wrong
-under the baseline and both PNLC runs. These stable sets are the highest-priority trajectory audit
-and oracle-replay cases.
+The 15 PNLC harm candidates are scenarios **10, 15, 25, 27, 32, 40, 42, 47, 51, 56, 71, 83, 86,
+94, and 100**. A further 37 scenarios are wrong under both conditions. These sets form the initial
+trajectory-audit and oracle-replay queues, subject to moderator adjudication.
 
 ![Scenario-level paired outcome map](docs/figures/agentclinic_107_scenario_map.png)
 
-The critic is used on approximately 98.6% of PNLC turns and changes the action text on about 96% of
+The critic is used on approximately 98.5% of PNLC turns and changes the action text on about 95.9% of
 critic-used turns, yet PNLC conversations remain close to the 20-turn budget. This shows that the
 critic is operational and influential without being reliably beneficial.
 
@@ -131,14 +127,15 @@ critic is operational and influential without being reliably beneficial.
 
 ### What these results establish
 
-- The ungrounded critic does not provide a robust accuracy benefit in this knowledge-heavy setting.
-- Critic refinement introduces reproducible harms as well as rescues.
-- PNLC adds interaction cost and exhibits substantial stochastic outcome instability.
-- The failure is therefore scientifically worth explaining.
+- The retained ungrounded PNLC run does not provide an accuracy benefit.
+- Critic refinement produces nearly balanced candidate rescues and harms.
+- PNLC adds interaction cost despite the critic being active on nearly every turn.
+- The pattern is scientifically worth testing under replication and causal replay.
 
 ### What remains unproven
 
-- Whether the stable harms are caused by unsupported or contradictory imagined futures.
+- Whether the candidate harms reproduce under independently repeated, configuration-matched runs.
+- Whether the harms are caused by unsupported or contradictory imagined futures.
 - Whether the critic prefers those defective futures rather than merely accompanying the failure.
 - Whether oracle evidence changes the future ranking and next action at the same decision state.
 - Whether real retrieval closes the gap to the oracle.
@@ -161,8 +158,8 @@ consultation.
 | Fully grounded | Retrieved | Retrieved | Measure the combined intervention. |
 | Oracle evidence | None | Curated relevant fact | Establish whether the failure is knowledge-correctable at all. |
 
-The oracle supplies the relevant medical fact, not the answer label. Begin with the nine harms that
-repeat across both PNLC runs—**10, 15, 27, 32, 47, 56, 71, 83, and 100**—then add matched stable
+The oracle supplies the relevant medical fact, not the answer label. Begin with the 15 candidate
+harms—**10, 15, 25, 27, 32, 40, 42, 47, 51, 56, 71, 83, 86, 94, and 100**—then add matched
 both-wrong cases and successful controls. Each replay keeps the saved state, proposed thought,
 generation budget, and critic checkpoint fixed.
 
@@ -170,7 +167,7 @@ The revised research plan is:
 
 1. **Repair the measurement layer.** Adjudicate moderator labels and fix the result logger so a
    non-diagnosis cannot shift later scenario IDs.
-2. **Audit the stable cases.** Mark the first decisive turn and label future defects, critic
+2. **Audit the candidate cases.** Mark the first decisive turn and label future defects, critic
    preference, refinement changes, operational failures, and evaluator disagreements.
 3. **Run the oracle probe.** Compare no evidence, irrelevant matched-length evidence, retrieved
    evidence, and clinician-selected oracle evidence with at least five generations per state.
@@ -242,8 +239,8 @@ python scripts/run_pnlc_agentclinic.py \
 ### 4. Analyse paired trajectories
 
 Open `notebook/agentclinic_107_analysis.ipynb`. It validates the 107-case roster, repairs shifted
-result IDs from the trajectory order, analyses both PNLC runs, exports failure-review queues, and
-generates the figures embedded above.
+result IDs from the trajectory order, analyses the retained baseline and PNLC runs, exports the
+failure-review queue, and generates the figures embedded above.
 
 ## Research artifacts
 
@@ -259,7 +256,7 @@ generates the figures embedded above.
 
 ## Current limitations
 
-- The full 107 scenarios are covered, but there is only one baseline run and two PNLC runs.
+- The full 107 scenarios are covered, but there is only one retained run per condition.
 - Scenario IDs are paired, but the underlying conversations are stochastic rather than transcript
   controlled.
 - The moderator is not yet a reliable gold-standard evaluator.
