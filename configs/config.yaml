@@ -5,4 +5,5 @@ defaults:
   - moderator: same
   - _self_
 
+seed: 0
 num_scenarios: ${critic.num_scenarios}

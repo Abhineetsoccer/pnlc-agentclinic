@@ -20,6 +20,7 @@ def build_generation_backend(model_backends_cfg):
                 model_backends_cfg.get("default_max_tokens", 200),
             ),
             temperature=model_backends_cfg.get("temperature", 0.7),
+            seed=model_backends_cfg.get("seed"),
         )
 
     if backend_type == "huggingface":
@@ -28,6 +29,7 @@ def build_generation_backend(model_backends_cfg):
             device=model_backends_cfg.get("device", "cpu"),
             max_tokens=model_backends_cfg.get("max_tokens", 200),
             temperature=model_backends_cfg.get("temperature", 0.7),
+            seed=model_backends_cfg.get("seed"),
         )
 
     raise ValueError(f"Unknown backend_type '{backend_type}'. Expected 'openai_compatible' or 'huggingface'.")

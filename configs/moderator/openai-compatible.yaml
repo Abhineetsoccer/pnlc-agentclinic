@@ -6,3 +6,4 @@ api_key_env: "MODERATOR_API_KEY"
 model_name: "???"
 max_tokens: 10
 temperature: 0.0
+seed: ${seed}

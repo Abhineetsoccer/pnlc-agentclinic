@@ -5,3 +5,4 @@ model_name: "???"
 device: "cpu"
 max_tokens: 10
 temperature: 0.0
+seed: ${seed}

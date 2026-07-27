@@ -201,6 +201,7 @@ code.
 
 ```bash
 python scripts/run_stage1_baseline.py \
+  seed=11 \
   num_scenarios=107 \
   model_backends.base_url=https://your-doctor-endpoint/v1 \
   moderator=openai-compatible \
@@ -228,6 +229,7 @@ dataset.
 
 ```bash
 python scripts/run_pnlc_agentclinic.py \
+  seed=11 \
   critic.checkpoint=/path/to/iql_critic.pt \
   num_scenarios=107 \
   model_backends.base_url=https://your-doctor-endpoint/v1 \
@@ -237,6 +239,13 @@ python scripts/run_pnlc_agentclinic.py \
   moderator.base_url=https://your-evaluator-endpoint/v1 \
   moderator.model_name=your-evaluator-model
 ```
+
+Use the same seed for each baseline–PNLC pair, then repeat the pair with two more seeds (for
+example, `11`, `22`, and `33`). The runner seeds Python, NumPy, PyTorch, local Hugging Face
+sampling, and the OpenAI-compatible request. Every saved result and trajectory row records the
+value as `run_seed`. A hosted endpoint must support the OpenAI-compatible `seed` parameter for
+deterministic generation; if it ignores that parameter, the run is not fully reproducible even
+though the local parts are seeded.
 
 ### 4. Analyse paired trajectories
 

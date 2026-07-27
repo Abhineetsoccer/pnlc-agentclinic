@@ -16,6 +16,7 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     reset_run_logs,
 )
 from pnlc_agentclinic.llm_backends.factory import build_generation_backend
+from pnlc_agentclinic.reproducibility import seed_everything
 
 
 @hydra.main(config_path="../configs", config_name="config", version_base=None)
@@ -23,6 +24,7 @@ def main(cfg: DictConfig):
     num_scenarios = int(cfg.num_scenarios)
     if num_scenarios < 1:
         raise ValueError("num_scenarios must be at least 1.")
+    seed = seed_everything(cfg.get("seed"))
 
     model_name = cfg.model_backends.name
     register_backend(model_name, build_generation_backend(cfg.model_backends))
@@ -63,12 +65,17 @@ def main(cfg: DictConfig):
     )
 
     results = finalize_results_log(expected_scenarios=num_scenarios)
+    for result in results:
+        result["run_seed"] = seed
     save_results_log(str(results_path), expected_scenarios=num_scenarios)
 
     trajectories = get_trajectory_log()
+    for turn in trajectories:
+        turn["run_seed"] = seed
     save_trajectory_log(str(trajectories_path))
 
     num_correct = sum(r["correct"] for r in results)
+    print(f"\nRun seed: {seed}")
     print(f"\nModerator backend: {moderator_name}")
     num_diagnosed = sum(result["reached_diagnosis"] for result in results)
     print(

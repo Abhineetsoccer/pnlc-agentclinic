@@ -10,10 +10,12 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     reset_run_logs,
 )
 from pnlc_agentclinic.llm_backends.factory import build_generation_backend
+from pnlc_agentclinic.reproducibility import seed_everything
 
 
 @hydra.main(config_path="../configs", config_name="config", version_base=None)
 def main(cfg: DictConfig):
+    seed_everything(cfg.get("seed"))
     model_name = cfg.model_backends.name
     register_backend(model_name, build_generation_backend(cfg.model_backends))
     moderator_name = model_name

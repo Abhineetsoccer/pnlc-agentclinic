@@ -1,5 +1,6 @@
 from openai import OpenAI
 
+
 class OpenAICompatibleBackend:
 
     def __init__(self, base_url, api_key, model_name, **kwargs):
@@ -8,6 +9,7 @@ class OpenAICompatibleBackend:
         self.model_name = model_name
         self.max_tokens = kwargs.get("max_tokens", 200)
         self.temperature = kwargs.get("temperature", 0.7)
+        self.seed = kwargs.get("seed")
         self.client = OpenAI(api_key=self.api_key, base_url=self.base_url)
 
     def generate(self, prompt, system_prompt=""):
@@ -15,10 +17,14 @@ class OpenAICompatibleBackend:
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
         messages.append({"role": "user", "content": prompt})
-        response = self.client.chat.completions.create(
+        request = dict(
             model=self.model_name,
             messages=messages,
             max_tokens=self.max_tokens,
-            temperature=self.temperature
+            temperature=self.temperature,
         )
+        if self.seed is not None:
+            request["seed"] = int(self.seed)
+
+        response = self.client.chat.completions.create(**request)
         return response.choices[0].message.content

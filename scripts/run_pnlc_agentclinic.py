@@ -23,6 +23,7 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
 )
 from pnlc_agentclinic.llm_backends.factory import build_generation_backend
 from pnlc_agentclinic.planning import NaturalLanguageCriticPlanner
+from pnlc_agentclinic.reproducibility import seed_everything
 from pnlc_agentclinic.summarization.summarizer import StateSummarizer
 from pnlc_agentclinic.value_learning.iql_critic import load_critic_checkpoint
 
@@ -42,6 +43,7 @@ def main(cfg: DictConfig):
     num_scenarios = int(cfg.num_scenarios)
     if num_scenarios < 1:
         raise ValueError("num_scenarios must be at least 1.")
+    seed = seed_everything(cfg.get("seed"))
 
     model_name = cfg.model_backends.name
     generation_backend = build_generation_backend(cfg.model_backends)
@@ -82,6 +84,7 @@ def main(cfg: DictConfig):
 
     print(f"Loaded critic: {checkpoint_path}")
     print(f"Critic device: {critic_device}")
+    print(f"Run seed: {seed}")
     print(f"Moderator backend: {moderator_name}")
     print(
         "PNLC loop: "
@@ -112,6 +115,10 @@ def main(cfg: DictConfig):
 
     results = finalize_results_log(expected_scenarios=num_scenarios)
     trajectories = get_trajectory_log()
+    for result in results:
+        result["run_seed"] = seed
+    for turn in trajectories:
+        turn["run_seed"] = seed
     save_results_log(str(results_path), expected_scenarios=num_scenarios)
     save_trajectory_log(str(trajectories_path))
 
