@@ -9,10 +9,11 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     register_backend,
     AGENTCLINIC_PATH,
     save_results_log,
-    get_results_log,
     save_trajectory_log,
     get_trajectory_log,
     get_thought_action_compliance_rate,
+    finalize_results_log,
+    reset_run_logs,
 )
 from pnlc_agentclinic.llm_backends.factory import build_generation_backend
 
@@ -40,6 +41,7 @@ def main(cfg: DictConfig):
     results_path = LOGS_DIR / f"stage1_baseline_{run_id}.json"
     trajectories_path = LOGS_DIR / f"stage1_trajectories_{run_id}.json"
 
+    reset_run_logs()
     agentclinic = install_patch()
     os.chdir(AGENTCLINIC_PATH)
 
@@ -60,18 +62,20 @@ def main(cfg: DictConfig):
         anthropic_api_key=None,
     )
 
-    results = get_results_log()
-    save_results_log(str(results_path))
+    results = finalize_results_log(expected_scenarios=num_scenarios)
+    save_results_log(str(results_path), expected_scenarios=num_scenarios)
 
     trajectories = get_trajectory_log()
     save_trajectory_log(str(trajectories_path))
 
     num_correct = sum(r["correct"] for r in results)
     print(f"\nModerator backend: {moderator_name}")
-    if results:
-        print(f"\n{num_correct}/{len(results)} correct ({100 * num_correct / len(results):.1f}%)")
-    else:
-        print("\nNo scenarios reached a diagnosis -- check the transcript above for what went wrong.")
+    num_diagnosed = sum(result["reached_diagnosis"] for result in results)
+    print(
+        f"\n{num_correct}/{len(results)} correct "
+        f"({100 * num_correct / len(results):.1f}%); "
+        f"{num_diagnosed}/{len(results)} reached a diagnosis"
+    )
     print(f"Saved {len(results)} structured results to {results_path}")
     print(f"Saved {len(trajectories)} trajectory turns to {trajectories_path}")
 

@@ -52,6 +52,84 @@ def patched_query_model(
 
 
 _results_log = []
+_completed_scenario_indices = set()
+_current_correct_diagnosis = None
+
+
+def _last_doctor_action_for_scenario(scenario_index):
+    for turn in reversed(_trajectory_log):
+        if turn["scenario_index"] == scenario_index:
+            return turn["doctor_action"]
+    return None
+
+
+def _append_result_record(record):
+    scenario_index = record["scenario_index"]
+    if scenario_index in _completed_scenario_indices:
+        raise RuntimeError(
+            f"Scenario {scenario_index} already has a terminal result record."
+        )
+    _results_log.append(record)
+    _completed_scenario_indices.add(scenario_index)
+
+
+def finalize_active_scenario():
+    """Record an explicit failure when the active scenario produced no diagnosis."""
+    if (
+        _current_scenario_index < 0
+        or _current_scenario_index in _completed_scenario_indices
+    ):
+        return None
+
+    record = {
+        "scenario_index": _current_scenario_index,
+        "doctor_diagnosis_text": "",
+        "correct_diagnosis": _current_correct_diagnosis,
+        "moderator_raw_answer": None,
+        "moderator_normalized_answer": "no_diagnosis",
+        "correct": False,
+        "reached_diagnosis": False,
+        "last_doctor_action": _last_doctor_action_for_scenario(
+            _current_scenario_index
+        ),
+    }
+    _append_result_record(record)
+    return record
+
+
+def begin_scenario_log(correct_diagnosis):
+    """Close the previous scenario and activate the next immutable source ID."""
+    global _current_scenario_index, _current_correct_diagnosis
+    finalize_active_scenario()
+    _current_scenario_index += 1
+    _current_correct_diagnosis = correct_diagnosis
+    return _current_scenario_index
+
+
+def finalize_results_log(expected_scenarios=None):
+    """Close the final scenario, sort by source ID, and validate completeness."""
+    finalize_active_scenario()
+    _results_log.sort(key=lambda record: record["scenario_index"])
+
+    if expected_scenarios is not None:
+        expected_indices = list(range(expected_scenarios))
+        actual_indices = [record["scenario_index"] for record in _results_log]
+        if actual_indices != expected_indices:
+            raise RuntimeError(
+                "Result log is not aligned with the source scenarios: "
+                f"expected IDs {expected_indices}, got {actual_indices}."
+            )
+    return _results_log
+
+
+def reset_run_logs():
+    """Clear per-run adapter state without removing registered model backends."""
+    global _current_scenario_index, _current_correct_diagnosis
+    _results_log.clear()
+    _trajectory_log.clear()
+    _completed_scenario_indices.clear()
+    _current_scenario_index = -1
+    _current_correct_diagnosis = None
 
 
 def patched_compare_results(diagnosis, correct_diagnosis, moderator_llm, mod_pipe):
@@ -73,18 +151,25 @@ def patched_compare_results(diagnosis, correct_diagnosis, moderator_llm, mod_pip
     )
     match = re.search(r"\b(yes|no)\b", raw_answer, flags=re.IGNORECASE)
     answer = match.group(1).lower() if match else "invalid"
-    _results_log.append({
-        "scenario_index": len(_results_log),
+    scenario_index = (
+        _current_scenario_index
+        if _current_scenario_index >= 0
+        else len(_results_log)
+    )
+    _append_result_record({
+        "scenario_index": scenario_index,
         "doctor_diagnosis_text": diagnosis,
         "correct_diagnosis": correct_diagnosis,
         "moderator_raw_answer": raw_answer,
         "moderator_normalized_answer": answer,
         "correct": answer == "yes",
+        "reached_diagnosis": True,
     })
     return answer
 
 
-def save_results_log(path):
+def save_results_log(path, expected_scenarios=None):
+    finalize_results_log(expected_scenarios=expected_scenarios)
     with open(path, "w") as f:
         json.dump(_results_log, f, indent=2)
     return path
@@ -108,8 +193,7 @@ THOUGHT_ACTION_INSTRUCTION = (
 
 
 def patched_doctor_reset(self):
-    global _current_scenario_index
-    _current_scenario_index += 1
+    begin_scenario_log(self.scenario.diagnosis_information())
     return _original_doctor_reset(self)
 
 

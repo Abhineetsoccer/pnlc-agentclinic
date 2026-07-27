@@ -1,10 +1,13 @@
 from pnlc_agentclinic.env.agentclinic_adapter import (
+    begin_scenario_log,
+    finalize_results_log,
     get_trajectory_log,
     get_results_log,
     patched_compare_results,
     patched_inference_doctor,
     register_backend,
     register_doctor_planner,
+    reset_run_logs,
 )
 
 
@@ -139,3 +142,36 @@ def test_moderator_normalizes_a_clear_yes_or_no_response():
     assert record["moderator_raw_answer"] == "Yes."
     assert record["moderator_normalized_answer"] == "yes"
     assert record["correct"] is True
+
+
+def test_result_log_preserves_source_ids_for_no_diagnosis_scenarios():
+    reset_run_logs()
+    register_backend("independent-judge", PunctuatedJudgeBackend())
+
+    begin_scenario_log("Benign Paroxysmal Positional Vertigo")
+    begin_scenario_log("Schizotypal personality disorder")
+    patched_compare_results(
+        "DIAGNOSIS READY: Schizotypal personality disorder",
+        "Schizotypal personality disorder",
+        "independent-judge",
+        None,
+    )
+    begin_scenario_log("Bowen's disease")
+
+    results = finalize_results_log(expected_scenarios=3)
+
+    assert [record["scenario_index"] for record in results] == [0, 1, 2]
+    assert results[0]["moderator_normalized_answer"] == "no_diagnosis"
+    assert results[0]["correct_diagnosis"] == (
+        "Benign Paroxysmal Positional Vertigo"
+    )
+    assert results[0]["reached_diagnosis"] is False
+    assert results[1]["doctor_diagnosis_text"] == (
+        "DIAGNOSIS READY: Schizotypal personality disorder"
+    )
+    assert results[1]["reached_diagnosis"] is True
+    assert results[2]["moderator_normalized_answer"] == "no_diagnosis"
+    assert results[2]["correct_diagnosis"] == "Bowen's disease"
+    assert results[2]["reached_diagnosis"] is False
+
+    reset_run_logs()

@@ -7,6 +7,7 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     install_patch,
     register_backend,
     AGENTCLINIC_PATH,
+    reset_run_logs,
 )
 from pnlc_agentclinic.llm_backends.factory import build_generation_backend
 
@@ -23,6 +24,7 @@ def main(cfg: DictConfig):
             build_generation_backend(cfg.moderator),
         )
 
+    reset_run_logs()
     agentclinic = install_patch()
     os.chdir(AGENTCLINIC_PATH)
 

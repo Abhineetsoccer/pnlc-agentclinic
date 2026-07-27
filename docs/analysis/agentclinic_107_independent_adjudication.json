@@ -1,0 +1,140 @@
+{
+  "review_type": "independent_model_adjudication",
+  "source_files": {
+    "baseline": "logs/stage1_baseline_1784929558.json",
+    "pnlc": "logs/stage1_pnlc_results_1785020204.json",
+    "references": "external/AgentClinic/agentclinic_medqa.jsonl"
+  },
+  "alignment": {
+    "source_scenarios": 107,
+    "baseline_result_rows": 106,
+    "pnlc_result_rows": 107,
+    "baseline_missing_source_scenario": 53,
+    "rule": "Baseline result rows 0-52 map directly to source scenarios 0-52. Baseline result rows 53-105 map to source scenarios 54-106. Source scenario 53 is retained as an incorrect no-diagnosis result."
+  },
+  "rubric": {
+    "correct": "The response definitively asserts the reference disease, an accepted synonym, or a compatible subtype. A correct underlying diagnosis remains correct when a complication or secondary diagnosis is also stated.",
+    "incorrect": "The response gives a different disease, only a cause or manifestation of the reference disease, an overly broad category that does not identify the reference disease, or an unresolved differential containing alternatives.",
+    "borderline": "A semantically related answer for which acceptance depends on whether the evaluator permits a parent category, missing acute/chronic or in-situ specificity, or an unresolved alternative."
+  },
+  "strict_adjudication": {
+    "baseline_correct_scenario_ids": [
+      0, 1, 2, 4, 6, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21, 22, 23,
+      25, 27, 30, 31, 32, 33, 37, 39, 40, 43, 46, 47, 51, 56, 62, 67,
+      68, 70, 72, 76, 77, 78, 79, 81, 83, 85, 86, 87, 89, 93, 94, 95,
+      96, 99
+    ],
+    "pnlc_correct_scenario_ids": [
+      0, 1, 2, 3, 4, 9, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23,
+      26, 29, 30, 31, 33, 34, 35, 37, 38, 39, 43, 46, 47, 51, 53, 55,
+      56, 61, 62, 67, 68, 69, 70, 72, 76, 77, 78, 79, 81, 85, 87, 89,
+      93, 95, 96, 97, 99, 101, 104
+    ],
+    "baseline_correct": 51,
+    "baseline_accuracy": 0.4766355140186916,
+    "pnlc_correct": 56,
+    "pnlc_accuracy": 0.5233644859813084,
+    "paired_outcomes": {
+      "both_correct": 42,
+      "baseline_only_correct": 9,
+      "pnlc_only_correct": 14,
+      "both_incorrect": 42,
+      "exact_mcnemar_two_sided_p": 0.4048728942871094
+    }
+  },
+  "borderline_sensitivity_analysis": {
+    "baseline_borderline_scenario_ids": [3, 15, 42, 55, 71],
+    "pnlc_borderline_scenario_ids": [15],
+    "if_all_borderline_answers_are_accepted": {
+      "baseline_correct": 56,
+      "baseline_accuracy": 0.5233644859813084,
+      "pnlc_correct": 57,
+      "pnlc_accuracy": 0.5327102803738317,
+      "paired_outcomes": {
+        "both_correct": 45,
+        "baseline_only_correct": 11,
+        "pnlc_only_correct": 12,
+        "both_incorrect": 39,
+        "exact_mcnemar_two_sided_p": 1.0
+      }
+    }
+  },
+  "qwen_label_changes_under_strict_rubric": {
+    "baseline": [
+      {
+        "scenario_id": 3,
+        "qwen": "correct",
+        "adjudicated": "incorrect",
+        "reason": "Non-Hodgkin lymphoma is an insufficiently specific parent category for diffuse large B-cell lymphoma."
+      },
+      {
+        "scenario_id": 6,
+        "qwen": "incorrect",
+        "adjudicated": "correct",
+        "reason": "Post-micturition syncope is a subtype of situational syncope and exactly matches the described trigger."
+      },
+      {
+        "scenario_id": 15,
+        "qwen": "correct",
+        "adjudicated": "incorrect",
+        "reason": "Benign cystic lesion does not identify an epidermoid cyst."
+      },
+      {
+        "scenario_id": 34,
+        "qwen": "correct",
+        "adjudicated": "incorrect",
+        "reason": "Post-viral exanthem is too generic and does not identify erythema infectiosum."
+      },
+      {
+        "scenario_id": 42,
+        "qwen": "correct",
+        "adjudicated": "incorrect",
+        "reason": "Active hepatitis B infection omits the clinically important chronic classification required by the reference."
+      },
+      {
+        "scenario_id": 71,
+        "qwen": "correct",
+        "adjudicated": "incorrect",
+        "reason": "Labyrinthitis or vestibular neuritis is an unresolved differential between distinct diseases."
+      },
+      {
+        "scenario_id": 100,
+        "qwen": "correct",
+        "adjudicated": "incorrect",
+        "reason": "Schizophrenia is not equivalent to schizophreniform disorder; duration is diagnostically defining."
+      }
+    ],
+    "pnlc": [
+      {
+        "scenario_id": 6,
+        "qwen": "correct",
+        "adjudicated": "incorrect",
+        "reason": "Vasovagal syncope does not identify the reference post-micturition situational syncope."
+      },
+      {
+        "scenario_id": 14,
+        "qwen": "correct",
+        "adjudicated": "incorrect",
+        "reason": "Mallet finger is an extensor injury, whereas the reference is flexor digitorum profundus avulsion at its insertion."
+      },
+      {
+        "scenario_id": 47,
+        "qwen": "incorrect",
+        "adjudicated": "correct",
+        "reason": "The response explicitly diagnoses osteoarthritis; the unsupported gout addition is answer contamination but does not erase the correct primary diagnosis."
+      },
+      {
+        "scenario_id": 51,
+        "qwen": "incorrect",
+        "adjudicated": "correct",
+        "reason": "The response explicitly identifies congestive heart failure as secondary to the reference atrial septal defect."
+      },
+      {
+        "scenario_id": 56,
+        "qwen": "incorrect",
+        "adjudicated": "correct",
+        "reason": "The response explicitly diagnoses oppositional defiant disorder; the additional reading disorder does not erase the correct primary diagnosis."
+      }
+    ]
+  }
+}

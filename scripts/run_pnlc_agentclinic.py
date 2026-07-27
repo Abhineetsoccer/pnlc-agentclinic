@@ -11,7 +11,6 @@ from omegaconf import DictConfig
 from pnlc_agentclinic.embedding.factory import build_embedder
 from pnlc_agentclinic.env.agentclinic_adapter import (
     AGENTCLINIC_PATH,
-    get_results_log,
     get_thought_action_compliance_rate,
     get_trajectory_log,
     install_patch,
@@ -19,6 +18,8 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
     register_doctor_planner,
     save_results_log,
     save_trajectory_log,
+    finalize_results_log,
+    reset_run_logs,
 )
 from pnlc_agentclinic.llm_backends.factory import build_generation_backend
 from pnlc_agentclinic.planning import NaturalLanguageCriticPlanner
@@ -89,6 +90,7 @@ def main(cfg: DictConfig):
         f"{cfg.critic.refinement_rounds} refinement round(s)"
     )
 
+    reset_run_logs()
     agentclinic = install_patch()
     os.chdir(AGENTCLINIC_PATH)
     agentclinic.main(
@@ -108,21 +110,20 @@ def main(cfg: DictConfig):
         anthropic_api_key=None,
     )
 
-    results = get_results_log()
+    results = finalize_results_log(expected_scenarios=num_scenarios)
     trajectories = get_trajectory_log()
-    save_results_log(str(results_path))
+    save_results_log(str(results_path), expected_scenarios=num_scenarios)
     save_trajectory_log(str(trajectories_path))
 
     num_correct = sum(result["correct"] for result in results)
     critic_turns = sum(turn.get("critic_used", False) for turn in trajectories)
     fallback_turns = sum(bool(turn.get("critic_error")) for turn in trajectories)
-    if results:
-        print(
-            f"\n{num_correct}/{len(results)} correct "
-            f"({100 * num_correct / len(results):.1f}%)"
-        )
-    else:
-        print("\nNo scenarios reached a diagnosis.")
+    num_diagnosed = sum(result["reached_diagnosis"] for result in results)
+    print(
+        f"\n{num_correct}/{len(results)} correct "
+        f"({100 * num_correct / len(results):.1f}%); "
+        f"{num_diagnosed}/{len(results)} reached a diagnosis"
+    )
     print(
         f"Critic used on {critic_turns}/{len(trajectories)} turns; "
         f"{fallback_turns} planner fallbacks"
