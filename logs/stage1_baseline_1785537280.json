@@ -1,0 +1,1072 @@
+[
+  {
+    "scenario_index": 0,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Myasthenia Gravis",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 1,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Progressive Multifocal Leukoencephalopathy (PML)",
+    "correct_diagnosis": "Progressive multifocal encephalopathy (PML)",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 2,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Hirschsprung Disease",
+    "correct_diagnosis": "Hirschsprung disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 3,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Non-Hodgkin Lymphoma (B-cell type)",
+    "correct_diagnosis": "Diffuse large B-cell lymphoma",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 4,
+    "doctor_diagnosis_text": "Based on the information and test results, I believe you have drug-induced interstitial nephritis, likely caused by the cephalexin. We will need to stop the cephalexin and start you on a different treatment plan to manage this condition. DIAGNOSIS READY: Drug-Induced Interstitial Nephritis.",
+    "correct_diagnosis": "Acute interstitial nephritis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 5,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Patellar Tendinitis. Follow the conservative treatment plan we discussed, and please schedule a follow-up appointment if the pain persists or worsens. Take care and let me know how you progress.",
+    "correct_diagnosis": "Pes anserine bursitis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 6,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Vasovagal Syncope",
+    "correct_diagnosis": "Situational syncope",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 7,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Patent Ductus Arteriosus (PDA) with associated congenital cataracts and cutaneous signs. Further evaluation for underlying syndromes may be needed, but genetic testing has not indicated any specific syndrome.",
+    "correct_diagnosis": "Congenital Rubella Infection",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 8,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Fibroadenoma, with recommendation for surgical consultation to remove the mass due to its rapid growth.",
+    "correct_diagnosis": "Phyllodes tumor",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 9,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Urinary Tract Infection (UTI)",
+    "correct_diagnosis": "Endometritis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 10,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Prolapsed Internal Hemorrhoid",
+    "correct_diagnosis": "Hemorrhoids",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 11,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Temporal Lobe Epilepsy (Partial Seizures)",
+    "correct_diagnosis": "Complex partial seizure",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 12,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Posterior Dislocation of the Right Hip",
+    "correct_diagnosis": "Posterior hip dislocation",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 13,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Hirschsprung\u2019s disease",
+    "correct_diagnosis": "Hirschsprung\u2019s disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 14,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Sprain or strain of the ligaments or tendons in the distal interphalangeal joint of the right ring finger. Continue to rest the finger, avoid activities that aggravate the pain, and use ice and elevation to manage the swelling and discomfort. If the pain or swelling worsens, or if you notice any new symptoms, please let me know right away.",
+    "correct_diagnosis": "Rupture of the flexor digitorum profundus tendon at its point of insertion",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 15,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Cyst in the Subcutaneous Tissue of the Neck",
+    "correct_diagnosis": "Epidermoid cyst",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 16,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Antibiotic-associated diarrhea, possibly due to Clostridioides difficile. We will await the stool culture results to confirm and guide further management, including potential adjustments to your antibiotic treatment. Continue to stay hydrated and monitor your symptoms. If the results confirm C. difficile, we may need to stop the levofloxacin and start a different treatment.",
+    "correct_diagnosis": "C. difficile colitis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 17,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Bacterial Infection (Likely Cellulitis)",
+    "correct_diagnosis": "Pyoderma gangrenosum",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 18,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Uterine Rupture",
+    "correct_diagnosis": "Uterine rupture",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 19,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Herniated Disc at L5-S1 with radiculopathy. We\u2019ll follow up in two weeks to assess your progress. Take care and stay positive!",
+    "correct_diagnosis": "Disc herniation",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 20,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: CMV Retinitis",
+    "correct_diagnosis": "Cytomegalovirus retinitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 21,
+    "doctor_diagnosis_text": "Based on your symptoms and the test results, I suspect you may have Reiter's syndrome, also known as reactive arthritis. This condition often follows an infection and can cause joint pain, eye irritation, and urinary symptoms. I will confirm this with a final review. DIAGNOSIS READY: Reactive Arthritis (Reiter's Syndrome)",
+    "correct_diagnosis": "Reactive Arthritis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 22,
+    "doctor_diagnosis_text": "The biopsy results indicate that the lesion is a malignant melanoma. This is a serious condition, and we will need to discuss the next steps, including potential treatment options and additional tests to determine the extent of the cancer. How are you feeling right now, and do you have any questions about what we\u2019ve found? DIAGNOSIS READY: Malignant Melanoma",
+    "correct_diagnosis": "Malignant melanoma",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 23,
+    "doctor_diagnosis_text": "Based on your symptoms and the test results we have, it looks like you might have irritable bowel syndrome (IBS). I'll provide more detailed information and discuss management options with you. DIAGNOSIS READY: Irritable Bowel Syndrome (IBS)",
+    "correct_diagnosis": "Irritable Bowel Syndrome",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 24,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Suspicious Ovarian Mass with Ascites - Further Evaluation by Gynecologic Oncologist Required",
+    "correct_diagnosis": "Meigs syndrome",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 25,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Primary Sclerosing Cholangitis (PSC)",
+    "correct_diagnosis": "Primary sclerosing cholangitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 26,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Interstitial Cystitis",
+    "correct_diagnosis": "Interstitial cystitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 27,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Adhesive Capsulitis (Frozen Shoulder)",
+    "correct_diagnosis": "Adhesive capsulitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 28,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Syndrome of Inappropriate Antidiuretic Hormone Secretion (SIADH)",
+    "correct_diagnosis": "Lung cancer",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 29,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Gonococcal Arthritis",
+    "correct_diagnosis": "Disseminated Gonococcal Infection",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 30,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Neonatal Respiratory Distress Syndrome (RDS) due to Transient Tachypnea of the Newborn (TTN)",
+    "correct_diagnosis": "Respiratory Distress Syndrome",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 31,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Fatigue and Unintentional Weight Loss of Unknown Etiology, Pending Further Specialist Evaluation.",
+    "correct_diagnosis": "Chronic lymphocytic leukemia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 32,
+    "doctor_diagnosis_text": "It sounds like the drugs you've been using are causing significant damage to your liver. The symptoms you\u2019re describing\u2014agitation, fatigue, weakness, and confusion\u2014can be signs of a serious condition called hepatic encephalopathy. We need to get you the right treatment as soon as possible. DIAGNOSIS READY: Drug-Induced Liver Injury with Hepatic Encephalopathy.",
+    "correct_diagnosis": "Fulminant hepatic failure",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 33,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Essential Hypertension",
+    "correct_diagnosis": "Coarctation of the aorta",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 34,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Viral Exanthem. We'll monitor your symptoms and ensure you stay hydrated and rested. If the rash or any other symptoms worsen, please let me know immediately.",
+    "correct_diagnosis": "Erythema Infectiosum",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 35,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Idiopathic Thrombocytopenic Purpura (ITP) - Mild, Transient Form",
+    "correct_diagnosis": "Glanzmann\u2019s Thrombasthenia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 36,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Bone Tumor of the Distal Femur",
+    "correct_diagnosis": "Osteoclastoma",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 37,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Multiple System Atrophy (MSA)",
+    "correct_diagnosis": "Multiple system atrophy",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 38,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Duodenal Atresia",
+    "correct_diagnosis": "Duodenal atresia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 39,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Essential Thrombocythemia",
+    "correct_diagnosis": "Essential thrombocythemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 40,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Acute Cystitis with Hematuria",
+    "correct_diagnosis": "Medullary Sponge Kidney",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 41,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Psychological Factors Contributing to Sexual Discomfort and Infertility (Primary Role of Stress and Anxiety)",
+    "correct_diagnosis": "Genitopelvic pain disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 42,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Alcoholic Hepatitis",
+    "correct_diagnosis": "Active chronic hepatitis B infection",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 43,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Acute Mesenteric Ischemia",
+    "correct_diagnosis": "Acute Mesenteric Ischemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 44,
+    "doctor_diagnosis_text": "Based on the spirometry results and your smoking history, it looks like you might have COPD. Have you ever been diagnosed with COPD before, or does anyone in your family have a similar condition? DIAGNOSIS READY: Chronic Obstructive Pulmonary Disease (COPD)",
+    "correct_diagnosis": "Asthma",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 45,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Roseola (Human Herpesvirus 6)",
+    "correct_diagnosis": "Roseola infantum",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 46,
+    "doctor_diagnosis_text": "Based on the biopsy results and your symptoms, it looks like you may have atopic dermatitis. This is a common condition that causes itchy, scaly rashes, often exacerbated by stress and dry weather. We can start with some topical treatments to manage the symptoms. DIAGNOSIS READY: Atopic Dermatitis.",
+    "correct_diagnosis": "Eczematous dermatitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 47,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Osteoarthritis",
+    "correct_diagnosis": "Osteoarthritis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 48,
+    "doctor_diagnosis_text": "Despite the normal test results, your symptoms and family history still suggest a bleeding disorder. I think we should consider a qualitative platelet disorder or a rarer bleeding disorder. I will refer you to a hematologist for further evaluation and management. DIAGNOSIS READY: Suspected Qualitative Platelet Disorder or Rare Bleeding Disorder. Referral to Hematologist Recommended.",
+    "correct_diagnosis": "Hemophilia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 49,
+    "doctor_diagnosis_text": "We will stop the methotrexate immediately. You will be admitted to the hospital where a team of specialists will closely monitor your condition and provide supportive care. This includes managing your symptoms, preventing infections, and ensuring your skin heals properly. Please try to stay calm, and we will do everything we can to help you. DIAGNOSIS READY: Stevens-Johnson Syndrome or Toxic Epidermal Necrolysis secondary to methotrexate.",
+    "correct_diagnosis": "Steven-Johnson syndrome",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 50,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Congenital Adrenal Hyperplasia (CAH) with 17\u03b1-Hydroxylase Deficiency. However, further evaluation by a specialist is recommended to confirm and manage this condition.",
+    "correct_diagnosis": "Aromatase deficiency",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 51,
+    "doctor_diagnosis_text": "Of course, your big brother can visit too. We\u2019ll do everything we can to make you feel better. I think I have a good idea of what\u2019s going on, and we\u2019ll start treatment right away. \n\nDIAGNOSIS READY: Congestive Heart Failure Secondary to Atrial Septal Defect",
+    "correct_diagnosis": "Atrial Septal Defect",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 52,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Biliary Obstruction, likely due to a benign stricture or chronic inflammation. Further evaluation may be needed to rule out less common causes.",
+    "correct_diagnosis": "Pancreatic adenocarcinoma",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 53,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Paroxysmal Positional Vertigo (BPPV)",
+    "correct_diagnosis": "Benign Paroxysmal Positional Vertigo (BPPV)",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 54,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Adjustment Disorder with Mixed Anxiety and Depressed Mood",
+    "correct_diagnosis": "Schizotypal personality disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 55,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Squamous Cell Carcinoma. We will proceed with surgical removal of the lesions and further tests to ensure there is no deeper involvement. I\u2019ll have my office contact you with the specific date and time for the surgery.",
+    "correct_diagnosis": "Bowen's Disease",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 56,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Attention and Organization Challenges, Not Otherwise Specified (NOS). We will monitor your progress with the strategies we discussed and reassess in a few weeks.",
+    "correct_diagnosis": "Oppositional Defiant Disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 57,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Alcoholic Liver Disease\n\nIt's great to hear that you're open to making changes. The first step is to reduce or stop your alcohol consumption. We can start with a plan to gradually decrease your intake, and I can refer you to a specialist for further support. Additionally, we may need to monitor your liver function and consider other treatments to help manage your symptoms. Let's schedule a follow-up appointment to discuss this in more detail and get you on the right path.",
+    "correct_diagnosis": "Pancreatic adenocarcinoma",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 58,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Stress-Induced Anxiety Disorder",
+    "correct_diagnosis": "Lisdexamfetamine intoxication",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 59,
+    "doctor_diagnosis_text": "Do you feel fatigued or generally unwell, besides the abdominal pain? DIAGNOSIS READY: Pelvic Inflammatory Disease (PID)",
+    "correct_diagnosis": "Pelvic inflammatory disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 60,
+    "doctor_diagnosis_text": "I\u2019m glad you\u2019re feeling more reassured. Managing stress and using a mouth guard should help alleviate the pain. If the symptoms persist or worsen, please follow up with the TMJ specialist. Take care and let me know how you progress. DIAGNOSIS READY: Likely referred ear pain due to jaw clenching/grinding (possible TMJ disorder).",
+    "correct_diagnosis": "Glossopharyngeal Neuralgia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 61,
+    "doctor_diagnosis_text": "Based on the information you've provided and the normal test results, I suspect laryngomalacia. This is a condition where the soft tissues of the larynx (voice box) collapse inward during inhalation, causing the stridor and wheezing you\u2019ve described. It usually improves over time as the baby grows. We can monitor it closely and manage any symptoms conservatively. DIAGNOSIS READY: Laryngomalacia",
+    "correct_diagnosis": "Double aortic arch",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 62,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Molluscum Contagiosum",
+    "correct_diagnosis": "Molluscum contagiosum",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 63,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Major Depressive Disorder with Psychotic Features",
+    "correct_diagnosis": "Schizoaffective disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 64,
+    "doctor_diagnosis_text": "Based on the information we have, it sounds like you might be experiencing contact dermatitis. This is often caused by direct contact with an irritant or allergen, even if you aren\u2019t aware of it. I\u2019ll prescribe a topical corticosteroid to help reduce the inflammation and itching. If the symptoms persist or worsen, please come back for further evaluation. DIAGNOSIS READY: Contact Dermatitis",
+    "correct_diagnosis": "Bed bug bite",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 65,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Nephrotic Syndrome\n\nNephrotic syndrome is a collection of symptoms that result from damage to the filters in your kidneys. This damage causes large amounts of protein to leak into your urine, leading to low levels of protein in your blood, which can cause swelling, especially in your legs. It can also affect your cholesterol levels and increase your risk of blood clots. We'll need to manage this with medication and lifestyle changes, and I'll refer you to a nephrologist for further care.",
+    "correct_diagnosis": "Membranous nephropathy",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 66,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Anemia of Infancy with Associated Apnea Episodes",
+    "correct_diagnosis": "Impaired erythropoietin production",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 67,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Acute Lymphoblastic Leukemia (ALL)",
+    "correct_diagnosis": "Acute lymphoblastic leukemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 68,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: De Quervain's Tenosynovitis",
+    "correct_diagnosis": "De Quervain tenosynovitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 69,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Hypoglycemia with dehydration secondary to poor oral intake in a diabetic patient.",
+    "correct_diagnosis": "Dumping Syndrome",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 70,
+    "doctor_diagnosis_text": "Great! Stick to the treatment plan, and if you have any concerns or questions, feel free to reach out. I\u2019ll see you in two weeks to check on your progress. Take care and stay healthy. DIAGNOSIS READY: Seborrheic Dermatitis",
+    "correct_diagnosis": "Seborrheic dermatitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 71,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Vestibular Neuritis or Viral Labyrinthitis",
+    "correct_diagnosis": "Labyrinthitis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 72,
+    "doctor_diagnosis_text": "It looks like your baby has a condition called physiological jaundice, which is quite common in newborns. This usually resolves on its own within a week or two. We\u2019ll monitor the bilirubin levels and ensure your baby continues to feed well. DIAGNOSIS READY: Physiological Jaundice",
+    "correct_diagnosis": "Physiological neonatal jaundice",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 73,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Atypical Depression",
+    "correct_diagnosis": "Frontotemporal Dementia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 74,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Endometrial Cancer",
+    "correct_diagnosis": "Granulosa cell tumor",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 75,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Hypoxic-Ischemic Encephalopathy (HIE) with Intraventricular Hemorrhage",
+    "correct_diagnosis": "Intraventricular Hemorrhage",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 76,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Syringomyelia",
+    "correct_diagnosis": "Syringomyelia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 77,
+    "doctor_diagnosis_text": "Based on your symptoms and the chest X-ray, it looks like you have pneumonia, particularly in the left lower lobe. We'll start you on antibiotics and monitor your condition. How do you feel about starting treatment today? DIAGNOSIS READY: Pneumonia",
+    "correct_diagnosis": "Pneumonia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 78,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Paroxysmal Positional Vertigo (BPPV)",
+    "correct_diagnosis": "Benign paroxysmal positional vertigo",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 79,
+    "doctor_diagnosis_text": "Based on the test results, I am concerned about a bacterial infection, specifically Listeria monocytogenes. This can be serious during pregnancy. We will need to start appropriate antibiotic treatment immediately.\nDIAGNOSIS READY: Listeriosis",
+    "correct_diagnosis": "Listeriosis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 80,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Juvenile Idiopathic Arthritis (JIA)",
+    "correct_diagnosis": "Hemophilia A",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 81,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Schizophrenia with possible medication-induced dyskinesia. I recommend a referral to a psychiatrist for further evaluation and management, including a potential adjustment in your medication.",
+    "correct_diagnosis": "Huntington disease",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 82,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Physiological Jaundice in Newborn",
+    "correct_diagnosis": "Breast milk jaundice",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 83,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Viral Meningitis",
+    "correct_diagnosis": "Neuroleptic malignant syndrome",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 84,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Anxiety-related Sleep Disturbance. I recommend trying relaxation techniques and consulting a pediatric therapist to help manage your worries and improve your sleep. It\u2019s great that you\u2019re open to this, and I think it will really help you feel better.",
+    "correct_diagnosis": "Nightmare disorder",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 85,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Leprosy",
+    "correct_diagnosis": "Leprosy",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 86,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Actinic Keratosis",
+    "correct_diagnosis": "Actinic Keratosis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 87,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Idiopathic Chronic Fatigue Syndrome",
+    "correct_diagnosis": "Chronic lymphocytic leukemia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 88,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Major Depressive Disorder",
+    "correct_diagnosis": "Normal behavior",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 89,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Parkinson's Disease",
+    "correct_diagnosis": "Parkinson disease",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 90,
+    "doctor_diagnosis_text": "Based on the MRI results, it appears that you have a pituitary macroadenoma. This is a benign tumor that is located in the pituitary gland and is causing compression of the optic chiasm, which explains your headaches and vision problems. We will need to discuss treatment options, which may include surgery, medication, or radiation therapy. Would you like to know more about these options? DIAGNOSIS READY: Pituitary Macroadenoma",
+    "correct_diagnosis": "Waldenstrom macroglobulinemia",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 91,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Diabetic Peripheral Neuropathy",
+    "correct_diagnosis": "Apical lung tumor",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 92,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Idiopathic Interstitial Pneumonia (IIP)",
+    "correct_diagnosis": "Tuberculosis",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 93,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Esophageal Perforation",
+    "correct_diagnosis": "Boerhaave syndrome",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 94,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Chronic Venous Insufficiency with Secondary Ulceration",
+    "correct_diagnosis": "Chronic Venous Insufficiency",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 95,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Risperidone-induced akathisia. I recommend discussing this diagnosis with your prescribing physician to explore potential adjustments to your medication. They may consider reducing the dose or switching to an alternative medication to help manage your symptoms.",
+    "correct_diagnosis": "Akathisia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 96,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Respiratory Distress Syndrome (RDS)",
+    "correct_diagnosis": "Neonatal Respiratory Distress Syndrome (NRDS)",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 97,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Pemphigus Vulgaris",
+    "correct_diagnosis": "Pemphigus vulgaris",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 98,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Multiple Sclerosis (tentative). I\u2019ll be sending you to a neurologist for further testing and a definitive diagnosis. In the meantime, it\u2019s important to stay positive and take care of yourself. If you have any questions or concerns, don\u2019t hesitate to reach out.",
+    "correct_diagnosis": "Progressive multifocal leukoencephalopathy",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 99,
+    "doctor_diagnosis_text": "The findings from your blood tests, particularly the presence of immature cells in your blood, are concerning. I suspect you may have acute myeloid leukemia (AML). We need to confirm this with further testing and a referral to a hematologist. DIAGNOSIS READY: Acute Myeloid Leukemia (AML)",
+    "correct_diagnosis": "Acute myelogenous leukemia",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 100,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Paranoid Schizophrenia with suspected onset due to recent significant life stressors. I recommend scheduling an appointment with a psychiatrist for further evaluation and treatment.",
+    "correct_diagnosis": "Schizophreniform Disorder",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 101,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Mild Muscular Strain or Non-Specific Abdominal Pain",
+    "correct_diagnosis": "Testicular torsion",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 102,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Drug Reaction to Amoxicillin",
+    "correct_diagnosis": "Serum sickness-like reaction",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 103,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Patellofemoral Pain Syndrome",
+    "correct_diagnosis": "Legg-Calv\u00e9-Perthes disease (LCPD)",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 104,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Bronchiectasis",
+    "correct_diagnosis": "Bronchiectasis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 105,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Viral Exanthem",
+    "correct_diagnosis": "Erythema Toxicum",
+    "moderator_raw_answer": "No",
+    "moderator_normalized_answer": "no",
+    "correct": false,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  },
+  {
+    "scenario_index": 106,
+    "doctor_diagnosis_text": "The test results indicate that you have autoantibodies to acetylcholine receptors, which is associated with myasthenia gravis. This explains your symptoms, including muscle weakness that worsens with activity and improves with rest. We'll need to discuss the next steps and treatment options. DIAGNOSIS READY: Myasthenia Gravis",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "Yes",
+    "moderator_normalized_answer": "yes",
+    "correct": true,
+    "reached_diagnosis": true,
+    "run_seed": 33
+  }
+]

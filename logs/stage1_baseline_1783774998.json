@@ -1,0 +1,72 @@
+[
+  {
+    "scenario_index": 0,
+    "doctor_diagnosis_text": "Thank you for the test results. The presence of elevated acetylcholine receptor antibodies, along with your symptoms and the findings from the neurological exam, strongly suggest a diagnosis. DIAGNOSIS READY: Myasthenia Gravis.",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 1,
+    "doctor_diagnosis_text": "Thank you for letting me know. Natalizumab can indeed increase the risk of PML, which is why this diagnosis is highly likely given your symptoms and MRI findings. We need to act quickly to manage this condition. DIAGNOSIS READY: Progressive Multifocal Leukoencephalopathy (PML).",
+    "correct_diagnosis": "Progressive multifocal encephalopathy (PML)",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 2,
+    "doctor_diagnosis_text": "Thank you for letting me know. Given that the discomfort is primarily related to eating and worsens in the evening, and there are no signs of an allergic reaction, let's consider a condition called functional abdominal pain. This can be common in young children and can cause symptoms like yours.\n\nDIAGNOSIS READY: Functional Abdominal Pain",
+    "correct_diagnosis": "Hirschsprung disease",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 3,
+    "doctor_diagnosis_text": "Thank you for the PET-CT scan results. The normal readings are reassuring, but given the elevated white blood cell count, the enlarged lymph node, and the biopsy results, it appears you may have a type of lymphoma, specifically non-Hodgkin lymphoma. I will need to refer you to an oncologist for further evaluation and treatment. DIAGNOSIS READY: Non-Hodgkin Lymphoma.",
+    "correct_diagnosis": "Diffuse large B-cell lymphoma",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 4,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Post-Infectious Inflammation or Interstitial Cystitis\n\nI believe your symptoms are likely due to either post-infectious inflammation or interstitial cystitis. Both conditions can cause fatigue, flank pain, and fever, especially following a recent infection and antibiotic treatment. We\u2019ll start with the anti-inflammatory medication and monitor your progress. If there\u2019s no improvement, we can consider further evaluations and treatments. Take care, and I\u2019ll see you in two weeks.",
+    "correct_diagnosis": "Acute interstitial nephritis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 5,
+    "doctor_diagnosis_text": "Thank you for the MRI results. It\u2019s good to see that there are no significant abnormalities. \n\nGiven the information from your history, physical exam, and imaging, it appears that you have patellofemoral pain syndrome. This is a common condition in athletes, especially those who participate in activities that involve a lot of jumping and pivoting, like volleyball.\n\nDIAGNOSIS READY: Patellofemoral Pain Syndrome\n\nI recommend a combination of rest, ice, and anti-inflammatory medications to reduce pain and inflammation. Additionally, physical therapy can be very helpful to strengthen the muscles around your knee and improve tracking of the patella. Using proper footwear and possibly orthotics can also provide additional support. If the pain persists, we can explore further treatment options.",
+    "correct_diagnosis": "Pes anserine bursitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 6,
+    "doctor_diagnosis_text": "Thank you for letting me know. It\u2019s good to hear that you\u2019re feeling fine at the moment. Given the information and the normal test results, it does seem like you experienced a vasovagal syncope, which is a common and usually benign condition.\n\nDIAGNOSIS READY: Vasovagal Syncope\n\nTo help prevent future episodes, try to avoid triggers like standing for long periods, especially in warm environments. If you feel lightheaded or dizzy, sit or lie down immediately. If you have any more episodes or other concerns, please let me know.",
+    "correct_diagnosis": "Situational syncope",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 7,
+    "doctor_diagnosis_text": "Thank you for the test results. The positive Rubella IgM indicates that your baby was exposed to the rubella virus in utero, which can cause a condition known as Congenital Rubella Syndrome. This syndrome can explain the heart murmur, petechiae, cataracts, and hearing loss.\n\nDIAGNOSIS READY: Congenital Rubella Syndrome.",
+    "correct_diagnosis": "Congenital Rubella Infection",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 8,
+    "doctor_diagnosis_text": "You're doing great. I'll ensure the appointment with the breast surgeon is scheduled promptly. If you have any questions or concerns before the consultation, please don\u2019t hesitate to reach out. Take care, and I\u2019ll see you soon.\n\nDIAGNOSIS READY: Benign Phyllodes Tumor (Pending Surgical Excision for Confirmation)",
+    "correct_diagnosis": "Phyllodes tumor",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 9,
+    "doctor_diagnosis_text": "I understand how you must be feeling, and I want to assure you that we are doing everything we can to help you. Based on your symptoms, the physical exam, and our discussion, I believe the most likely cause of your postpartum fever and abdominal pain is a uterine infection, known as endometritis.\n\nDIAGNOSIS READY: Postpartum Endometritis\n\nWe will start you on antibiotics to treat the infection, and once we receive the test results, we can adjust the treatment if necessary. You should start feeling better soon, and it\u2019s important to follow up with us to ensure the infection is fully resolved. If you have any concerns or if your symptoms worsen, please let us know immediately.",
+    "correct_diagnosis": "Endometritis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  }
+]

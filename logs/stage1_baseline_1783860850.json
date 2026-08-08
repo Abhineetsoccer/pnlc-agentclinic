@@ -1,0 +1,212 @@
+[
+  {
+    "scenario_index": 0,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Myasthenia Gravis",
+    "correct_diagnosis": "Myasthenia gravis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 1,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Progressive Multifocal Leukoencephalopathy (PML)",
+    "correct_diagnosis": "Progressive multifocal encephalopathy (PML)",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 2,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Gastroenteritis or Functional Abdominal Pain",
+    "correct_diagnosis": "Hirschsprung disease",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 3,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Non-Hodgkin Lymphoma",
+    "correct_diagnosis": "Diffuse large B-cell lymphoma",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 4,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Drug-Induced Interstitial Nephritis",
+    "correct_diagnosis": "Acute interstitial nephritis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 5,
+    "doctor_diagnosis_text": "Great! I\u2019m glad you\u2019re feeling confident about the plan. Remember to start with gentle stretches and gradually build up to strengthening exercises. If you don\u2019t see improvement in a week or two, or if the pain gets worse, please come back for a follow-up. Take care and let me know how you\u2019re doing! DIAGNOSIS READY: Patellar Tendinitis",
+    "correct_diagnosis": "Pes anserine bursitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 6,
+    "doctor_diagnosis_text": "Based on your history and the test results, it seems like you may have experienced a vasovagal episode or a brief episode of orthostatic hypotension. This can happen when you stand up quickly, especially if you\u2019re a bit dehydrated. Do you have any other questions or concerns about this? \n\nDIAGNOSIS READY: Vasovagal Episode / Orthostatic Hypotension",
+    "correct_diagnosis": "Situational syncope",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 7,
+    "doctor_diagnosis_text": "Based on the findings so far, including the patent ductus arteriosus, congenital cataracts, and failure to pass the hearing test, I suspect a specific syndrome. DIAGNOSIS READY: CHARGE Syndrome",
+    "correct_diagnosis": "Congenital Rubella Infection",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 8,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Phyllodes Tumor (Benign, Borderline, or Malignant) - Further histopathological analysis will determine the specific type.",
+    "correct_diagnosis": "Phyllodes tumor",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 9,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Endometritis",
+    "correct_diagnosis": "Endometritis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 10,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Rectal Polyp or Vascular Lesion",
+    "correct_diagnosis": "Hemorrhoids",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 11,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Temporal Lobe Epilepsy",
+    "correct_diagnosis": "Complex partial seizure",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 12,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Posterior Dislocation of the Right Hip. We will now arrange for your transfer to the emergency department for the reduction procedure. If you have any more questions or concerns, please let me know.",
+    "correct_diagnosis": "Posterior hip dislocation",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 13,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Hirschsprung's disease",
+    "correct_diagnosis": "Hirschsprung\u2019s disease",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 14,
+    "doctor_diagnosis_text": "Great to hear that you\u2019re feeling relieved. We\u2019ll start with a conservative treatment plan to reduce the inflammation and pain. I recommend continuing to keep the finger wrapped and avoiding any strenuous activities that might aggravate it. You can also use over-the-counter anti-inflammatory medications like ibuprofen to help with the pain and swelling. If the symptoms persist or worsen, we may consider physical therapy to help with recovery. How does that sound to you? DIAGNOSIS READY: Mild extensor tendonitis of the right ring finger.",
+    "correct_diagnosis": "Rupture of the flexor digitorum profundus tendon at its point of insertion",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 15,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Cyst. We will monitor the cyst for any changes in size or symptoms and consider surgical removal if necessary. Please follow up in a few months or sooner if you notice any changes. Take care!",
+    "correct_diagnosis": "Epidermoid cyst",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 16,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Antibiotic-Associated Diarrhea (likely due to levofloxacin)",
+    "correct_diagnosis": "C. difficile colitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 17,
+    "doctor_diagnosis_text": "Based on the biopsy results, it looks like you have pyoderma gangrenosum. This is an inflammatory condition that can occur in people with certain underlying conditions, such as Crohn\u2019s disease. We\u2019ll need to manage this carefully, possibly with medications to reduce inflammation. Let's discuss the treatment options. DIAGNOSIS READY: Pyoderma Gangrenosum",
+    "correct_diagnosis": "Pyoderma gangrenosum",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 18,
+    "doctor_diagnosis_text": "We are moving you to the operating room now. Our team is fully prepared, and we will do everything to ensure that both you and your baby are safe. Please try to stay calm, and we\u2019ll take good care of you. Let\u2019s go.\n\nDIAGNOSIS READY: Uterine Rupture",
+    "correct_diagnosis": "Uterine rupture",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 19,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Herniated Disc at L5-S1 with Radiculopathy. We\u2019ll start with physical therapy and medication, and I\u2019ll see you in a few weeks to check on your progress. If you have any concerns or the pain worsens, please don\u2019t hesitate to contact me. Take care and stay positive!",
+    "correct_diagnosis": "Disc herniation",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 20,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Cytomegalovirus (CMV) Retinitis. We\u2019ll start the antiviral treatment immediately to prevent further damage to your retina. If you have any more questions or concerns, feel free to ask.",
+    "correct_diagnosis": "Cytomegalovirus retinitis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 21,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Reactive Arthritis",
+    "correct_diagnosis": "Reactive Arthritis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 22,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Malignant Melanoma",
+    "correct_diagnosis": "Malignant melanoma",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 23,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Irritable Bowel Syndrome (IBS)",
+    "correct_diagnosis": "Irritable Bowel Syndrome",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 24,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Benign Ovarian Neoplasm with Ascites. Further evaluation by a gynecologic oncologist is recommended.",
+    "correct_diagnosis": "Meigs syndrome",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 25,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Primary Sclerosing Cholangitis (PSC) Suspected, Confirmation Pending Further Testing and Gastroenterology Consultation.",
+    "correct_diagnosis": "Primary sclerosing cholangitis",
+    "moderator_raw_answer": "yes",
+    "correct": true
+  },
+  {
+    "scenario_index": 26,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Overactive Bladder\n\nI\u2019ll prescribe the oxybutynin and provide you with the necessary resources for bladder training and pelvic floor exercises. We\u2019ll meet again in a month to review your progress. If you have any questions or concerns in the meantime, don\u2019t hesitate to reach out. Take care!",
+    "correct_diagnosis": "Interstitial cystitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 27,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Rotator Cuff Tendinitis\n\nI recommend starting with a combination of rest, anti-inflammatory medications like ibuprofen, and physical therapy to help reduce inflammation and improve shoulder function. If the pain persists or worsens, we can reassess and consider further options. How does that sound to you?",
+    "correct_diagnosis": "Adhesive capsulitis",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 28,
+    "doctor_diagnosis_text": "It seems like your low sodium level might be causing your confusion and fatigue. I suspect a condition called SIADH, which affects how your body balances water. I'll need to confirm this with further tests, but we can start discussing treatment options. Would you like to know more about this condition? DIAGNOSIS READY: Syndrome of Inappropriate Antidiuretic Hormone Secretion (SIADH)",
+    "correct_diagnosis": "Lung cancer",
+    "moderator_raw_answer": "no",
+    "correct": false
+  },
+  {
+    "scenario_index": 29,
+    "doctor_diagnosis_text": "DIAGNOSIS READY: Suspected Erythema Multiforme, possibly due to an unknown trigger. Further evaluation and management will be needed, including repeat skin biopsy and referral to a dermatologist.",
+    "correct_diagnosis": "Disseminated Gonococcal Infection",
+    "moderator_raw_answer": "no",
+    "correct": false
+  }
+]
