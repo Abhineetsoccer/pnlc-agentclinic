@@ -7,3 +7,5 @@ defaults:
 
 seed: 0
 num_scenarios: ${critic.num_scenarios}
+total_inferences: ${critic.total_inferences}
+force_final_diagnosis: true

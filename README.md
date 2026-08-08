@@ -203,6 +203,8 @@ code.
 python scripts/run_stage1_baseline.py \
   seed=11 \
   num_scenarios=107 \
+  total_inferences=20 \
+  force_final_diagnosis=true \
   model_backends.base_url=https://your-doctor-endpoint/v1 \
   moderator=openai-compatible \
   moderator.base_url=https://your-evaluator-endpoint/v1 \
@@ -232,6 +234,8 @@ python scripts/run_pnlc_agentclinic.py \
   seed=11 \
   critic.checkpoint=/path/to/iql_critic.pt \
   num_scenarios=107 \
+  total_inferences=20 \
+  force_final_diagnosis=true \
   model_backends.base_url=https://your-doctor-endpoint/v1 \
   embedding=hf-embed \
   embedding.model_name=sentence-transformers/all-MiniLM-L6-v2 \
@@ -245,7 +249,10 @@ example, `11`, `22`, and `33`). The runner seeds Python, NumPy, PyTorch, local H
 sampling, and the OpenAI-compatible request. Every saved result and trajectory row records the
 value as `run_seed`. A hosted endpoint must support the OpenAI-compatible `seed` parameter for
 deterministic generation; if it ignores that parameter, the run is not fully reproducible even
-though the local parts are seeded.
+though the local parts are seeded. PNLC candidate futures receive deterministic offsets from the
+run seed, explicit diversity prompts, and duplicate checks, while ordinary doctor, patient, test,
+and moderator calls retain the base run seed. The turn budget and final-diagnosis policy are shared
+by baseline and PNLC and are recorded in both result and trajectory logs.
 
 ### 4. Analyse paired trajectories
 

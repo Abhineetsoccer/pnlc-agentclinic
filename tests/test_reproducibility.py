@@ -43,6 +43,14 @@ def test_openai_backend_sends_configured_seed():
     assert completions.request["seed"] == 42
 
 
+def test_openai_backend_applies_explicit_seed_offset():
+    backend, completions = build_openai_backend(seed=42)
+
+    backend.generate("same prompt", seed_offset=3)
+
+    assert completions.request["seed"] == 45
+
+
 def test_openai_backend_omits_disabled_seed():
     backend, completions = build_openai_backend(seed=None)
 
@@ -50,15 +58,17 @@ def test_openai_backend_omits_disabled_seed():
     assert "seed" not in completions.request
 
 
-def test_huggingface_backend_builds_repeatable_generators():
+def test_huggingface_backend_builds_distinct_repeatable_candidate_generators():
     backend = HuggingFaceBackend.__new__(HuggingFaceBackend)
     backend.device = "cpu"
     backend.seed = 17
 
-    first = torch.rand(3, generator=backend._generation_generator())
-    second = torch.rand(3, generator=backend._generation_generator())
+    first = torch.rand(3, generator=backend._generation_generator(seed_offset=0))
+    second = torch.rand(3, generator=backend._generation_generator(seed_offset=1))
+    replay = torch.rand(3, generator=backend._generation_generator(seed_offset=0))
 
-    assert torch.equal(first, second)
+    assert not torch.equal(first, second)
+    assert torch.equal(first, replay)
 
 
 def test_seed_everything_repeats_local_rng_streams():

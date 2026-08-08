@@ -1,5 +1,6 @@
 from pnlc_agentclinic.env.agentclinic_adapter import (
     begin_scenario_log,
+    configure_final_diagnosis,
     finalize_results_log,
     get_trajectory_log,
     get_results_log,
@@ -12,7 +13,11 @@ from pnlc_agentclinic.env.agentclinic_adapter import (
 
 
 class InitialResponseBackend:
+    def __init__(self):
+        self.call_count = 0
+
     def generate(self, prompt, system_prompt=""):
+        self.call_count += 1
         if "FINAL DIAGNOSIS REQUIRED" in prompt:
             return (
                 "THOUGHT: The fatigability pattern supports myasthenia gravis.\n"
@@ -21,6 +26,15 @@ class InitialResponseBackend:
         return (
             "THOUGHT: Ask about a discriminating symptom.\n"
             "ACTION: Is the weakness worse after activity?"
+        )
+
+
+class ImmediateDiagnosisBackend(InitialResponseBackend):
+    def generate(self, prompt, system_prompt=""):
+        self.call_count += 1
+        return (
+            "THOUGHT: The pattern supports myasthenia gravis.\n"
+            "ACTION: DIAGNOSIS READY: Myasthenia gravis"
         )
 
 
@@ -107,6 +121,73 @@ def test_adapter_marks_the_last_available_turn_as_diagnosis_required():
     assert planner.last_must_diagnose is True
     assert action == "DIAGNOSIS READY: Myasthenia gravis"
     register_doctor_planner(None)
+
+
+def test_adapter_applies_the_same_final_diagnosis_rule_without_a_planner():
+    reset_run_logs()
+    register_backend("fake-backend", InitialResponseBackend())
+    register_doctor_planner(None)
+    doctor = FakeDoctor()
+    doctor.infs = doctor.MAX_INFS - 1
+
+    action = patched_inference_doctor(
+        doctor,
+        "This is the final question. Please provide a diagnosis.",
+    )
+    record = get_trajectory_log()[-1]
+
+    assert action == "DIAGNOSIS READY: Myasthenia gravis"
+    assert record["final_diagnosis_required"] is True
+    assert record["forced_diagnosis_used"] is True
+
+
+def test_baseline_final_turn_preserves_an_existing_diagnosis_without_retry():
+    reset_run_logs()
+    backend = ImmediateDiagnosisBackend()
+    register_backend("fake-backend", backend)
+    register_doctor_planner(None)
+    doctor = FakeDoctor()
+    doctor.infs = doctor.MAX_INFS - 1
+
+    action = patched_inference_doctor(doctor, "Please provide a diagnosis.")
+    record = get_trajectory_log()[-1]
+
+    assert action == "DIAGNOSIS READY: Myasthenia gravis"
+    assert backend.call_count == 1
+    assert record["forced_diagnosis_used"] is False
+
+
+def test_baseline_non_final_turn_does_not_force_a_diagnosis():
+    reset_run_logs()
+    register_backend("fake-backend", InitialResponseBackend())
+    register_doctor_planner(None)
+    doctor = FakeDoctor()
+
+    action = patched_inference_doctor(doctor, "The weakness is intermittent.")
+    record = get_trajectory_log()[-1]
+
+    assert action == "Is the weakness worse after activity?"
+    assert record["final_diagnosis_required"] is False
+    assert record["forced_diagnosis_used"] is False
+
+
+def test_final_diagnosis_policy_can_be_disabled_for_both_arms():
+    reset_run_logs()
+    configure_final_diagnosis(False)
+    try:
+        register_backend("fake-backend", InitialResponseBackend())
+        register_doctor_planner(None)
+        doctor = FakeDoctor()
+        doctor.infs = doctor.MAX_INFS - 1
+
+        action = patched_inference_doctor(doctor, "Please provide a diagnosis.")
+        record = get_trajectory_log()[-1]
+
+        assert action == "Is the weakness worse after activity?"
+        assert record["final_diagnosis_required"] is False
+        assert record["forced_diagnosis_used"] is False
+    finally:
+        configure_final_diagnosis(True)
 
 
 def test_adapter_forces_marker_if_planner_fails_on_final_turn():

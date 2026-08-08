@@ -21,7 +21,7 @@ def process_turn(turn, summarizer, embedder):
     return {
         TrajectoryField.SCENARIO_INDEX: turn[TrajectoryField.SCENARIO_INDEX],
         TrajectoryField.TURN_INDEX: turn[TrajectoryField.TURN_INDEX],
-        "state_summary": summary,
+        "state_leasummary": summary,
         "state_embedding": state_embedding,
         "thought": turn[TrajectoryField.THOUGHT],
         "thought_embedding": thought_embedding,

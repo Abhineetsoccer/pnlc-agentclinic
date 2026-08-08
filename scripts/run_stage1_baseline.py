@@ -25,6 +25,8 @@ def main(cfg: DictConfig):
     if num_scenarios < 1:
         raise ValueError("num_scenarios must be at least 1.")
     seed = seed_everything(cfg.get("seed"))
+    total_inferences = int(cfg.total_inferences)
+    force_final_diagnosis = bool(cfg.force_final_diagnosis)
 
     model_name = cfg.model_backends.name
     register_backend(model_name, build_generation_backend(cfg.model_backends))
@@ -44,7 +46,9 @@ def main(cfg: DictConfig):
     trajectories_path = LOGS_DIR / f"stage1_trajectories_{run_id}.json"
 
     reset_run_logs()
-    agentclinic = install_patch()
+    agentclinic = install_patch(
+        force_final_diagnosis=force_final_diagnosis
+    )
     os.chdir(AGENTCLINIC_PATH)
 
     agentclinic.main(
@@ -60,22 +64,30 @@ def main(cfg: DictConfig):
         num_scenarios=num_scenarios,
         dataset="MedQA",
         img_request=False,
-        total_inferences=20,
+        total_inferences=total_inferences,
         anthropic_api_key=None,
     )
 
     results = finalize_results_log(expected_scenarios=num_scenarios)
     for result in results:
         result["run_seed"] = seed
+        result["total_inferences"] = total_inferences
+        result["force_final_diagnosis"] = force_final_diagnosis
     save_results_log(str(results_path), expected_scenarios=num_scenarios)
 
     trajectories = get_trajectory_log()
     for turn in trajectories:
         turn["run_seed"] = seed
+        turn["total_inferences"] = total_inferences
+        turn["force_final_diagnosis"] = force_final_diagnosis
     save_trajectory_log(str(trajectories_path))
 
     num_correct = sum(r["correct"] for r in results)
     print(f"\nRun seed: {seed}")
+    print(
+        f"Turn budget: {total_inferences}; "
+        f"force final diagnosis: {force_final_diagnosis}"
+    )
     print(f"\nModerator backend: {moderator_name}")
     num_diagnosed = sum(result["reached_diagnosis"] for result in results)
     print(

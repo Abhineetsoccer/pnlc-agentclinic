@@ -7,6 +7,7 @@ AGENTCLINIC_PATH = Path(__file__).resolve().parents[3] / "external" / "AgentClin
 
 _backend_cache = {}
 _doctor_planner = None
+_force_final_diagnosis_on_last_turn = True
 
 
 def register_backend(model_str: str, backend):
@@ -34,6 +35,13 @@ def register_doctor_planner(planner):
     global _doctor_planner
     _doctor_planner = planner
     return planner
+
+
+def configure_final_diagnosis(force_final_diagnosis):
+    """Apply the same last-turn diagnosis policy to every experiment arm."""
+    global _force_final_diagnosis_on_last_turn
+    _force_final_diagnosis_on_last_turn = bool(force_final_diagnosis)
+    return _force_final_diagnosis_on_last_turn
 
 
 def patched_query_model(
@@ -264,7 +272,10 @@ def patched_inference_doctor(self, question, image_requested=False):
         scene=self.scenario,
     )
     thought, action, parsed_ok = parse_thought_action(raw_answer)
-    must_diagnose = self.infs == self.MAX_INFS - 1
+    must_diagnose = (
+        _force_final_diagnosis_on_last_turn
+        and self.infs == self.MAX_INFS - 1
+    )
     critic_record = None
     critic_error = None
     forced_diagnosis_used = False
@@ -294,7 +305,7 @@ def patched_inference_doctor(self, question, image_requested=False):
             "Initial doctor response did not contain both THOUGHT and ACTION labels."
         )
 
-    if _doctor_planner is not None and must_diagnose:
+    if must_diagnose:
         normalized_diagnosis = normalize_diagnosis_action(action)
         if normalized_diagnosis is not None:
             action = normalized_diagnosis
@@ -318,14 +329,15 @@ def patched_inference_doctor(self, question, image_requested=False):
         "doctor_action": action,
         "raw_model_output": raw_answer,
         "parsed_ok": parsed_ok,
+        "final_diagnosis_required": must_diagnose,
+        "forced_diagnosis_used": forced_diagnosis_used,
+        "forced_diagnosis_raw_output": forced_diagnosis_raw_output,
     }
     if _doctor_planner is not None:
         trajectory_record.update({
             "critic_used": critic_record is not None,
             "critic": critic_record,
             "critic_error": critic_error,
-            "forced_diagnosis_used": forced_diagnosis_used,
-            "forced_diagnosis_raw_output": forced_diagnosis_raw_output,
         })
     _trajectory_log.append(trajectory_record)
     return action
@@ -347,8 +359,9 @@ def get_thought_action_compliance_rate():
     return sum(t["parsed_ok"] for t in _trajectory_log) / len(_trajectory_log)
 
 
-def install_patch():
+def install_patch(force_final_diagnosis=True):
     global _original_doctor_reset, _original_doctor_system_prompt
+    configure_final_diagnosis(force_final_diagnosis)
     sys.path.insert(0, str(AGENTCLINIC_PATH))
     import agentclinic
     agentclinic.query_model = patched_query_model

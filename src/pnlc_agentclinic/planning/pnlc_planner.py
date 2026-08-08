@@ -54,6 +54,10 @@ def _strip_label(text: str, label: str) -> str:
     return text
 
 
+def _normalized_goal(text: str) -> str:
+    return " ".join(text.split()).casefold()
+
+
 def _parse_thought(text: str) -> str:
     text = _strip_label(text, "THOUGHT")
     text = re.split(r"\n\s*ACTION\s*:", text, maxsplit=1, flags=re.IGNORECASE)[0]
@@ -125,6 +129,9 @@ class NaturalLanguageCriticPlanner:
         thought: str,
         polarity: str,
         clinical_objective: str,
+        candidate_index: int,
+        candidate_count: int,
+        previous_goals: list[str],
     ) -> str:
         if polarity == "positive":
             outcome_instruction = (
@@ -139,6 +146,16 @@ class NaturalLanguageCriticPlanner:
                 "or the doctor becomes confident in an incorrect diagnosis."
             )
 
+        diversity_instruction = (
+            f"This is {polarity} candidate {candidate_index + 1} of "
+            f"{candidate_count}. Make it a meaningfully distinct possible future."
+        )
+        if previous_goals:
+            diversity_instruction += (
+                "\nDo not repeat any of these previously sampled futures:\n- "
+                + "\n- ".join(previous_goals)
+            )
+
         return (
             f"{CLINICAL_CONTEXT}\n\n"
             "Doctor's clinical objective:\n"
@@ -150,6 +167,7 @@ class NaturalLanguageCriticPlanner:
             "Doctor's proposed thought:\n"
             f"{thought}\n\n"
             f"{outcome_instruction}\n"
+            f"{diversity_instruction}\n"
             "Write only a concise future clinical-state summary. Do not include a "
             "label, probability, recommendation, or explanation."
         )
@@ -162,23 +180,44 @@ class NaturalLanguageCriticPlanner:
         clinical_objective: str,
     ) -> list[tuple[str, str]]:
         goals = []
+        seed_offset = 0
         for polarity, count in (
             ("positive", self.positive_goals),
             ("negative", self.negative_goals),
         ):
-            for _ in range(count):
-                raw_goal = self.generation_backend.generate(
-                    self._goal_prompt(
-                        state_summary,
-                        incoming_message,
-                        thought,
-                        polarity,
-                        clinical_objective,
+            polarity_goals = []
+            for candidate_index in range(count):
+                goal = ""
+                for _ in range(3):
+                    raw_goal = self.generation_backend.generate(
+                        self._goal_prompt(
+                            state_summary,
+                            incoming_message,
+                            thought,
+                            polarity,
+                            clinical_objective,
+                            candidate_index,
+                            count,
+                            polarity_goals,
+                        ),
+                        seed_offset=seed_offset,
                     )
-                )
-                goal = _strip_label(raw_goal, "GOAL")
+                    seed_offset += 1
+                    goal = _strip_label(raw_goal, "GOAL")
+                    if goal and _normalized_goal(goal) not in {
+                        _normalized_goal(previous) for previous in polarity_goals
+                    }:
+                        break
                 if not goal:
                     raise ValueError(f"The generator returned an empty {polarity} goal.")
+                if _normalized_goal(goal) in {
+                    _normalized_goal(previous) for previous in polarity_goals
+                }:
+                    raise ValueError(
+                        f"The generator returned duplicate {polarity} goals after "
+                        "three deterministic resampling attempts."
+                    )
+                polarity_goals.append(goal)
                 goals.append((polarity, goal))
         return goals
 
